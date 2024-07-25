@@ -16,18 +16,17 @@ import java.util.UUID;
 @NoArgsConstructor
 public class FeedbackHospital {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.UUID)
-	@Column(name = "feedback_hospital_id")
-	private UUID id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "appointment_id")
-	private Appointment appointment;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "appointment_id")
+    private Appointment appointment;
 
-	@Column(nullable = false)
-	private int ratings;
+    @Column(nullable = false)
+    private int ratings;
 
-	@Column(columnDefinition = "TEXT")
-	private String notes;
+    @Column(columnDefinition = "TEXT")
+    private String notes;
 }

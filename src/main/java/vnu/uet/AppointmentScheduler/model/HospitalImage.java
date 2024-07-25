@@ -17,25 +17,24 @@ import java.util.UUID;
 @NoArgsConstructor
 public class HospitalImage {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.UUID)
-	@Column(name = "hospital_image_id")
-	private UUID id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "hospital")
-	private Hospital hospital;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "hospital")
+    private Hospital hospital;
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "session_id")
-	private Session session;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "session_id")
+    private Session session;
 
-	@Column(columnDefinition = "TEXT", name = "image_url")
-	private String imageUrl;
+    @Column(columnDefinition = "TEXT", name = "image_url")
+    private String imageUrl;
 
-	@Column(name = "created_at", updatable = false, nullable = false)
-	private LocalDateTime createdAt;
+    @Column(name = "created_at", updatable = false, nullable = false)
+    private LocalDateTime createdAt;
 
-	@Column(name = "updated_at")
-	private LocalDateTime updatedAt;
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 }

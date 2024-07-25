@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import vnu.uet.AppointmentScheduler.model.user.Doctor;
 
 import java.util.UUID;
 
@@ -16,22 +17,21 @@ import java.util.UUID;
 @NoArgsConstructor
 public class FeedbackDoctor {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.UUID)
-	@Column(name = "feedback_hospital_id")
-	private UUID id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "assessment_step_id")
-	private AssessmentStep assessmentStep;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "assessment_step_id")
+    private AssessmentStep assessmentStep;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "doctor_id")
-	private Doctor doctor;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "doctor_id")
+    private Doctor doctor;
 
-	@Column(nullable = false)
-	private int ratings;
+    @Column(nullable = false)
+    private int ratings;
 
-	@Column(columnDefinition = "TEXT")
-	private String notes;
+    @Column(columnDefinition = "TEXT")
+    private String notes;
 }

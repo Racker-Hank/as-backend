@@ -11,30 +11,28 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "hospital")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Hospital {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.UUID)
-	@Column(name = "hospital_id")
-	private UUID id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
-	@Column(columnDefinition = "VARCHAR(100)", nullable = false, unique = true)
-	private String name;
+    @Column(columnDefinition = "VARCHAR(100)", nullable = false, unique = true)
+    private String name;
 
-	@Column(columnDefinition = "TEXT", nullable = false)
-	private String description;
+    @Column(columnDefinition = "TEXT", nullable = false)
+    private String description;
 
-	@Column(columnDefinition = "TEXT")
-	private String address;
+    @Column(columnDefinition = "TEXT")
+    private String address;
 
-	@Column(columnDefinition = "TEXT", nullable = false)
-	private String phone;
+    @Column(columnDefinition = "TEXT", nullable = false)
+    private String phone;
 
-	@OneToMany(mappedBy = "hospital", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Department> departments = new ArrayList<>();
+    @OneToMany(mappedBy = "hospital", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Department> departments = new ArrayList<>();
 }

@@ -19,66 +19,64 @@ import java.util.UUID;
 @NoArgsConstructor
 public class AssessmentStep {
 
-	public enum Status {
-		IN_QUEUE,
-		READY,
-		IN_PROGRESS,
-		AWAITING_NEXT_STEPS,
-		AWAITING_TEST_RESULTS,
-		RE_ENTRY,
-		COMPLETED,
-		RESCHEDULED,
-		CANCELLED
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
-	public enum AssessmentType {
-		EXAMINATION,
-		TEST
-	}
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "appointment_id")
+    private Appointment appointment;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.UUID)
-	@Column(name = "assessment_step_id")
-	private UUID id;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "session_id")
+    private Session session;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "appointment_id")
-	private Appointment appointment;
+    @Column(name = "order_in_queue", nullable = false)
+    private int orderInQueue;
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "session_id")
-	private Session session;
+    @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.ORDINAL)
+    private Status status;
 
-	@Column(name = "order_in_queue", nullable = false)
-	private int orderInQueue;
+    @Column(name = "examination_type", nullable = false)
+    @Enumerated(EnumType.ORDINAL)
+    private AssessmentType assessmentType;
 
-	@Column(name = "status", nullable = false)
-	@Enumerated(EnumType.ORDINAL)
-	private Status status;
+    @Column(name = "actual_start_time")
+    private LocalDateTime actualStartTime;
 
-	@Column(name = "examination_type", nullable = false)
-	@Enumerated(EnumType.ORDINAL)
-	private AssessmentType assessmentType;
+    @Column(name = "actual_end_time")
+    private LocalDateTime actualEndTime;
 
-	@Column(name = "actual_start_time")
-	private LocalDateTime actualStartTime;
+    @Column(columnDefinition = "TEXT")
+    private String notes;
 
-	@Column(name = "actual_end_time")
-	private LocalDateTime actualEndTime;
+    @Column(name = "created_at", updatable = false, nullable = false)
+    private LocalDateTime createdAt;
 
-	@Column(columnDefinition = "TEXT")
-	private String notes;
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
-	@Column(name = "created_at", updatable = false, nullable = false)
-	private LocalDateTime createdAt;
+    @OneToMany(mappedBy = "assessmentStep", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FeedbackDoctor> feedbackDoctors = new ArrayList<>();
 
-	@Column(name = "updated_at")
-	private LocalDateTime updatedAt;
+    @OneToMany(mappedBy = "assessmentStep", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AssessmentStepAttachment> assessmentStepAttachments = new ArrayList<>();
 
+    public enum Status {
+        IN_QUEUE,
+        READY,
+        IN_PROGRESS,
+        AWAITING_NEXT_STEPS,
+        AWAITING_TEST_RESULTS,
+        RE_ENTRY,
+        COMPLETED,
+        RESCHEDULED,
+        CANCELLED
+    }
 
-	@OneToMany(mappedBy = "assessmentStep", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<FeedbackDoctor> feedbackDoctors = new ArrayList<>();
-
-	@OneToMany(mappedBy = "assessmentStep", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<AssessmentStepAttachment> assessmentStepAttachments = new ArrayList<>();
+    public enum AssessmentType {
+        EXAMINATION,
+        TEST
+    }
 }

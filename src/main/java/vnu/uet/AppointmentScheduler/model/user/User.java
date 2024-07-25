@@ -8,8 +8,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import vnu.uet.AppointmentScheduler.constants.Gender;
 import vnu.uet.AppointmentScheduler.constants.UserRole;
 
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
@@ -25,23 +28,44 @@ public class User {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(nullable = false, unique = true)
+    @Column(columnDefinition = "VARCHAR(100)", nullable = false, unique = true)
     @Email
     private String email;
 
     @Column(nullable = false)
     private String password;
 
+    @Column(columnDefinition = "VARCHAR(20)", nullable = false)
     @Size(min = 10, max = 10)
     private String phone;
 
-    @Column(name = "first_name")
+    @Column(name = "user_role", nullable = false)
+    @Enumerated(EnumType.ORDINAL)
+    private UserRole userRole;
+
+    @Column(name = "first_name", columnDefinition = "NVARCHAR(50)", nullable = false)
     private String firstName;
 
-    @Column(name = "last_name")
+    @Column(name = "last_name", columnDefinition = "NVARCHAR(50)", nullable = false)
     private String lastName;
 
+    @Column(name = "is_active", nullable = false)
+    private boolean isActive;
+
+    @Column(name = "created_at", updatable = false, nullable = false)
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+
     @Enumerated(EnumType.ORDINAL)
-    @Column(name = "user_role", nullable = false)
-    private UserRole userRole;
+    private Gender gender;
+
+    @Temporal(TemporalType.DATE)
+    private Date dob;
+
+    private String address;
+
+    @Column(name = "avatar_url")
+    private String avatarUrl;
 }
