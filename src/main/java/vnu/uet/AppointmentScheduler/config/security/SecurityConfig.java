@@ -11,13 +11,14 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import vnu.uet.AppointmentScheduler.constants.UserRole;
+import vnu.uet.AppointmentScheduler.constants.UserRoleValues;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final JwtAuthFilter jwtAuthFilter;
+	private final JwtAuthFilter jwtAuthFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http)

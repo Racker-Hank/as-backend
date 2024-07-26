@@ -8,9 +8,9 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface BaseUserRepository<T extends User> extends JpaRepository<T, UUID> {
-    Optional<T> findByIdAndEmailAndUserRole(UUID id, String email, UserRole role);
+	Optional<T> findByIdAndEmailAndUserRole(UUID id, String email, UserRole role);
 
-    Optional<T> findByEmail(String email);
+	Optional<T> findByEmail(String email);
 
-    Optional<T> findByPhone(String phone);
+	Optional<T> findByPhone(String phone);
 }

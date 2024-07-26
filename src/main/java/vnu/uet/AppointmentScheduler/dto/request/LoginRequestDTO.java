@@ -11,13 +11,13 @@ import vnu.uet.AppointmentScheduler.constants.UserRole;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoginRequestDTO {
-    @NotBlank
-    @Email
-    private String email;
+	@NotBlank
+	@Email
+	private String email;
 
-    @NotBlank
-    private String password;
+	@NotBlank
+	private String password;
 
-    @NotBlank
-    private UserRole userRole;
+	@NotBlank
+	private UserRole userRole;
 }

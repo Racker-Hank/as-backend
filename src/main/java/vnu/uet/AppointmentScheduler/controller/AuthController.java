@@ -21,28 +21,27 @@ import java.security.Principal;
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
-    private final AuthService authService;
+	private final AuthService authService;
 
-    @PostMapping(value = "/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequestDTO loginRequestDTO,
-                                        HttpServletResponse response) {
-        String jwtToken = authService.login(
-                loginRequestDTO.getUserRole(),
-                loginRequestDTO.getEmail(),
-                loginRequestDTO.getPassword()
-        );
+	@PostMapping(value = "/login")
+	public ResponseEntity<String> login(@RequestBody LoginRequestDTO loginRequestDTO,
+										HttpServletResponse response) {
+		String jwtToken = authService.login(
+			loginRequestDTO.getUserRole(),
+			loginRequestDTO.getEmail(),
+			loginRequestDTO.getPassword());
 
-        ResponseCookie cookie = ResponseCookie.from("access_token", jwtToken)
-                .httpOnly(true)
-                .secure(false)
-                .path("/api")
-                .maxAge(7 * 24 * 60 * 60)
-                .build();
+		ResponseCookie cookie = ResponseCookie.from("access_token", jwtToken)
+			.httpOnly(true)
+			.secure(false)
+			.path("/api")
+			.maxAge(7 * 24 * 60 * 60)
+			.build();
 
-        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+		response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
-        return ResponseEntity.ok(jwtToken);
-    }
+		return ResponseEntity.ok(jwtToken);
+	}
 
     @PostMapping(value = "/register/doctor")
     public ResponseEntity<String> registerDoctor(@RequestBody RegisterDoctorRequestDTO registerRequestDTO) {

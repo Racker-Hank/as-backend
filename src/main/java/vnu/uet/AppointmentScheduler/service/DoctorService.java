@@ -4,14 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import vnu.uet.AppointmentScheduler.constants.UserRole;
 import vnu.uet.AppointmentScheduler.dto.request.RegisterDoctorRequestDTO;
-import vnu.uet.AppointmentScheduler.dto.request.RegisterRequestDTO;
 import vnu.uet.AppointmentScheduler.model.user.Doctor;
 import vnu.uet.AppointmentScheduler.repository.user.DoctorRepository;
 
 @Service
 @RequiredArgsConstructor
 public class DoctorService {
-    private final DoctorRepository doctorRepository;
+	private final DoctorRepository doctorRepository;
 
     public void register(RegisterDoctorRequestDTO registerDTO) {
         Doctor user = Doctor.builder()

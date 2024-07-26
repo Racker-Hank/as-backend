@@ -23,35 +23,35 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class AuthService {
-    private final JwtService jwtService;
-    private final AuthenticationManager authenticationManager;
-    private final BCryptPasswordEncoder bcryptPasswordEncoder;
+	private final JwtService jwtService;
+	private final AuthenticationManager authenticationManager;
+	private final BCryptPasswordEncoder bcryptPasswordEncoder;
 
-    private final UserRepository userRepository;
-    private final HospitalAdminService hospitalAdminService;
-    private final DoctorService doctorService;
-    private final PatientService patientService;
+	private final UserRepository userRepository;
+	private final HospitalAdminService hospitalAdminService;
+	private final DoctorService doctorService;
+	private final PatientService patientService;
 
-    public String login(UserRole userRole, String email, String password) {
-        try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            email, password,
-                            List.of(new SimpleGrantedAuthority(userRole.toString()))
-                    )
-            );
-        } catch (Exception exc) {
-            if (exc instanceof BadCredentialsException) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad credentials!");
-            }
-            throw exc;
-        }
+	public String login(UserRole userRole, String email, String password) {
+		try {
+			authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(
+					email, password,
+					List.of(new SimpleGrantedAuthority(userRole.toString()))
+				)
+			);
+		} catch (Exception exc) {
+			if (exc instanceof BadCredentialsException) {
+				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad credentials!");
+			}
+			throw exc;
+		}
 
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+		User user = userRepository.findByEmail(email)
+			.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
 
-        return jwtService.generateToken(user);
-    }
+		return jwtService.generateToken(user);
+	}
 
     public void register(UserRole userRole, RegisterRequestDTO registerDTO) {
         userRepository.findByEmail(registerDTO.getEmail())

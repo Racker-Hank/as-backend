@@ -10,7 +10,7 @@ import vnu.uet.AppointmentScheduler.repository.user.PatientRepository;
 @Service
 @RequiredArgsConstructor
 public class PatientService {
-    private final PatientRepository patientRepository;
+	private final PatientRepository patientRepository;
 
     public void register(RegisterPatientRequestDTO registerRequestDTO) {
         Patient user = Patient.builder()
