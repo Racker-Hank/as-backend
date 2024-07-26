@@ -1,29 +1,25 @@
-package vnu.uet.AppointmentScheduler.model;
+package vnu.uet.AppointmentScheduler.model.user;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
+import vnu.uet.AppointmentScheduler.constants.DoctorType;
+import vnu.uet.AppointmentScheduler.model.hospital.Department;
+import vnu.uet.AppointmentScheduler.model.schedule.WorkSchedule;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "doctor")
-@PrimaryKeyJoinColumn(name = "user_id")
 @Getter
 @Setter
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Doctor extends User {
-
-	public enum DoctorType {
-//		EXAMINER,
-		SPECIALIST,
-		TESTER
-	}
-
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "department_id")
 	private Department department;

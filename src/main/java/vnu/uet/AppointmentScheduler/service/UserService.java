@@ -2,7 +2,7 @@ package vnu.uet.AppointmentScheduler.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import vnu.uet.AppointmentScheduler.model.User;
+import vnu.uet.AppointmentScheduler.model.user.User;
 
 import java.util.List;
 import java.util.UUID;

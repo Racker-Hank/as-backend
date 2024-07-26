@@ -1,12 +1,13 @@
-package vnu.uet.AppointmentScheduler.model;
+package vnu.uet.AppointmentScheduler.model.appointment;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import vnu.uet.AppointmentScheduler.model.schedule.Session;
+import vnu.uet.AppointmentScheduler.model.user.Patient;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -21,7 +22,6 @@ public class Appointment {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
-	@Column(name = "appointment_id")
 	private UUID id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -49,29 +49,29 @@ public class Appointment {
 //	private String degree;
 
 	@Column(name = "actual_start_time")
-	private long actualStartTime;
+	private Long actualStartTime;
 
 	@Column(name = "actual_end_time")
-	private long actualEndTime;
+	private Long actualEndTime;
 
 	@Transient
-	private long estimatedStartTime;
+	private Long estimatedStartTime;
 
 //	@Column(columnDefinition = "TEXT", nullable = false)
 //	private String experience;
 
 	@Column(name = "created_at", updatable = false, nullable = false)
-	private long createdAt;
+	private Long createdAt;
 
 	@Column(name = "updated_at")
-	private long updatedAt;
+	private Long updatedAt;
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "appointment_id")
 	private Appointment followupAppointment;
 
 	@Column(name = "followup_appointment_interval")
-	private long followupAppointmentInterval;
+	private Long followupAppointmentInterval;
 
 
 	@OneToMany(mappedBy = "appointment", cascade = CascadeType.ALL, orphanRemoval = true)

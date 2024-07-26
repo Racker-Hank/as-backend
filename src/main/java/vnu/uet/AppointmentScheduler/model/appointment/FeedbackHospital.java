@@ -1,4 +1,4 @@
-package vnu.uet.AppointmentScheduler.model;
+package vnu.uet.AppointmentScheduler.model.appointment;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -9,25 +9,20 @@ import lombok.Setter;
 import java.util.UUID;
 
 @Entity
-@Table(name = "feedback_doctor")
+@Table(name = "feedback_hospital")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class FeedbackDoctor {
+public class FeedbackHospital {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
-	@Column(name = "feedback_hospital_id")
 	private UUID id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "assessment_step_id")
-	private AssessmentStep assessmentStep;
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "doctor_id")
-	private Doctor doctor;
+	@JoinColumn(name = "appointment_id")
+	private Appointment appointment;
 
 	@Column(nullable = false)
 	private int ratings;

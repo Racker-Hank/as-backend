@@ -1,17 +1,17 @@
-package vnu.uet.AppointmentScheduler.model;
+package vnu.uet.AppointmentScheduler.model.hospital;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import vnu.uet.AppointmentScheduler.model.user.Doctor;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "department")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -20,7 +20,6 @@ public class Department {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
-	@Column(name = "department_id")
 	private UUID id;
 
 	@ManyToOne(fetch = FetchType.LAZY)

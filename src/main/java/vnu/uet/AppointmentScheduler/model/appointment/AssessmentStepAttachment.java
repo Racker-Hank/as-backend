@@ -1,4 +1,4 @@
-package vnu.uet.AppointmentScheduler.model;
+package vnu.uet.AppointmentScheduler.model.appointment;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,9 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -17,11 +14,10 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AssessmentStepAttachment  {
+public class AssessmentStepAttachment {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
-	@Column(name = "assessment_step_attachment_id")
 	private UUID id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -32,8 +28,8 @@ public class AssessmentStepAttachment  {
 	private String attachmentUrl;
 
 	@Column(name = "created_at", updatable = false, nullable = false)
-	private long createdAt;
+	private Long createdAt;
 
 	@Column(name = "updated_at")
-	private long updatedAt;
+	private Long updatedAt;
 }

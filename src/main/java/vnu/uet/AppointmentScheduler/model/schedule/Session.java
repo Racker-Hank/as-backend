@@ -1,13 +1,14 @@
-package vnu.uet.AppointmentScheduler.model;
+package vnu.uet.AppointmentScheduler.model.schedule;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import vnu.uet.AppointmentScheduler.model.hospital.Room;
+import vnu.uet.AppointmentScheduler.model.user.Doctor;
 
 import java.time.DayOfWeek;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -20,7 +21,6 @@ public class Session {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
-	@Column(name = "session_id")
 	private UUID id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -35,16 +35,13 @@ public class Session {
 	@JoinColumn(name = "room_id")
 	private Room room;
 
-//	@Column(name = "is_active")
-//	private boolean isActive;
-
 	@Column(name = "day_of_week", nullable = false)
 	@Enumerated(EnumType.ORDINAL)
 	private DayOfWeek dayOfWeek;
 
 	@Column(name = "start_time", updatable = false, nullable = false)
-	private long startTime;
+	private Long startTime;
 
 	@Column(name = "end_time", nullable = false)
-	private long endTime;
+	private Long endTime;
 }

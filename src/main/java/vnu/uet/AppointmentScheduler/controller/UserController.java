@@ -2,7 +2,7 @@ package vnu.uet.AppointmentScheduler.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import vnu.uet.AppointmentScheduler.model.User;
+import vnu.uet.AppointmentScheduler.model.user.User;
 import vnu.uet.AppointmentScheduler.service.UserService;
 
 import java.util.List;

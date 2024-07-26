@@ -1,4 +1,4 @@
-package vnu.uet.AppointmentScheduler.model;
+package vnu.uet.AppointmentScheduler.model.hospital;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "hospital")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -20,7 +19,6 @@ public class Hospital {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
-	@Column(name = "hospital_id")
 	private UUID id;
 
 	@Column(columnDefinition = "VARCHAR(100)", nullable = false, unique = true)

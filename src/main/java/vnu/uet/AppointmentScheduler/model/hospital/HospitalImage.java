@@ -1,12 +1,12 @@
-package vnu.uet.AppointmentScheduler.model;
+package vnu.uet.AppointmentScheduler.model.hospital;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import vnu.uet.AppointmentScheduler.model.schedule.Session;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -19,7 +19,6 @@ public class HospitalImage {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
-	@Column(name = "hospital_image_id")
 	private UUID id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -34,8 +33,8 @@ public class HospitalImage {
 	private String imageUrl;
 
 	@Column(name = "created_at", updatable = false, nullable = false)
-	private long createdAt;
+	private Long createdAt;
 
 	@Column(name = "updated_at")
-	private long updatedAt;
+	private Long updatedAt;
 }

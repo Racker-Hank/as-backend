@@ -1,10 +1,11 @@
-package vnu.uet.AppointmentScheduler.model;
+package vnu.uet.AppointmentScheduler.model.appointment;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import vnu.uet.AppointmentScheduler.model.schedule.Session;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,26 +19,8 @@ import java.util.UUID;
 @NoArgsConstructor
 public class AssessmentStep {
 
-	public enum Status {
-		IN_QUEUE,
-		READY,
-		IN_PROGRESS,
-		AWAITING_NEXT_STEPS,
-		AWAITING_TEST_RESULTS,
-		RE_ENTRY,
-		COMPLETED,
-		RESCHEDULED,
-		CANCELLED
-	}
-
-	public enum AssessmentType {
-		EXAMINATION,
-		TEST
-	}
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
-	@Column(name = "assessment_step_id")
 	private UUID id;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -60,24 +43,40 @@ public class AssessmentStep {
 	private AssessmentType assessmentType;
 
 	@Column(name = "actual_start_time")
-	private long actualStartTime;
+	private Long actualStartTime;
 
 	@Column(name = "actual_end_time")
-	private long actualEndTime;
+	private Long actualEndTime;
 
 	@Column(columnDefinition = "TEXT")
 	private String notes;
 
 	@Column(name = "created_at", updatable = false, nullable = false)
-	private long createdAt;
+	private Long createdAt;
 
 	@Column(name = "updated_at")
-	private long updatedAt;
-
+	private Long updatedAt;
 
 	@OneToMany(mappedBy = "assessmentStep", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<FeedbackDoctor> feedbackDoctors = new ArrayList<>();
 
 	@OneToMany(mappedBy = "assessmentStep", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<AssessmentStepAttachment> assessmentStepAttachments = new ArrayList<>();
+
+	public enum Status {
+		IN_QUEUE,
+		READY,
+		IN_PROGRESS,
+		AWAITING_NEXT_STEPS,
+		AWAITING_TEST_RESULTS,
+		RE_ENTRY,
+		COMPLETED,
+		RESCHEDULED,
+		CANCELLED
+	}
+
+	public enum AssessmentType {
+		EXAMINATION,
+		TEST
+	}
 }
