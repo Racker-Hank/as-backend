@@ -20,4 +20,14 @@ public class RegisterRequestDTO {
 
     @NotBlank
     private UserRole userRole;
+
+    @NotBlank
+    private String firstName;
+
+    @NotBlank
+    private String lastName;
+
+    private boolean isActive = true;
+
+    private Long createdAt;
 }

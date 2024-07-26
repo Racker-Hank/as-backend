@@ -10,7 +10,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import vnu.uet.AppointmentScheduler.constants.UserRoleValues;
+import vnu.uet.AppointmentScheduler.constants.UserRole;
 
 @Configuration
 @EnableWebSecurity
@@ -28,9 +28,10 @@ public class SecurityConfig {
                         requests
                                 .requestMatchers(
                                         "/auth/login",
-                                        "/auth/register/patient"
+                                        "/auth/test"
                                 ).permitAll()
-                                .requestMatchers("/auth/register/doctor").hasAuthority(UserRoleValues.HOSPITAL_ADMIN)
+                                .requestMatchers("/auth/register/doctor")
+                                    .hasAuthority(UserRole.HOSPITAL_ADMIN.toString())
                                 .anyRequest().authenticated()
                 )
                 .sessionManagement(management ->

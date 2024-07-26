@@ -10,8 +10,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vnu.uet.AppointmentScheduler.constants.UserRole;
 import vnu.uet.AppointmentScheduler.dto.request.LoginRequestDTO;
-import vnu.uet.AppointmentScheduler.dto.request.RegisterRequestDTO;
+import vnu.uet.AppointmentScheduler.dto.request.RegisterDoctorRequestDTO;
+import vnu.uet.AppointmentScheduler.dto.request.RegisterPatientRequestDTO;
 import vnu.uet.AppointmentScheduler.service.AuthService;
+
+import java.security.Principal;
 
 @Slf4j
 @RestController
@@ -26,7 +29,8 @@ public class AuthController {
         String jwtToken = authService.login(
                 loginRequestDTO.getUserRole(),
                 loginRequestDTO.getEmail(),
-                loginRequestDTO.getPassword());
+                loginRequestDTO.getPassword()
+        );
 
         ResponseCookie cookie = ResponseCookie.from("access_token", jwtToken)
                 .httpOnly(true)
@@ -41,14 +45,19 @@ public class AuthController {
     }
 
     @PostMapping(value = "/register/doctor")
-    public ResponseEntity<String> registerDoctor(@RequestBody RegisterRequestDTO registerRequestDTO) {
+    public ResponseEntity<String> registerDoctor(@RequestBody RegisterDoctorRequestDTO registerRequestDTO) {
         authService.register(UserRole.DOCTOR, registerRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body("New doctor registered successfully");
     }
 
     @PostMapping(value = "/register/patient")
-    public ResponseEntity<String> registerPatient(@RequestBody RegisterRequestDTO registerRequestDTO) {
+    public ResponseEntity<String> registerPatient(@RequestBody RegisterPatientRequestDTO registerRequestDTO) {
         authService.register(UserRole.PATIENT, registerRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body("New patient registered successfully");
+    }
+
+    @GetMapping("/test")
+    public ResponseEntity<String> test(Principal principal) {
+        return ResponseEntity.ok(principal.getName());
     }
 }

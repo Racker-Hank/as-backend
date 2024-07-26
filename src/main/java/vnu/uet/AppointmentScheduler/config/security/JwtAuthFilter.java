@@ -46,7 +46,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         // If an email is extracted and there's no authentication set in the SecurityContext
         if (email != null &&
                 SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userDetailService.loadUserBy(id, email, role);
+            UserDetailsImpl userDetails = (UserDetailsImpl) userDetailService.loadUserBy(id, email, role);
 
             if (jwtService.validateToken(token, userDetails)) {
                 setAuthenticationContext(request, userDetails);

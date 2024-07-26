@@ -5,8 +5,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import vnu.uet.AppointmentScheduler.config.security.UserDetailsImpl;
 import vnu.uet.AppointmentScheduler.constants.UserRole;
 import vnu.uet.AppointmentScheduler.model.user.User;
 
@@ -23,12 +23,12 @@ public class JwtService {
 
     public UUID extractId(String jwtToken) {
         String subject = extractClaim(jwtToken, Claims::getSubject);
-        return UUID.fromString(subject.split(",")[0]);
+        return UUID.fromString(subject);
     }
 
     public String extractEmail(String jwtToken) {
-        String subject = extractClaim(jwtToken, Claims::getSubject);
-        return subject.split(",")[1];
+        Claims claims = extractAllClaims(jwtToken);
+        return claims.get("email").toString();
     }
 
     public UserRole extractRole(String jwtToken) {
@@ -58,11 +58,9 @@ public class JwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public boolean validateToken(String jwtToken, UserDetails userDetails) {
-        final String email = extractEmail(jwtToken);
-        return (
-                email.equals(userDetails.getUsername()) && !isTokenExpired(jwtToken)
-        );
+    public boolean validateToken(String jwtToken, UserDetailsImpl userDetails) {
+        final UUID id = extractId(jwtToken);
+        return id.equals(userDetails.getId()) && !isTokenExpired(jwtToken);
     }
 
     private boolean isTokenExpired(String jwtToken) {
@@ -79,7 +77,8 @@ public class JwtService {
 
     private String createToken(UUID id, String email, UserRole userRole) {
         return Jwts.builder()
-                .subject(String.format("%s,%s", id, email))
+                .subject(id.toString())
+                .claim("email", email)
                 .claim("role", userRole.toString())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(

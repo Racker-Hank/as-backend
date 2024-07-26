@@ -11,7 +11,6 @@ import lombok.experimental.SuperBuilder;
 import vnu.uet.AppointmentScheduler.constants.Gender;
 import vnu.uet.AppointmentScheduler.constants.UserRole;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -35,7 +34,7 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(columnDefinition = "VARCHAR(20)", nullable = false)
+    @Column(columnDefinition = "VARCHAR(20)")
     @Size(min = 10, max = 10)
     private String phone;
 
@@ -53,10 +52,10 @@ public class User {
     private boolean isActive;
 
     @Column(name = "created_at", updatable = false, nullable = false)
-    private LocalDateTime createdAt;
+    private Long createdAt;
 
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    private Long updatedAt;
 
     @Enumerated(EnumType.ORDINAL)
     private Gender gender;
