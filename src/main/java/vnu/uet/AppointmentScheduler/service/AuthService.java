@@ -60,8 +60,7 @@ public class AuthService {
 		String hashedPassword = bcryptPasswordEncoder.encode(request.getPassword());
 
 		switch (userRole) {
-			case UserRole.HOSPITAL_ADMIN ->
-				hospitalAdminService.register(request.getEmail(), hashedPassword);
+			case UserRole.HOSPITAL_ADMIN -> hospitalAdminService.register(request.getEmail(), hashedPassword);
 			case UserRole.DOCTOR -> doctorService.register(request.getEmail(), hashedPassword);
 			case UserRole.PATIENT -> patientService.register(request.getEmail(), hashedPassword);
 		}

@@ -22,7 +22,7 @@ public class ApplicationConfig {
 
 	@Bean
 	public AuthenticationManager authenticationManager(HttpSecurity http,
-	                                                   BCryptPasswordEncoder bCryptPasswordEncoder) throws Exception {
+													   BCryptPasswordEncoder bCryptPasswordEncoder) throws Exception {
 		AuthenticationManagerBuilder auth = http.getSharedObject(AuthenticationManagerBuilder.class);
 		auth
 			.userDetailsService(userDetailServiceImpl)
