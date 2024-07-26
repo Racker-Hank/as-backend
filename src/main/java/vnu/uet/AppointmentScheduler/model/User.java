@@ -1,13 +1,11 @@
 package vnu.uet.AppointmentScheduler.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Type;
-
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -48,7 +46,7 @@ public class User {
 	@Column(nullable = false)
 	private String password;
 
-	@Column(columnDefinition = "VARCHAR(20)", nullable = false)
+	@Column(columnDefinition = "VARCHAR(20)")
 	private String phone;
 
 	@Column(name = "user_role", nullable = false)
@@ -58,13 +56,14 @@ public class User {
 	private UserRole userRole;
 
 	@Column(name = "is_active", nullable = false)
+	@JsonProperty("isActive")
 	private boolean isActive;
 
 	@Column(name = "created_at", updatable = false, nullable = false)
-	private LocalDateTime createdAt;
+	private long createdAt;
 
 	@Column(name = "updated_at")
-	private LocalDateTime updatedAt;
+	private long updatedAt;
 
 	@Enumerated(EnumType.ORDINAL)
 	private Gender gender;

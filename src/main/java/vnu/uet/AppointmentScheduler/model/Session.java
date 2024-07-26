@@ -43,8 +43,8 @@ public class Session {
 	private DayOfWeek dayOfWeek;
 
 	@Column(name = "start_time", updatable = false, nullable = false)
-	private LocalDateTime startTime;
+	private long startTime;
 
 	@Column(name = "end_time", nullable = false)
-	private LocalDateTime endTime;
+	private long endTime;
 }

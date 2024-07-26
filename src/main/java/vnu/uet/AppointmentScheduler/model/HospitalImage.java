@@ -34,8 +34,8 @@ public class HospitalImage {
 	private String imageUrl;
 
 	@Column(name = "created_at", updatable = false, nullable = false)
-	private LocalDateTime createdAt;
+	private long createdAt;
 
 	@Column(name = "updated_at")
-	private LocalDateTime updatedAt;
+	private long updatedAt;
 }

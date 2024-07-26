@@ -49,22 +49,22 @@ public class Appointment {
 //	private String degree;
 
 	@Column(name = "actual_start_time")
-	private LocalDateTime actualStartTime;
+	private long actualStartTime;
 
 	@Column(name = "actual_end_time")
-	private LocalDateTime actualEndTime;
+	private long actualEndTime;
 
 	@Transient
-	private LocalDateTime estimatedStartTime;
+	private long estimatedStartTime;
 
 //	@Column(columnDefinition = "TEXT", nullable = false)
 //	private String experience;
 
 	@Column(name = "created_at", updatable = false, nullable = false)
-	private LocalDateTime createdAt;
+	private long createdAt;
 
 	@Column(name = "updated_at")
-	private LocalDateTime updatedAt;
+	private long updatedAt;
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "appointment_id")

@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -61,19 +60,19 @@ public class AssessmentStep {
 	private AssessmentType assessmentType;
 
 	@Column(name = "actual_start_time")
-	private LocalDateTime actualStartTime;
+	private long actualStartTime;
 
 	@Column(name = "actual_end_time")
-	private LocalDateTime actualEndTime;
+	private long actualEndTime;
 
 	@Column(columnDefinition = "TEXT")
 	private String notes;
 
 	@Column(name = "created_at", updatable = false, nullable = false)
-	private LocalDateTime createdAt;
+	private long createdAt;
 
 	@Column(name = "updated_at")
-	private LocalDateTime updatedAt;
+	private long updatedAt;
 
 
 	@OneToMany(mappedBy = "assessmentStep", cascade = CascadeType.ALL, orphanRemoval = true)
