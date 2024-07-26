@@ -18,16 +18,16 @@ public class RegisterRequestDTO {
 	@NotBlank
 	private String password;
 
-    @NotBlank
-    private UserRole userRole;
+	@NotBlank
+	private UserRole userRole;
 
-    @NotBlank
-    private String firstName;
+	@NotBlank
+	private String firstName;
 
-    @NotBlank
-    private String lastName;
+	@NotBlank
+	private String lastName;
 
-    private boolean isActive = true;
+	private boolean isActive = true;
 
-    private Long createdAt;
+	private Long createdAt;
 }

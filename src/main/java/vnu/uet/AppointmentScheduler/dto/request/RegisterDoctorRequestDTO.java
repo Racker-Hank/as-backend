@@ -8,6 +8,6 @@ import vnu.uet.AppointmentScheduler.constants.DoctorType;
 @Getter
 @Setter
 public class RegisterDoctorRequestDTO extends RegisterRequestDTO {
-    @NotBlank
-    private DoctorType doctorType;
+	@NotBlank
+	private DoctorType doctorType;
 }

@@ -43,20 +43,20 @@ public class AuthController {
 		return ResponseEntity.ok(jwtToken);
 	}
 
-    @PostMapping(value = "/register/doctor")
-    public ResponseEntity<String> registerDoctor(@RequestBody RegisterDoctorRequestDTO registerRequestDTO) {
-        authService.register(UserRole.DOCTOR, registerRequestDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body("New doctor registered successfully");
-    }
+	@PostMapping(value = "/register/doctor")
+	public ResponseEntity<String> registerDoctor(@RequestBody RegisterDoctorRequestDTO registerRequestDTO) {
+		authService.register(UserRole.DOCTOR, registerRequestDTO);
+		return ResponseEntity.status(HttpStatus.CREATED).body("New doctor registered successfully");
+	}
 
-    @PostMapping(value = "/register/patient")
-    public ResponseEntity<String> registerPatient(@RequestBody RegisterPatientRequestDTO registerRequestDTO) {
-        authService.register(UserRole.PATIENT, registerRequestDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body("New patient registered successfully");
-    }
+	@PostMapping(value = "/register/patient")
+	public ResponseEntity<String> registerPatient(@RequestBody RegisterPatientRequestDTO registerRequestDTO) {
+		authService.register(UserRole.PATIENT, registerRequestDTO);
+		return ResponseEntity.status(HttpStatus.CREATED).body("New patient registered successfully");
+	}
 
-    @GetMapping("/test")
-    public ResponseEntity<String> test(Principal principal) {
-        return ResponseEntity.ok(principal.getName());
-    }
+	@GetMapping("/test")
+	public ResponseEntity<String> test(Principal principal) {
+		return ResponseEntity.ok(principal.getName());
+	}
 }

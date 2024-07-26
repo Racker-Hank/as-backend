@@ -12,7 +12,6 @@ import lombok.experimental.SuperBuilder;
 import vnu.uet.AppointmentScheduler.constants.Gender;
 import vnu.uet.AppointmentScheduler.constants.UserRole;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 

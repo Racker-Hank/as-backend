@@ -11,7 +11,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import vnu.uet.AppointmentScheduler.constants.UserRole;
-import vnu.uet.AppointmentScheduler.constants.UserRoleValues;
 
 @Configuration
 @EnableWebSecurity
@@ -20,30 +19,30 @@ import vnu.uet.AppointmentScheduler.constants.UserRoleValues;
 public class SecurityConfig {
 	private final JwtAuthFilter jwtAuthFilter;
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http)
-            throws Exception {
-        http
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(requests ->
-                        requests
-                                .requestMatchers(
-                                        "/auth/login",
-                                        "/auth/test"
-                                ).permitAll()
-                                .requestMatchers("/auth/register/doctor")
-                                    .hasAuthority(UserRole.HOSPITAL_ADMIN.toString())
-                                .anyRequest().authenticated()
-                )
-                .sessionManagement(management ->
-                        management.sessionCreationPolicy(
-                                SessionCreationPolicy.STATELESS
-                        )
-                )
-                .addFilterBefore(
-                        jwtAuthFilter,
-                        UsernamePasswordAuthenticationFilter.class
-                );
-        return http.build();
-    }
+	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http)
+		throws Exception {
+		http
+			.csrf(AbstractHttpConfigurer::disable)
+			.authorizeHttpRequests(requests ->
+				requests
+					.requestMatchers(
+						"/auth/login",
+						"/auth/test"
+					).permitAll()
+					.requestMatchers("/auth/register/doctor")
+					.hasAuthority(UserRole.HOSPITAL_ADMIN.toString())
+					.anyRequest().authenticated()
+			)
+			.sessionManagement(management ->
+				management.sessionCreationPolicy(
+					SessionCreationPolicy.STATELESS
+				)
+			)
+			.addFilterBefore(
+				jwtAuthFilter,
+				UsernamePasswordAuthenticationFilter.class
+			);
+		return http.build();
+	}
 }

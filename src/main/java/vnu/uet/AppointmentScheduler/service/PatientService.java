@@ -12,16 +12,16 @@ import vnu.uet.AppointmentScheduler.repository.user.PatientRepository;
 public class PatientService {
 	private final PatientRepository patientRepository;
 
-    public void register(RegisterPatientRequestDTO registerRequestDTO) {
-        Patient user = Patient.builder()
-                .email(registerRequestDTO.getEmail())
-                .password(registerRequestDTO.getPassword())
-                .userRole(UserRole.PATIENT)
-                .createdAt(System.currentTimeMillis())
-                .firstName(registerRequestDTO.getFirstName())
-                .lastName(registerRequestDTO.getLastName())
-                .isActive(registerRequestDTO.isActive())
-                .build();
-        patientRepository.save(user);
-    }
+	public void register(RegisterPatientRequestDTO registerRequestDTO) {
+		Patient user = Patient.builder()
+			.email(registerRequestDTO.getEmail())
+			.password(registerRequestDTO.getPassword())
+			.userRole(UserRole.PATIENT)
+			.createdAt(System.currentTimeMillis())
+			.firstName(registerRequestDTO.getFirstName())
+			.lastName(registerRequestDTO.getLastName())
+			.isActive(registerRequestDTO.isActive())
+			.build();
+		patientRepository.save(user);
+	}
 }

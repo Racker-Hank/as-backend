@@ -53,19 +53,19 @@ public class AuthService {
 		return jwtService.generateToken(user);
 	}
 
-    public void register(UserRole userRole, RegisterRequestDTO registerDTO) {
-        userRepository.findByEmail(registerDTO.getEmail())
-                .ifPresent(user -> {
-                    throw new ResponseStatusException(HttpStatus.CONFLICT, "User is already registered");
-                });
+	public void register(UserRole userRole, RegisterRequestDTO registerDTO) {
+		userRepository.findByEmail(registerDTO.getEmail())
+			.ifPresent(user -> {
+				throw new ResponseStatusException(HttpStatus.CONFLICT, "User is already registered");
+			});
 
-        String hashedPassword = bcryptPasswordEncoder.encode(registerDTO.getPassword());
-        registerDTO.setPassword(hashedPassword);
+		String hashedPassword = bcryptPasswordEncoder.encode(registerDTO.getPassword());
+		registerDTO.setPassword(hashedPassword);
 
-        switch (userRole) {
-            case UserRole.HOSPITAL_ADMIN -> hospitalAdminService.register(registerDTO.getEmail(), hashedPassword);
-            case UserRole.DOCTOR -> doctorService.register((RegisterDoctorRequestDTO) registerDTO);
-            case UserRole.PATIENT -> patientService.register((RegisterPatientRequestDTO) registerDTO);
-        }
-    }
+		switch (userRole) {
+			case UserRole.HOSPITAL_ADMIN -> hospitalAdminService.register(registerDTO.getEmail(), hashedPassword);
+			case UserRole.DOCTOR -> doctorService.register((RegisterDoctorRequestDTO) registerDTO);
+			case UserRole.PATIENT -> patientService.register((RegisterPatientRequestDTO) registerDTO);
+		}
+	}
 }
