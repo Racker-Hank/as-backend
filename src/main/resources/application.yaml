@@ -1,6 +1,6 @@
 server:
   servlet:
-    contextPath: /api
+    contextPath: ${CONTEXT_PATH}
 
 spring:
   config:
@@ -15,7 +15,7 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
-  security:
-    user:
-      name: ${SECURITY_USER_NAME}
-      password: ${SECURITY_USER_PASSWORD}
+#  security:
+#    user:
+#      name: ${SECURITY_USER_NAME}
+#      password: ${SECURITY_USER_PASSWORD}

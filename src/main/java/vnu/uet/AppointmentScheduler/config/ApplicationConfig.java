@@ -13,20 +13,20 @@ import vnu.uet.AppointmentScheduler.config.security.UserDetailsServiceImpl;
 @RequiredArgsConstructor
 public class ApplicationConfig {
 
-    private final UserDetailsServiceImpl userDetailServiceImpl;
+	private final UserDetailsServiceImpl userDetailServiceImpl;
 
-    @Bean
-    public BCryptPasswordEncoder bcryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+	@Bean
+	public BCryptPasswordEncoder bcryptPasswordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
-    @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http,
-                                                       BCryptPasswordEncoder bCryptPasswordEncoder) throws Exception {
-        AuthenticationManagerBuilder auth = http.getSharedObject(AuthenticationManagerBuilder.class);
-        auth
-                .userDetailsService(userDetailServiceImpl)
-                .passwordEncoder(bCryptPasswordEncoder);
-        return auth.build();
-    }
+	@Bean
+	public AuthenticationManager authenticationManager(HttpSecurity http,
+	                                                   BCryptPasswordEncoder bCryptPasswordEncoder) throws Exception {
+		AuthenticationManagerBuilder auth = http.getSharedObject(AuthenticationManagerBuilder.class);
+		auth
+			.userDetailsService(userDetailServiceImpl)
+			.passwordEncoder(bCryptPasswordEncoder);
+		return auth.build();
+	}
 }

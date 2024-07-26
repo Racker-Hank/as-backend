@@ -12,15 +12,15 @@ import java.util.List;
 
 @SuperBuilder
 public class UserDetailsImpl extends User implements UserDetails {
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(this.getUserRole().toString()));
-        return authorities;
-    }
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+		authorities.add(new SimpleGrantedAuthority(this.getUserRole().toString()));
+		return authorities;
+	}
 
-    @Override
-    public String getUsername() {
-        return this.getEmail();
-    }
+	@Override
+	public String getUsername() {
+		return this.getEmail();
+	}
 }

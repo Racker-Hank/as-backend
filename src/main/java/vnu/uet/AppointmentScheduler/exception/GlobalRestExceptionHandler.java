@@ -13,15 +13,15 @@ import org.springframework.web.server.ResponseStatusException;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @RestControllerAdvice
 public class GlobalRestExceptionHandler {
-    @ExceptionHandler(ResponseStatusException.class)
-    public ResponseEntity<String> handleResponseStatusException(ResponseStatusException exc) {
-        log.error(exc.toString());
-        return new ResponseEntity<>(exc.getMessage(), exc.getStatusCode());
-    }
+	@ExceptionHandler(ResponseStatusException.class)
+	public ResponseEntity<String> handleResponseStatusException(ResponseStatusException exc) {
+		log.error(exc.toString());
+		return new ResponseEntity<>(exc.getMessage(), exc.getStatusCode());
+	}
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handleUnexpectedException(Exception exc) {
-        log.error(exc.toString());
-        return new ResponseEntity<>("An unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<String> handleUnexpectedException(Exception exc) {
+		log.error(exc.toString());
+		return new ResponseEntity<>("An unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 }

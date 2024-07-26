@@ -1,11 +1,22 @@
 package vnu.uet.AppointmentScheduler.service;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import vnu.uet.AppointmentScheduler.model.user.User;
 
-@Slf4j
+import java.util.List;
+import java.util.UUID;
+
 @Service
-@RequiredArgsConstructor
-public class UserService {
+@Transactional
+public interface UserService {
+	User saveUser(User user);
+
+	List<User> getAllUsers();
+
+	User getUserById(UUID id);
+
+	User updateUser(UUID userId, User user);
+
+	void deleteUser(UUID userId);
 }

@@ -18,74 +18,74 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    @Value("${JWT_SECRET}")
-    private String secret;
+	@Value("${JWT_SECRET}")
+	private String secret;
 
-    public UUID extractId(String jwtToken) {
-        String subject = extractClaim(jwtToken, Claims::getSubject);
-        return UUID.fromString(subject.split(",")[0]);
-    }
+	public UUID extractId(String jwtToken) {
+		String subject = extractClaim(jwtToken, Claims::getSubject);
+		return UUID.fromString(subject.split(",")[0]);
+	}
 
-    public String extractEmail(String jwtToken) {
-        String subject = extractClaim(jwtToken, Claims::getSubject);
-        return subject.split(",")[1];
-    }
+	public String extractEmail(String jwtToken) {
+		String subject = extractClaim(jwtToken, Claims::getSubject);
+		return subject.split(",")[1];
+	}
 
-    public UserRole extractRole(String jwtToken) {
-        Claims claims = extractAllClaims(jwtToken);
-        String roleString = (String) claims.get("role");
-        return UserRole.valueOf(roleString);
-    }
+	public UserRole extractRole(String jwtToken) {
+		Claims claims = extractAllClaims(jwtToken);
+		String roleString = (String) claims.get("role");
+		return UserRole.valueOf(roleString);
+	}
 
-    private <T> T extractClaim(
-            String jwtToken,
-            Function<Claims, T> claimsResolver
-    ) {
-        final Claims claims = extractAllClaims(jwtToken);
-        return claimsResolver.apply(claims);
-    }
+	private <T> T extractClaim(
+		String jwtToken,
+		Function<Claims, T> claimsResolver
+	) {
+		final Claims claims = extractAllClaims(jwtToken);
+		return claimsResolver.apply(claims);
+	}
 
-    private Claims extractAllClaims(String jwtToken) {
-        return Jwts.parser()
-                .verifyWith(getSignKey())
-                .build()
-                .parseSignedClaims(jwtToken)
-                .getPayload();
-    }
+	private Claims extractAllClaims(String jwtToken) {
+		return Jwts.parser()
+			.verifyWith(getSignKey())
+			.build()
+			.parseSignedClaims(jwtToken)
+			.getPayload();
+	}
 
-    private SecretKey getSignKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(this.secret);
-        return Keys.hmacShaKeyFor(keyBytes);
-    }
+	private SecretKey getSignKey() {
+		byte[] keyBytes = Decoders.BASE64.decode(this.secret);
+		return Keys.hmacShaKeyFor(keyBytes);
+	}
 
-    public boolean validateToken(String jwtToken, UserDetails userDetails) {
-        final String email = extractEmail(jwtToken);
-        return (
-                email.equals(userDetails.getUsername()) && !isTokenExpired(jwtToken)
-        );
-    }
+	public boolean validateToken(String jwtToken, UserDetails userDetails) {
+		final String email = extractEmail(jwtToken);
+		return (
+			email.equals(userDetails.getUsername()) && !isTokenExpired(jwtToken)
+		);
+	}
 
-    private boolean isTokenExpired(String jwtToken) {
-        return extractExpiration(jwtToken).before(new Date());
-    }
+	private boolean isTokenExpired(String jwtToken) {
+		return extractExpiration(jwtToken).before(new Date());
+	}
 
-    private Date extractExpiration(String jwtToken) {
-        return extractClaim(jwtToken, Claims::getExpiration);
-    }
+	private Date extractExpiration(String jwtToken) {
+		return extractClaim(jwtToken, Claims::getExpiration);
+	}
 
-    public String generateToken(User user) {
-        return createToken(user.getId(), user.getEmail(), user.getUserRole());
-    }
+	public String generateToken(User user) {
+		return createToken(user.getId(), user.getEmail(), user.getUserRole());
+	}
 
-    private String createToken(UUID id, String email, UserRole userRole) {
-        return Jwts.builder()
-                .subject(String.format("%s,%s", id, email))
-                .claim("role", userRole.toString())
-                .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(
-                        new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)
-                )
-                .signWith(getSignKey())
-                .compact();
-    }
+	private String createToken(UUID id, String email, UserRole userRole) {
+		return Jwts.builder()
+			.subject(String.format("%s,%s", id, email))
+			.claim("role", userRole.toString())
+			.issuedAt(new Date(System.currentTimeMillis()))
+			.expiration(
+				new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)
+			)
+			.signWith(getSignKey())
+			.compact();
+	}
 }

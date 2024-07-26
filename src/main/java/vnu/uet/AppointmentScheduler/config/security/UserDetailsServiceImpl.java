@@ -14,35 +14,35 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final UserRepository userRepository;
+	private final UserRepository userRepository;
 
-    public UserDetails loadUserBy(UUID id, String email, UserRole userRole) {
-        return userRepository.findByIdAndEmailAndUserRole(id, email, userRole)
-                .map(user ->
-                        UserDetailsImpl.builder()
-                                .email(user.getEmail())
-                                .password(user.getPassword())
-                                .userRole(user.getUserRole())
-                                .build()
-                )
-                .orElseThrow(() -> new UsernameNotFoundException(email));
-    }
+	public UserDetails loadUserBy(UUID id, String email, UserRole userRole) {
+		return userRepository.findByIdAndEmailAndUserRole(id, email, userRole)
+			.map(user ->
+				UserDetailsImpl.builder()
+					.email(user.getEmail())
+					.password(user.getPassword())
+					.userRole(user.getUserRole())
+					.build()
+			)
+			.orElseThrow(() -> new UsernameNotFoundException(email));
+	}
 
-    public UserDetails loadUserByEmail(String email) throws UsernameNotFoundException {
-        return userRepository
-                .findByEmail(email)
-                .map(user ->
-                        UserDetailsImpl.builder()
-                                .email(user.getEmail())
-                                .password(user.getPassword())
-                                .userRole(user.getUserRole())
-                                .build()
-                )
-                .orElseThrow(() -> new UsernameNotFoundException(email));
-    }
+	public UserDetails loadUserByEmail(String email) throws UsernameNotFoundException {
+		return userRepository
+			.findByEmail(email)
+			.map(user ->
+				UserDetailsImpl.builder()
+					.email(user.getEmail())
+					.password(user.getPassword())
+					.userRole(user.getUserRole())
+					.build()
+			)
+			.orElseThrow(() -> new UsernameNotFoundException(email));
+	}
 
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return loadUserByEmail(email);
-    }
+	@Override
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		return loadUserByEmail(email);
+	}
 }

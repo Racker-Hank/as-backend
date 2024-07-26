@@ -9,14 +9,14 @@ import vnu.uet.AppointmentScheduler.repository.user.DoctorRepository;
 @Service
 @RequiredArgsConstructor
 public class DoctorService {
-    private final DoctorRepository doctorRepository;
+	private final DoctorRepository doctorRepository;
 
-    public void register(String email, String hashedPassword) {
-        Doctor user = Doctor.builder()
-                .email(email)
-                .password(hashedPassword)
-                .userRole(UserRole.DOCTOR)
-                .build();
-        doctorRepository.save(user);
-    }
+	public void register(String email, String hashedPassword) {
+		Doctor user = Doctor.builder()
+			.email(email)
+			.password(hashedPassword)
+			.userRole(UserRole.DOCTOR)
+			.build();
+		doctorRepository.save(user);
+	}
 }

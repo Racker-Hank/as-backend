@@ -17,31 +17,31 @@ import vnu.uet.AppointmentScheduler.constants.UserRoleValues;
 @EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final JwtAuthFilter jwtAuthFilter;
+	private final JwtAuthFilter jwtAuthFilter;
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http)
-            throws Exception {
-        http
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(requests ->
-                        requests
-                                .requestMatchers(
-                                        "/auth/login",
-                                        "/auth/register/patient"
-                                ).permitAll()
-                                .requestMatchers("/auth/register/doctor").hasAuthority(UserRoleValues.HOSPITAL_ADMIN)
-                                .anyRequest().authenticated()
-                )
-                .sessionManagement(management ->
-                        management.sessionCreationPolicy(
-                                SessionCreationPolicy.STATELESS
-                        )
-                )
-                .addFilterBefore(
-                        jwtAuthFilter,
-                        UsernamePasswordAuthenticationFilter.class
-                );
-        return http.build();
-    }
+	@Bean
+	public SecurityFilterChain securityFilterChain(HttpSecurity http)
+		throws Exception {
+		http
+			.csrf(AbstractHttpConfigurer::disable)
+			.authorizeHttpRequests(requests ->
+				requests
+					.requestMatchers(
+						"/auth/login",
+						"/auth/register/patient"
+					).permitAll()
+					.requestMatchers("/auth/register/doctor").hasAuthority(UserRoleValues.HOSPITAL_ADMIN)
+					.anyRequest().authenticated()
+			)
+			.sessionManagement(management ->
+				management.sessionCreationPolicy(
+					SessionCreationPolicy.STATELESS
+				)
+			)
+			.addFilterBefore(
+				jwtAuthFilter,
+				UsernamePasswordAuthenticationFilter.class
+			);
+		return http.build();
+	}
 }
