@@ -1,4 +1,4 @@
-package vnu.uet.AppointmentScheduler.service;
+package vnu.uet.AppointmentScheduler.middleware.auth;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -6,7 +6,6 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import vnu.uet.AppointmentScheduler.config.security.UserDetailsImpl;
 import vnu.uet.AppointmentScheduler.constants.UserRole;
 import vnu.uet.AppointmentScheduler.model.user.User;
 
@@ -58,7 +57,7 @@ public class JwtService {
 		return Keys.hmacShaKeyFor(keyBytes);
 	}
 
-	public boolean validateToken(String jwtToken, UserDetailsImpl userDetails) {
+	public boolean validateToken(String jwtToken, User userDetails) {
 		final UUID id = extractId(jwtToken);
 		return id.equals(userDetails.getId()) && !isTokenExpired(jwtToken);
 	}

@@ -1,4 +1,4 @@
-package vnu.uet.AppointmentScheduler.service;
+package vnu.uet.AppointmentScheduler.middleware.auth;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +16,9 @@ import vnu.uet.AppointmentScheduler.dto.request.RegisterPatientRequestDTO;
 import vnu.uet.AppointmentScheduler.dto.request.RegisterRequestDTO;
 import vnu.uet.AppointmentScheduler.model.user.User;
 import vnu.uet.AppointmentScheduler.repository.user.UserRepository;
+import vnu.uet.AppointmentScheduler.service.DoctorService;
+import vnu.uet.AppointmentScheduler.service.HospitalAdminService;
+import vnu.uet.AppointmentScheduler.service.PatientService;
 
 import java.util.List;
 

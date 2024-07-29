@@ -7,13 +7,13 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import vnu.uet.AppointmentScheduler.config.security.UserDetailsServiceImpl;
+import vnu.uet.AppointmentScheduler.service.BaseUserService;
 
 @Configuration
 @RequiredArgsConstructor
 public class ApplicationConfig {
 
-	private final UserDetailsServiceImpl userDetailServiceImpl;
+	private final BaseUserService baseUserService;
 
 	@Bean
 	public BCryptPasswordEncoder bcryptPasswordEncoder() {
@@ -25,7 +25,7 @@ public class ApplicationConfig {
 													   BCryptPasswordEncoder bCryptPasswordEncoder) throws Exception {
 		AuthenticationManagerBuilder auth = http.getSharedObject(AuthenticationManagerBuilder.class);
 		auth
-			.userDetailsService(userDetailServiceImpl)
+			.userDetailsService(baseUserService)
 			.passwordEncoder(bCryptPasswordEncoder);
 		return auth.build();
 	}

@@ -1,4 +1,4 @@
-package vnu.uet.AppointmentScheduler.config.security;
+package vnu.uet.AppointmentScheduler.middleware.auth;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -13,7 +13,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import vnu.uet.AppointmentScheduler.constants.UserRole;
-import vnu.uet.AppointmentScheduler.service.JwtService;
+import vnu.uet.AppointmentScheduler.model.user.User;
+import vnu.uet.AppointmentScheduler.service.BaseUserService;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -23,7 +24,7 @@ import java.util.UUID;
 public class JwtAuthFilter extends OncePerRequestFilter {
 
 	private final JwtService jwtService;
-	private final UserDetailsServiceImpl userDetailService;
+	private final BaseUserService baseUserService;
 
 	@SuppressWarnings("NullableProblems")
 	@Override
@@ -46,7 +47,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 		// If an email is extracted and there's no authentication set in the SecurityContext
 		if (email != null &&
 			SecurityContextHolder.getContext().getAuthentication() == null) {
-			UserDetailsImpl userDetails = (UserDetailsImpl) userDetailService.loadUserBy(id, email, role);
+			User userDetails = baseUserService.loadUserBy(id, email, role);
 
 			if (jwtService.validateToken(token, userDetails)) {
 				setAuthenticationContext(request, userDetails);

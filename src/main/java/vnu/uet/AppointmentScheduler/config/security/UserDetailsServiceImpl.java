@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import vnu.uet.AppointmentScheduler.constants.UserRole;
+import vnu.uet.AppointmentScheduler.model.user.User;
 import vnu.uet.AppointmentScheduler.repository.user.UserRepository;
 
 import java.util.UUID;
@@ -19,7 +20,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	public UserDetails loadUserBy(UUID id, String email, UserRole userRole) {
 		return userRepository.findByIdAndEmailAndUserRole(id, email, userRole)
 			.map(user ->
-				UserDetailsImpl.builder()
+				User.builder()
 					.email(user.getEmail())
 					.password(user.getPassword())
 					.userRole(user.getUserRole())

@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import vnu.uet.AppointmentScheduler.constants.AssessmentStepStatus;
 import vnu.uet.AppointmentScheduler.model.schedule.Session;
 import vnu.uet.AppointmentScheduler.model.user.Patient;
 
@@ -36,7 +37,7 @@ public class Appointment {
 	private int order;
 
 	@Transient
-	private AssessmentStep.Status status;
+	private AssessmentStepStatus status;
 
 //	@Transient
 //	private

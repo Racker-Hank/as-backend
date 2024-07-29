@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import vnu.uet.AppointmentScheduler.constants.WorkScheduleType;
 import vnu.uet.AppointmentScheduler.model.user.Doctor;
 
 import java.util.ArrayList;
@@ -40,8 +41,8 @@ public class WorkSchedule {
 	@OneToMany(mappedBy = "workSchedule", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Session> sessions = new ArrayList<>();
 
-	public enum WorkScheduleType {
-		DEFAULT,
-		TEMPORARY
-	}
+	//	public enum WorkScheduleType {
+	//		DEFAULT,
+	//		TEMPORARY
+	//	}
 }

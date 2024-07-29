@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import vnu.uet.AppointmentScheduler.constants.RoomType;
 
 import java.util.UUID;
 
@@ -33,8 +34,8 @@ public class Room {
 	@JoinColumn(name = "department_id")
 	private Department department;
 
-	public enum RoomType {
-		SPECIALISED,
-		TESTING
-	}
+	//	public enum RoomType {
+	//		SPECIALISED,
+	//		TESTING
+	//	}
 }
