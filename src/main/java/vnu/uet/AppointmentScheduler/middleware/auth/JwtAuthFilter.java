@@ -8,13 +8,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import vnu.uet.AppointmentScheduler.constants.UserRole;
 import vnu.uet.AppointmentScheduler.model.user.User;
-import vnu.uet.AppointmentScheduler.service.BaseUserService;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -24,7 +22,7 @@ import java.util.UUID;
 public class JwtAuthFilter extends OncePerRequestFilter {
 
 	private final JwtService jwtService;
-	private final BaseUserService baseUserService;
+	private final CustomUserDetailsService userDetailsService;
 
 	@SuppressWarnings("NullableProblems")
 	@Override
@@ -47,7 +45,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 		// If an email is extracted and there's no authentication set in the SecurityContext
 		if (email != null &&
 			SecurityContextHolder.getContext().getAuthentication() == null) {
-			User userDetails = baseUserService.loadUserBy(id, email, role);
+			User userDetails = userDetailsService.getUserBy(id, email, role);
 
 			if (jwtService.validateToken(token, userDetails)) {
 				setAuthenticationContext(request, userDetails);
@@ -69,7 +67,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 		return token;
 	}
 
-	private void setAuthenticationContext(HttpServletRequest request, UserDetails userDetails) {
+	private void setAuthenticationContext(HttpServletRequest request, User userDetails) {
 		UsernamePasswordAuthenticationToken authenticationToken =
 			new UsernamePasswordAuthenticationToken(
 				userDetails,

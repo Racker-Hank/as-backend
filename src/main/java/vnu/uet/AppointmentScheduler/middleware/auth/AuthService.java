@@ -12,13 +12,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import vnu.uet.AppointmentScheduler.constants.UserRole;
 import vnu.uet.AppointmentScheduler.dto.request.RegisterDoctorRequestDTO;
+import vnu.uet.AppointmentScheduler.dto.request.RegisterHospitalAdminRequestDTO;
 import vnu.uet.AppointmentScheduler.dto.request.RegisterPatientRequestDTO;
 import vnu.uet.AppointmentScheduler.dto.request.RegisterRequestDTO;
 import vnu.uet.AppointmentScheduler.model.user.User;
 import vnu.uet.AppointmentScheduler.repository.user.UserRepository;
-import vnu.uet.AppointmentScheduler.service.DoctorService;
-import vnu.uet.AppointmentScheduler.service.HospitalAdminService;
-import vnu.uet.AppointmentScheduler.service.PatientService;
+import vnu.uet.AppointmentScheduler.service.DoctorServiceImpl;
+import vnu.uet.AppointmentScheduler.service.HospitalAdminServiceImpl;
+import vnu.uet.AppointmentScheduler.service.PatientServiceImpl;
 
 import java.util.List;
 
@@ -31,9 +32,9 @@ public class AuthService {
 	private final BCryptPasswordEncoder bcryptPasswordEncoder;
 
 	private final UserRepository userRepository;
-	private final HospitalAdminService hospitalAdminService;
-	private final DoctorService doctorService;
-	private final PatientService patientService;
+	private final HospitalAdminServiceImpl hospitalAdminService;
+	private final DoctorServiceImpl doctorService;
+	private final PatientServiceImpl patientService;
 
 	public String login(UserRole userRole, String email, String password) {
 		try {
@@ -56,7 +57,7 @@ public class AuthService {
 		return jwtService.generateToken(user);
 	}
 
-	public void register(UserRole userRole, RegisterRequestDTO registerDTO) {
+	public User register(UserRole userRole, RegisterRequestDTO registerDTO) {
 		userRepository.findByEmail(registerDTO.getEmail())
 			.ifPresent(user -> {
 				throw new ResponseStatusException(HttpStatus.CONFLICT, "User is already registered");
@@ -65,10 +66,10 @@ public class AuthService {
 		String hashedPassword = bcryptPasswordEncoder.encode(registerDTO.getPassword());
 		registerDTO.setPassword(hashedPassword);
 
-		switch (userRole) {
-			case UserRole.HOSPITAL_ADMIN -> hospitalAdminService.register(registerDTO.getEmail(), hashedPassword);
-			case UserRole.DOCTOR -> doctorService.register((RegisterDoctorRequestDTO) registerDTO);
-			case UserRole.PATIENT -> patientService.register((RegisterPatientRequestDTO) registerDTO);
-		}
+		return switch (userRole) {
+			case UserRole.HOSPITAL_ADMIN -> hospitalAdminService.save((RegisterHospitalAdminRequestDTO) registerDTO);
+			case UserRole.DOCTOR -> doctorService.save((RegisterDoctorRequestDTO) registerDTO);
+			case UserRole.PATIENT -> patientService.save((RegisterPatientRequestDTO) registerDTO);
+		};
 	}
 }

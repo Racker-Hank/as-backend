@@ -1,4 +1,4 @@
-package vnu.uet.AppointmentScheduler.config.security;
+package vnu.uet.AppointmentScheduler.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

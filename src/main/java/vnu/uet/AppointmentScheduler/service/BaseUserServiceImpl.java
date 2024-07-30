@@ -1,55 +1,41 @@
 package vnu.uet.AppointmentScheduler.service;
 
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
-import vnu.uet.AppointmentScheduler.constants.UserRole;
+import vnu.uet.AppointmentScheduler.dto.request.RegisterRequestDTO;
 import vnu.uet.AppointmentScheduler.model.user.User;
-import vnu.uet.AppointmentScheduler.repository.user.UserRepository;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
+@Primary
+@RequiredArgsConstructor
 public class BaseUserServiceImpl implements BaseUserService {
-	private final UserRepository userRepository;
-
-	public BaseUserServiceImpl(UserRepository userRepository) {
-		this.userRepository = userRepository;
-	}
 
 	@Override
-	public User saveUser(User user) {
-		user.setCreatedAt(System.currentTimeMillis());
-		return userRepository.save(user);
-	}
-
-	@Override
-	public List<User> getAllUsers() {
+	public List<User> getAll() {
 		return List.of();
 	}
 
 	@Override
-	public User loadUserById(UUID id) {
+	public User getUserById(UUID id) {
 		return null;
 	}
 
 	@Override
-	public User loadUserBy(UUID id, String email, UserRole userRole) {
-		return userRepository.findByIdAndEmailAndUserRole(id, email, userRole).orElseThrow(() -> new UsernameNotFoundException(email));
-	}
-
-	@Override
-	public User updateUser(UUID userId, User user) {
+	public <T extends RegisterRequestDTO> User save(T registerRequestDTO) {
 		return null;
 	}
 
 	@Override
-	public void deleteUser(UUID userId) {
-
+	public User updateOne(UUID userId, User user) {
+		return null;
 	}
 
 	@Override
-	public User loadUserByUsername(String email) throws UsernameNotFoundException {
-		return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(email));
+	public void deleteOne(UUID userId) {
+
 	}
 }

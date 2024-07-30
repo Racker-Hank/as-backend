@@ -1,4 +1,4 @@
-package vnu.uet.AppointmentScheduler.middleware.auth;
+package vnu.uet.AppointmentScheduler.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +12,7 @@ import vnu.uet.AppointmentScheduler.constants.UserRole;
 import vnu.uet.AppointmentScheduler.dto.request.LoginRequestDTO;
 import vnu.uet.AppointmentScheduler.dto.request.RegisterDoctorRequestDTO;
 import vnu.uet.AppointmentScheduler.dto.request.RegisterPatientRequestDTO;
+import vnu.uet.AppointmentScheduler.middleware.auth.AuthService;
 
 import java.security.Principal;
 

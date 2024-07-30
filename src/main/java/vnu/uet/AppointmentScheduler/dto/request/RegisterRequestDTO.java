@@ -2,12 +2,16 @@ package vnu.uet.AppointmentScheduler.dto.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import vnu.uet.AppointmentScheduler.constants.UserRole;
 
 @Getter
 @Setter
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 public class RegisterRequestDTO {
@@ -17,6 +21,9 @@ public class RegisterRequestDTO {
 
 	@NotBlank
 	private String password;
+
+	@NotBlank
+	private String phone;
 
 	@NotBlank
 	private UserRole userRole;

@@ -1,9 +1,8 @@
 package vnu.uet.AppointmentScheduler.service;
 
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import vnu.uet.AppointmentScheduler.constants.UserRole;
+import vnu.uet.AppointmentScheduler.dto.request.RegisterRequestDTO;
 import vnu.uet.AppointmentScheduler.model.user.User;
 
 import java.util.List;
@@ -11,16 +10,14 @@ import java.util.UUID;
 
 @Service
 @Transactional
-public interface BaseUserService extends UserDetailsService {
-	User saveUser(User user);
+public interface BaseUserService {
+	List<User> getAll();
 
-	List<User> getAllUsers();
+	User getUserById(UUID id);
 
-	User loadUserById(UUID id);
+	<T extends RegisterRequestDTO> User save(T registerRequestDTO);
 
-	User updateUser(UUID userId, User user);
+	User updateOne(UUID userId, User user);
 
-	void deleteUser(UUID userId);
-
-	User loadUserBy(UUID id, String email, UserRole userRole);
+	void deleteOne(UUID userId);
 }
