@@ -7,14 +7,15 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import vnu.uet.AppointmentScheduler.constants.UserRole;
 import vnu.uet.AppointmentScheduler.dto.request.LoginRequestDTO;
 import vnu.uet.AppointmentScheduler.dto.request.RegisterDoctorRequestDTO;
 import vnu.uet.AppointmentScheduler.dto.request.RegisterPatientRequestDTO;
 import vnu.uet.AppointmentScheduler.middleware.auth.AuthService;
-
-import java.security.Principal;
 
 @Slf4j
 @RestController
@@ -24,8 +25,10 @@ public class AuthController {
 	private final AuthService authService;
 
 	@PostMapping(value = "/login")
-	public ResponseEntity<String> login(@RequestBody LoginRequestDTO loginRequestDTO,
-										HttpServletResponse response) {
+	public ResponseEntity<String> login(
+		@RequestBody LoginRequestDTO loginRequestDTO,
+		HttpServletResponse response
+	) {
 		String jwtToken = authService.login(
 			loginRequestDTO.getUserRole(),
 			loginRequestDTO.getEmail(),
@@ -53,10 +56,5 @@ public class AuthController {
 	public ResponseEntity<String> registerPatient(@RequestBody RegisterPatientRequestDTO registerRequestDTO) {
 		authService.register(UserRole.PATIENT, registerRequestDTO);
 		return ResponseEntity.status(HttpStatus.CREATED).body("New patient registered successfully");
-	}
-
-	@GetMapping("/test")
-	public ResponseEntity<String> test(Principal principal) {
-		return ResponseEntity.ok(principal.getName());
 	}
 }
