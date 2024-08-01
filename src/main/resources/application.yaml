@@ -6,7 +6,7 @@ spring:
   config:
     import: optional:file:.env[.properties]
   datasource:
-    url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/${MYSQL_DATABASE}?serverTimezone=${SERVER_TIMEZONE}&allowPublicKeyRetrieval=true&useSSL=false
+    url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/${MYSQL_DATABASE}?serverTimezone=${SERVER_TIMEZONE}&allowPublicKeyRetrieval=true&useSSL=false&useUnicode=yes&characterEncoding=UTF-8&characterSetResults=UTF-8
     username: ${MYSQL_USER}
     password: ${MYSQL_PASSWORD}
   jpa:
@@ -15,6 +15,15 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
+        connection:
+          characterEncoding: utf-8
+          CharSet: utf-8
+          useUnicode: true
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
 #  security:
 #    user:
 #      name: ${SECURITY_USER_NAME}

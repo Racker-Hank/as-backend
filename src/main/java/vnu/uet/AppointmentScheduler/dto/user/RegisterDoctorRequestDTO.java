@@ -1,4 +1,4 @@
-package vnu.uet.AppointmentScheduler.dto.request;
+package vnu.uet.AppointmentScheduler.dto.user;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;

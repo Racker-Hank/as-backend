@@ -1,7 +1,6 @@
 package vnu.uet.AppointmentScheduler.model.user;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
@@ -18,7 +17,9 @@ import vnu.uet.AppointmentScheduler.model.hospital.Hospital;
 @AllArgsConstructor
 @NoArgsConstructor
 public class HospitalAdmin extends User {
-	@OneToOne(fetch = FetchType.LAZY)
+	//	@OneToOne
+	//	@OneToOne(fetch = FetchType.EAGER)
+	@OneToOne
 	@JoinColumn(name = "hospital_id")
 	private Hospital hospital;
 }

@@ -1,10 +1,11 @@
-package vnu.uet.AppointmentScheduler.service;
+package vnu.uet.AppointmentScheduler.service.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import vnu.uet.AppointmentScheduler.constants.UserRole;
-import vnu.uet.AppointmentScheduler.dto.request.RegisterDoctorRequestDTO;
-import vnu.uet.AppointmentScheduler.dto.request.RegisterRequestDTO;
+import vnu.uet.AppointmentScheduler.dto.user.RegisterDoctorRequestDTO;
+import vnu.uet.AppointmentScheduler.dto.user.RegisterRequestDTO;
 import vnu.uet.AppointmentScheduler.model.user.Doctor;
 import vnu.uet.AppointmentScheduler.model.user.User;
 import vnu.uet.AppointmentScheduler.repository.user.DoctorRepository;
@@ -14,6 +15,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class DoctorServiceImpl implements DoctorService {
 	private final DoctorRepository doctorRepository;
 

@@ -1,10 +1,11 @@
-package vnu.uet.AppointmentScheduler.service;
+package vnu.uet.AppointmentScheduler.service.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import vnu.uet.AppointmentScheduler.constants.UserRole;
-import vnu.uet.AppointmentScheduler.dto.request.RegisterHospitalAdminRequestDTO;
-import vnu.uet.AppointmentScheduler.dto.request.RegisterRequestDTO;
+import vnu.uet.AppointmentScheduler.dto.user.RegisterHospitalAdminRequestDTO;
+import vnu.uet.AppointmentScheduler.dto.user.RegisterRequestDTO;
 import vnu.uet.AppointmentScheduler.model.user.HospitalAdmin;
 import vnu.uet.AppointmentScheduler.model.user.User;
 import vnu.uet.AppointmentScheduler.repository.user.HospitalAdminRepository;
@@ -14,6 +15,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class HospitalAdminServiceImpl implements HospitalAdminService {
 	private final HospitalAdminRepository hospitalAdminRepository;
 
@@ -23,8 +25,8 @@ public class HospitalAdminServiceImpl implements HospitalAdminService {
 	}
 
 	@Override
-	public User getUserById(UUID id) {
-		return null;
+	public HospitalAdmin getUserById(UUID id) {
+		return hospitalAdminRepository.findById(id).orElseThrow();
 	}
 
 	@Override
@@ -39,6 +41,7 @@ public class HospitalAdminServiceImpl implements HospitalAdminService {
 			.isActive(registerDTO.isActive())
 			.createdAt(System.currentTimeMillis())
 			.phone(registerDTO.getPhone())
+			.hospital(registerDTO.getHospital())
 			.build();
 
 		return hospitalAdminRepository.save(user);

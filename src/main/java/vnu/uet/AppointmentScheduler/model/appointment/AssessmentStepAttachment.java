@@ -20,7 +20,7 @@ public class AssessmentStepAttachment {
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "assessment_step_id")
 	private AssessmentStep assessmentStep;
 

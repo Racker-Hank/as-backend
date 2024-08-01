@@ -11,15 +11,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import vnu.uet.AppointmentScheduler.constants.UserRole;
-import vnu.uet.AppointmentScheduler.dto.request.RegisterDoctorRequestDTO;
-import vnu.uet.AppointmentScheduler.dto.request.RegisterHospitalAdminRequestDTO;
-import vnu.uet.AppointmentScheduler.dto.request.RegisterPatientRequestDTO;
-import vnu.uet.AppointmentScheduler.dto.request.RegisterRequestDTO;
+import vnu.uet.AppointmentScheduler.dto.user.RegisterDoctorRequestDTO;
+import vnu.uet.AppointmentScheduler.dto.user.RegisterHospitalAdminRequestDTO;
+import vnu.uet.AppointmentScheduler.dto.user.RegisterPatientRequestDTO;
+import vnu.uet.AppointmentScheduler.dto.user.RegisterRequestDTO;
 import vnu.uet.AppointmentScheduler.model.user.User;
 import vnu.uet.AppointmentScheduler.repository.user.UserRepository;
-import vnu.uet.AppointmentScheduler.service.DoctorServiceImpl;
-import vnu.uet.AppointmentScheduler.service.HospitalAdminServiceImpl;
-import vnu.uet.AppointmentScheduler.service.PatientServiceImpl;
+import vnu.uet.AppointmentScheduler.service.user.DoctorServiceImpl;
+import vnu.uet.AppointmentScheduler.service.user.HospitalAdminServiceImpl;
+import vnu.uet.AppointmentScheduler.service.user.PatientServiceImpl;
 
 import java.util.List;
 
@@ -65,6 +65,7 @@ public class AuthService {
 
 		String hashedPassword = bcryptPasswordEncoder.encode(registerDTO.getPassword());
 		registerDTO.setPassword(hashedPassword);
+		registerDTO.setActive(true);
 
 		return switch (userRole) {
 			case UserRole.HOSPITAL_ADMIN -> hospitalAdminService.save((RegisterHospitalAdminRequestDTO) registerDTO);

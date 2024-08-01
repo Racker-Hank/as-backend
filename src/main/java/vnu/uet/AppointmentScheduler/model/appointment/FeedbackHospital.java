@@ -20,7 +20,7 @@ public class FeedbackHospital {
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "appointment_id")
 	private Appointment appointment;
 
