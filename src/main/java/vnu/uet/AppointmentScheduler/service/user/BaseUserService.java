@@ -1,15 +1,14 @@
-package vnu.uet.AppointmentScheduler.service;
+package vnu.uet.AppointmentScheduler.service.user;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import vnu.uet.AppointmentScheduler.dto.request.RegisterRequestDTO;
+import vnu.uet.AppointmentScheduler.dto.user.RegisterRequestDTO;
 import vnu.uet.AppointmentScheduler.model.user.User;
 
 import java.util.List;
 import java.util.UUID;
 
 @Service
-@Transactional
+//@Transactional
 public interface BaseUserService {
 	List<User> getAll();
 

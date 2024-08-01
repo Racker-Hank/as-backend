@@ -23,15 +23,15 @@ public class Session {
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "doctor_id")
 	private Doctor doctor;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "work_schedule_id")
 	private WorkSchedule workSchedule;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne
 	@JoinColumn(name = "room_id")
 	private Room room;
 

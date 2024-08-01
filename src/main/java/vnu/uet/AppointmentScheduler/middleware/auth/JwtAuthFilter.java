@@ -22,7 +22,7 @@ import java.util.UUID;
 public class JwtAuthFilter extends OncePerRequestFilter {
 
 	private final JwtService jwtService;
-	private final CustomUserDetailsService userDetailsService;
+	private final CustomUserDetailsService customUserDetailsService;
 
 	@SuppressWarnings("NullableProblems")
 	@Override
@@ -45,7 +45,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 		// If an email is extracted and there's no authentication set in the SecurityContext
 		if (email != null &&
 			SecurityContextHolder.getContext().getAuthentication() == null) {
-			User userDetails = userDetailsService.getUserBy(id, email, role);
+			User userDetails = customUserDetailsService.getUserBy(id, email, role);
 
 			if (jwtService.validateToken(token, userDetails)) {
 				setAuthenticationContext(request, userDetails);

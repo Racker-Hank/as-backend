@@ -21,11 +21,11 @@ public class HospitalImage {
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "hospital")
 	private Hospital hospital;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne
 	@JoinColumn(name = "session_id")
 	private Session session;
 

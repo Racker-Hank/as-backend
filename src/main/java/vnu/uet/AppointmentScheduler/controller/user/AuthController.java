@@ -1,4 +1,4 @@
-package vnu.uet.AppointmentScheduler.controller;
+package vnu.uet.AppointmentScheduler.controller.user;
 
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import vnu.uet.AppointmentScheduler.constants.UserRole;
-import vnu.uet.AppointmentScheduler.dto.request.LoginRequestDTO;
-import vnu.uet.AppointmentScheduler.dto.request.RegisterDoctorRequestDTO;
-import vnu.uet.AppointmentScheduler.dto.request.RegisterPatientRequestDTO;
+import vnu.uet.AppointmentScheduler.dto.user.LoginRequestDTO;
+import vnu.uet.AppointmentScheduler.dto.user.RegisterDoctorRequestDTO;
+import vnu.uet.AppointmentScheduler.dto.user.RegisterPatientRequestDTO;
 import vnu.uet.AppointmentScheduler.middleware.auth.AuthService;
 
 @Slf4j

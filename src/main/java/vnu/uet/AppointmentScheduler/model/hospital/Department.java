@@ -22,7 +22,8 @@ public class Department {
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
+	//	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "hospital_id")
 	private Hospital hospital;
 

@@ -21,12 +21,13 @@ public class ApplicationConfig {
 	}
 
 	@Bean
-	public AuthenticationManager authenticationManager(HttpSecurity http,
-													   BCryptPasswordEncoder bCryptPasswordEncoder) throws Exception {
+	public AuthenticationManager authenticationManager(
+		HttpSecurity http
+	) throws Exception {
 		AuthenticationManagerBuilder auth = http.getSharedObject(AuthenticationManagerBuilder.class);
 		auth
 			.userDetailsService(customUserDetailsService)
-			.passwordEncoder(bCryptPasswordEncoder);
+			.passwordEncoder(bcryptPasswordEncoder());
 		return auth.build();
 	}
 }

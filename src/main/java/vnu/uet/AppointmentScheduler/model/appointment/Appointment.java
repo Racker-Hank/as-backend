@@ -25,11 +25,11 @@ public class Appointment {
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "session_id")
 	private Session session;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne
 	@JoinColumn(name = "patient_id")
 	private Patient patient;
 
@@ -67,7 +67,7 @@ public class Appointment {
 	@Column(name = "updated_at")
 	private Long updatedAt;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne
 	@JoinColumn(name = "appointment_id")
 	private Appointment followupAppointment;
 
