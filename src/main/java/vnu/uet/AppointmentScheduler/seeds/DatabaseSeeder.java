@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import vnu.uet.AppointmentScheduler.constants.UserRole;
+import vnu.uet.AppointmentScheduler.dto.auth.RegisterHospitalAdminRequestDTO;
 import vnu.uet.AppointmentScheduler.dto.hospital.HospitalDTO;
-import vnu.uet.AppointmentScheduler.dto.user.RegisterHospitalAdminRequestDTO;
 import vnu.uet.AppointmentScheduler.middleware.auth.AuthService;
 import vnu.uet.AppointmentScheduler.model.hospital.Hospital;
 import vnu.uet.AppointmentScheduler.model.user.HospitalAdmin;
@@ -29,7 +29,8 @@ public class DatabaseSeeder {
 		return args -> {
 			//			if (!"create-drop".equals(ddlAuto) && !"create".equals(ddlAuto)) return;
 			//			if (!"create-drop".equals(ddlAuto)) return;
-			if (!"update".equals(ddlAuto))
+			//			if (!("update".equals(ddlAuto) || "create-drop".equals(ddlAuto)))
+			if (!("update".equals(ddlAuto)))
 				return;
 
 			Dotenv dotenv = Dotenv.configure().load();

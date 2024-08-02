@@ -33,7 +33,9 @@ public class SecurityConfig {
 					).permitAll()
 					.requestMatchers("/auth/register/doctor")
 					.hasAuthority(UserRole.HOSPITAL_ADMIN.toString())
-					.anyRequest().authenticated()
+					.anyRequest()
+					.permitAll()
+				//					.authenticated()
 			)
 			.sessionManagement(management ->
 				management.sessionCreationPolicy(

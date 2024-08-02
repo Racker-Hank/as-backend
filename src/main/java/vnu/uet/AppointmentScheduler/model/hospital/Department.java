@@ -1,10 +1,7 @@
 package vnu.uet.AppointmentScheduler.model.hospital;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import vnu.uet.AppointmentScheduler.model.user.Doctor;
 
 import java.util.ArrayList;
@@ -16,6 +13,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Department {
 
 	@Id
@@ -27,7 +25,7 @@ public class Department {
 	@JoinColumn(name = "hospital_id")
 	private Hospital hospital;
 
-	@Column(columnDefinition = "VARCHAR(100)", nullable = false, unique = true)
+	@Column(columnDefinition = "NVARCHAR(100)", nullable = false, unique = true)
 	private String name;
 
 	@Column(columnDefinition = "TEXT")

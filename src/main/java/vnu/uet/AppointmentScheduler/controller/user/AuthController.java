@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import vnu.uet.AppointmentScheduler.constants.UserRole;
-import vnu.uet.AppointmentScheduler.dto.user.LoginRequestDTO;
-import vnu.uet.AppointmentScheduler.dto.user.RegisterDoctorRequestDTO;
-import vnu.uet.AppointmentScheduler.dto.user.RegisterPatientRequestDTO;
+import vnu.uet.AppointmentScheduler.dto.auth.LoginRequestDTO;
+import vnu.uet.AppointmentScheduler.dto.auth.RegisterDoctorRequestDTO;
+import vnu.uet.AppointmentScheduler.dto.auth.RegisterPatientRequestDTO;
 import vnu.uet.AppointmentScheduler.middleware.auth.AuthService;
 
 @Slf4j

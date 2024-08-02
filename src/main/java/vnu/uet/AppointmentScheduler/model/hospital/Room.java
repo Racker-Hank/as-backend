@@ -20,7 +20,7 @@ public class Room {
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID id;
 
-	@Column(columnDefinition = "VARCHAR(100)", nullable = false, unique = true)
+	@Column(columnDefinition = "NVARCHAR(100)", nullable = false, unique = true)
 	private String name;
 
 	@Column(columnDefinition = "TEXT")

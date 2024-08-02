@@ -34,7 +34,11 @@ public class Hospital {
 	@Size(min = 10, max = 10)
 	private String phone;
 
-	@OneToMany(mappedBy = "hospital", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "hospital", cascade = CascadeType.ALL, orphanRemoval = true)
 	@ToString.Exclude
 	private List<Department> departments = new ArrayList<>();
+
+	@OneToMany(mappedBy = "hospital", cascade = CascadeType.ALL, orphanRemoval = true)
+	@ToString.Exclude
+	private List<HospitalImage> hospitalImages = new ArrayList<>();
 }

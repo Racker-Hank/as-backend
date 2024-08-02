@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import vnu.uet.AppointmentScheduler.model.schedule.Session;
 
 import java.util.UUID;
 
@@ -22,12 +21,8 @@ public class HospitalImage {
 	private UUID id;
 
 	@ManyToOne
-	@JoinColumn(name = "hospital")
+	@JoinColumn(name = "hospital_id")
 	private Hospital hospital;
-
-	@OneToOne
-	@JoinColumn(name = "session_id")
-	private Session session;
 
 	@Column(columnDefinition = "TEXT", name = "image_url")
 	private String imageUrl;

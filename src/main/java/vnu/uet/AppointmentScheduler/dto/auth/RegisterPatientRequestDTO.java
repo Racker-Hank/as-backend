@@ -1,4 +1,4 @@
-package vnu.uet.AppointmentScheduler.dto.user;
+package vnu.uet.AppointmentScheduler.dto.auth;
 
 import lombok.Getter;
 import lombok.Setter;
