@@ -12,7 +12,6 @@ import vnu.uet.AppointmentScheduler.service.hospital.DepartmentService;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/hospital/{hospital_id}/department")
@@ -26,9 +25,10 @@ public class DepartmentController {
 		@PathVariable("hospital_id") UUID hospitalId
 	) {
 		List<Department> departments = departmentService.fetchAllDepartments(hospitalId);
-		List<DepartmentDTO> departmentDTOs = departments.stream()
+		List<DepartmentDTO> departmentDTOs = departments
+			.stream()
 			.map(DepartmentDTO::convertToDepartmentDTO)
-			.collect(Collectors.toList());
+			.toList();
 
 		return ResponseEntity.ok(departmentDTOs);
 	}
@@ -64,5 +64,16 @@ public class DepartmentController {
 		Department department = departmentService.updateOne(hospitalId, id, departmentDTO);
 
 		return ResponseEntity.ok(DepartmentDTO.convertToDepartmentDTO(department));
+	}
+
+	@DeleteMapping("{id}")
+	@Secured({ UserRoleValues.HOSPITAL_ADMIN })
+	public ResponseEntity<String> deleteDepartment(
+		@PathVariable("hospital_id") UUID hospitalId,
+		@PathVariable UUID id
+	) {
+		departmentService.deleteOne(hospitalId, id);
+
+		return ResponseEntity.ok("Successfully deleted department " + id.toString());
 	}
 }

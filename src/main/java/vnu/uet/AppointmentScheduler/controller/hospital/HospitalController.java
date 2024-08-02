@@ -1,6 +1,5 @@
 package vnu.uet.AppointmentScheduler.controller.hospital;
 
-import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -10,6 +9,7 @@ import vnu.uet.AppointmentScheduler.dto.hospital.HospitalDTO;
 import vnu.uet.AppointmentScheduler.model.hospital.Hospital;
 import vnu.uet.AppointmentScheduler.service.hospital.HospitalService;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -17,13 +17,24 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class HospitalController {
 	private final HospitalService hospitalService;
-	private final EntityManager entityManager;
+	//	private final EntityManager entityManager;
 
+	@GetMapping
+	public ResponseEntity<List<HospitalDTO>> getAllHospitals() {
+		List<Hospital> hospitals = hospitalService.getAllHospitals();
+		List<HospitalDTO> hospitalDTOs = hospitals
+			.stream()
+			.map(HospitalDTO::convertToHospitalDTO)
+			.toList();
+
+		return ResponseEntity.ok(hospitalDTOs);
+	}
 
 	@GetMapping("{id}")
-	public ResponseEntity<HospitalDTO> getHospitalById(@PathVariable UUID id) {
+	public ResponseEntity<HospitalDTO> getHospitalById(
+		@PathVariable UUID id
+	) {
 		Hospital hospital = hospitalService.getHospitalById(id);
-
 
 		return ResponseEntity.ok(HospitalDTO.convertToHospitalDTO(hospital));
 	}

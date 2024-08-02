@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import vnu.uet.AppointmentScheduler.dto.hospital.HospitalDTO;
 import vnu.uet.AppointmentScheduler.model.hospital.Hospital;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -12,8 +13,9 @@ public interface HospitalService {
 
 	Hospital save(HospitalDTO hospitalDTO);
 
+	List<Hospital> getAllHospitals();
+
 	Hospital getHospitalById(UUID hospitalId);
 
 	Hospital updateOne(UUID hospitalId, HospitalDTO hospital);
-
 }
