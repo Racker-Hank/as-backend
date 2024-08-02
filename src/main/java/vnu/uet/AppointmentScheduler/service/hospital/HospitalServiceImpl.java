@@ -8,8 +8,8 @@ import org.springframework.web.server.ResponseStatusException;
 import vnu.uet.AppointmentScheduler.dto.hospital.HospitalDTO;
 import vnu.uet.AppointmentScheduler.model.hospital.Hospital;
 import vnu.uet.AppointmentScheduler.repository.hospital.HospitalRepository;
-import vnu.uet.AppointmentScheduler.service.user.HospitalAdminService;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -17,8 +17,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class HospitalServiceImpl implements HospitalService {
 	private final HospitalRepository hospitalRepository;
-
-	private final HospitalAdminService hospitalAdminService;
 
 	@Override
 	public Hospital save(Hospital hospital) {
@@ -38,6 +36,11 @@ public class HospitalServiceImpl implements HospitalService {
 	}
 
 	@Override
+	public List<Hospital> getAllHospitals() {
+		return hospitalRepository.findAll();
+	}
+
+	@Override
 	public Hospital getHospitalById(UUID hospitalId) {
 		return hospitalRepository.findById(hospitalId)
 			.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Hospital not " +
@@ -46,11 +49,6 @@ public class HospitalServiceImpl implements HospitalService {
 
 	@Override
 	public Hospital updateOne(UUID hospitalId, HospitalDTO newHospital) {
-
-		//		HospitalAdmin hospitalAdmin = (HospitalAdmin) hospitalAdminService.getUserById(user.getId());
-		//
-		//		System.out.println(getHospitalById(hospitalAdmin.getHospital().getId()) );
-
 		Hospital hospital = getHospitalById(hospitalId);
 
 		hospital.setName(newHospital.getName());

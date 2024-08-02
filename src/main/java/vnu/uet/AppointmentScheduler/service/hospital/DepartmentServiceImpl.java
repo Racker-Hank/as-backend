@@ -29,21 +29,29 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 	@Override
 	public Department save(Department department) {
-		return departmentRepository.save(department);
+		try {
+			return departmentRepository.save(department);
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+		}
 	}
 
 	@Override
 	public Department save(UUID hospitalId, DepartmentDTO departmentDTO) {
-		Hospital hospital = hospitalService.getHospitalById(hospitalId);
-		//		departmentDTO.setHospital(hospital);
+		try {
+			Hospital hospital = hospitalService.getHospitalById(hospitalId);
+			//		departmentDTO.setHospital(hospital);
 
-		Department department = Department.builder()
-			.hospital(hospital)
-			.name(departmentDTO.getName())
-			.services(departmentDTO.getServices())
-			.build();
+			Department department = Department.builder()
+				.hospital(hospital)
+				.name(departmentDTO.getName())
+				.services(departmentDTO.getServices())
+				.build();
 
-		return save(department);
+			return save(department);
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+		}
 	}
 
 	@Override
@@ -55,17 +63,32 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 	@Override
 	public Department updateOne(UUID hospitalId, UUID departmentId, DepartmentDTO newDepartment) {
-		Department department = getDepartmentById(hospitalId, departmentId);
+		try {
+			Department department = getDepartmentById(hospitalId, departmentId);
 
-		UUID newHospitalId = newDepartment.getHospitalId() != null ?
-			newDepartment.getHospitalId() : hospitalId;
+			UUID newHospitalId = newDepartment.getHospitalId() != null ?
+				newDepartment.getHospitalId() : hospitalId;
 
-		Hospital hospital = hospitalService.getHospitalById(newHospitalId);
+			Hospital hospital = hospitalService.getHospitalById(newHospitalId);
 
-		department.setName(newDepartment.getName());
-		department.setServices(newDepartment.getServices());
-		department.setHospital(hospital);
+			department.setName(newDepartment.getName());
+			department.setServices(newDepartment.getServices());
+			department.setHospital(hospital);
 
-		return departmentRepository.save(department);
+			return departmentRepository.save(department);
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+		}
+	}
+
+	@Override
+	public void deleteOne(UUID hospitalId, UUID departmentId) {
+		try {
+			Department department = getDepartmentById(hospitalId, departmentId);
+
+			departmentRepository.delete(department);
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+		}
 	}
 }

@@ -18,4 +18,6 @@ public interface DepartmentService {
 	Department getDepartmentById(UUID hospitalId, UUID id);
 
 	Department updateOne(UUID hospitalId, UUID departmentId, DepartmentDTO department);
+
+	void deleteOne(UUID hospitalId, UUID departmentId);
 }
