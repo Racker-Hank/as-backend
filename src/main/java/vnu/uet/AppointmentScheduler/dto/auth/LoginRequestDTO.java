@@ -1,4 +1,4 @@
-package vnu.uet.AppointmentScheduler.dto.user;
+package vnu.uet.AppointmentScheduler.dto.auth;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

@@ -21,19 +21,22 @@ public class HospitalController {
 
 
 	@GetMapping("{id}")
-	public ResponseEntity<Hospital> getHospitalById(@PathVariable UUID id) {
+	public ResponseEntity<HospitalDTO> getHospitalById(@PathVariable UUID id) {
 		Hospital hospital = hospitalService.getHospitalById(id);
 
-		return ResponseEntity.ok(hospital);
+
+		return ResponseEntity.ok(HospitalDTO.convertToHospitalDTO(hospital));
 	}
 
 	@PutMapping("{id}")
 	@Secured({ UserRoleValues.HOSPITAL_ADMIN })
-	public ResponseEntity<Hospital> updateHospital(
+	public ResponseEntity<HospitalDTO> updateHospital(
 		//		@AuthenticationPrincipal User user,
 		@PathVariable UUID id,
 		@RequestBody HospitalDTO hospitalDTO
 	) {
-		return ResponseEntity.ok(hospitalService.updateOne(id, hospitalDTO));
+		Hospital hospital = hospitalService.updateOne(id, hospitalDTO);
+
+		return ResponseEntity.ok(HospitalDTO.convertToHospitalDTO(hospital));
 	}
 }
