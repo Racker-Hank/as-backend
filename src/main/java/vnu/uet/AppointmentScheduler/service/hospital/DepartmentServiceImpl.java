@@ -23,8 +23,8 @@ public class DepartmentServiceImpl implements DepartmentService {
 	private final HospitalService hospitalService;
 
 	@Override
-	public List<Department> getAll(UUID hospitalId) {
-		return departmentRepository.findAll(hospitalId);
+	public List<Department> getAllByHospitalId(UUID hospitalId) {
+		return departmentRepository.findAllByHospitalId(hospitalId);
 	}
 
 	@Override

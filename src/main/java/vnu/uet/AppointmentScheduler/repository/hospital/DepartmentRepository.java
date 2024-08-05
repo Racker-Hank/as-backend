@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public interface DepartmentRepository extends JpaRepository<Department, UUID> {
 	@Query("SELECT d FROM Department d WHERE d.hospital.id = ?1")
-	List<Department> findAll(UUID hospitalId);
+	List<Department> findAllByHospitalId(UUID hospitalId);
 
 	@Query("SELECT d FROM Department d WHERE d.hospital.id = ?1 AND d.id = ?2")
 	Optional<Department> findById(UUID hospitalId, UUID id);
