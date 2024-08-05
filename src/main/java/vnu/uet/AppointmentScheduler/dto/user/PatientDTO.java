@@ -1,6 +1,5 @@
 package vnu.uet.AppointmentScheduler.dto.user;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import vnu.uet.AppointmentScheduler.model.user.Patient;
@@ -12,8 +11,8 @@ import vnu.uet.AppointmentScheduler.model.user.Patient;
 @AllArgsConstructor
 @ToString
 public class PatientDTO extends UserDTO {
-	@JsonInclude(JsonInclude.Include.NON_NULL)
-	private String password;
+	//	@JsonInclude(JsonInclude.Include.NON_NULL)
+	//	private String password;
 
 	public static PatientDTO convertToPatientDTO(Patient patient) {
 		return PatientDTO.builder()
