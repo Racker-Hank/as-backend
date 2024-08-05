@@ -12,8 +12,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import vnu.uet.AppointmentScheduler.constants.Gender;
 import vnu.uet.AppointmentScheduler.constants.UserRole;
 
+import java.time.LocalDate;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,8 +23,8 @@ import java.util.UUID;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-@Inheritance(strategy = InheritanceType.JOINED)
 @ToString
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User implements UserDetails {
 
 	@Id
@@ -66,7 +66,7 @@ public class User implements UserDetails {
 	private Gender gender;
 
 	@Temporal(TemporalType.DATE)
-	private Date dob;
+	private LocalDate dob;
 
 	private String address;
 

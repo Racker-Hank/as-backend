@@ -24,7 +24,7 @@ public class DepartmentController {
 	public ResponseEntity<List<DepartmentDTO>> getAllDepartments(
 		@PathVariable("hospital_id") UUID hospitalId
 	) {
-		List<Department> departments = departmentService.fetchAllDepartments(hospitalId);
+		List<Department> departments = departmentService.getAll(hospitalId);
 		List<DepartmentDTO> departmentDTOs = departments
 			.stream()
 			.map(DepartmentDTO::convertToDepartmentDTO)

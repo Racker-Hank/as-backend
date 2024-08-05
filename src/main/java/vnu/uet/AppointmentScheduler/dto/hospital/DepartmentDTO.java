@@ -1,17 +1,17 @@
 package vnu.uet.AppointmentScheduler.dto.hospital;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import vnu.uet.AppointmentScheduler.model.hospital.Department;
 import vnu.uet.AppointmentScheduler.model.hospital.Hospital;
 
 import java.util.UUID;
 
-@Getter
-@Setter
+@Data
 @Builder
+@RequiredArgsConstructor
+@AllArgsConstructor
+@ToString
 //@JsonInclude(JsonInclude.Include.NON_NULL)
 public class DepartmentDTO {
 

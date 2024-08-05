@@ -1,5 +1,7 @@
 package vnu.uet.AppointmentScheduler.service.user;
 
-public interface DoctorService extends BaseUserService {
+import vnu.uet.AppointmentScheduler.model.user.Doctor;
+
+public interface DoctorService extends BaseUserService<Doctor> {
 
 }
