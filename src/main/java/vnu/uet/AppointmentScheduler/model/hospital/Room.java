@@ -1,10 +1,7 @@
 package vnu.uet.AppointmentScheduler.model.hospital;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import vnu.uet.AppointmentScheduler.constants.RoomType;
 
 import java.util.UUID;
@@ -14,6 +11,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Room {
 
 	@Id

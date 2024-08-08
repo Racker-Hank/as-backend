@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/hospital/{hospital_id}/department")
+@RequestMapping("/department")
 @RequiredArgsConstructor
 public class DepartmentController {
 
@@ -22,9 +22,9 @@ public class DepartmentController {
 
 	@GetMapping
 	public ResponseEntity<List<DepartmentDTO>> getAllDepartments(
-		@PathVariable("hospital_id") UUID hospitalId
+		@RequestParam("hospital_id") UUID hospitalId
 	) {
-		List<Department> departments = departmentService.getAll(hospitalId);
+		List<Department> departments = departmentService.getAllByHospitalId(hospitalId);
 		List<DepartmentDTO> departmentDTOs = departments
 			.stream()
 			.map(DepartmentDTO::convertToDepartmentDTO)
@@ -36,7 +36,8 @@ public class DepartmentController {
 	@GetMapping("{id}")
 	public ResponseEntity<DepartmentDTO> getDepartmentById(
 		@PathVariable UUID id,
-		@PathVariable("hospital_id") UUID hospitalId
+		//		@PathVariable("hospital_id") UUID hospitalId
+		@RequestParam("hospital_id") UUID hospitalId
 	) {
 		Department department = departmentService.getDepartmentById(hospitalId, id);
 
@@ -46,7 +47,8 @@ public class DepartmentController {
 	@PostMapping
 	@Secured({ UserRoleValues.HOSPITAL_ADMIN })
 	public ResponseEntity<DepartmentDTO> createDepartment(
-		@PathVariable("hospital_id") UUID hospitalId,
+		//		@PathVariable("hospital_id") UUID hospitalId,
+		@RequestParam("hospital_id") UUID hospitalId,
 		@RequestBody DepartmentDTO departmentDTO
 	) {
 		Department department = departmentService.save(hospitalId, departmentDTO);
@@ -57,7 +59,8 @@ public class DepartmentController {
 	@PutMapping("{id}")
 	@Secured({ UserRoleValues.HOSPITAL_ADMIN })
 	public ResponseEntity<DepartmentDTO> updateDepartment(
-		@PathVariable("hospital_id") UUID hospitalId,
+		//		@PathVariable("hospital_id") UUID hospitalId,
+		@RequestParam("hospital_id") UUID hospitalId,
 		@PathVariable UUID id,
 		@RequestBody DepartmentDTO departmentDTO
 	) {
@@ -69,7 +72,8 @@ public class DepartmentController {
 	@DeleteMapping("{id}")
 	@Secured({ UserRoleValues.HOSPITAL_ADMIN })
 	public ResponseEntity<String> deleteDepartment(
-		@PathVariable("hospital_id") UUID hospitalId,
+		//		@PathVariable("hospital_id") UUID hospitalId,
+		@RequestParam("hospital_id") UUID hospitalId,
 		@PathVariable UUID id
 	) {
 		departmentService.deleteOne(hospitalId, id);
