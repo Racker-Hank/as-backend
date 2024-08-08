@@ -25,14 +25,18 @@ public class HospitalServiceImpl implements HospitalService {
 
 	@Override
 	public Hospital save(HospitalDTO hospitalDTO) {
-		Hospital hospital = Hospital.builder()
-			.name(hospitalDTO.getName())
-			.description(hospitalDTO.getDescription())
-			.address(hospitalDTO.getAddress())
-			.phone(hospitalDTO.getPhone())
-			.build();
+		try {
+			Hospital hospital = Hospital.builder()
+				.name(hospitalDTO.getName())
+				.description(hospitalDTO.getDescription())
+				.address(hospitalDTO.getAddress())
+				.phone(hospitalDTO.getPhone())
+				.build();
 
-		return save(hospital);
+			return save(hospital);
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+		}
 	}
 
 	@Override
@@ -49,13 +53,17 @@ public class HospitalServiceImpl implements HospitalService {
 
 	@Override
 	public Hospital updateOne(UUID hospitalId, HospitalDTO newHospital) {
-		Hospital hospital = getHospitalById(hospitalId);
+		try {
+			Hospital hospital = getHospitalById(hospitalId);
 
-		hospital.setName(newHospital.getName());
-		hospital.setDescription(newHospital.getDescription());
-		hospital.setPhone(newHospital.getPhone());
-		hospital.setAddress(newHospital.getAddress());
+			hospital.setName(newHospital.getName());
+			hospital.setDescription(newHospital.getDescription());
+			hospital.setPhone(newHospital.getPhone());
+			hospital.setAddress(newHospital.getAddress());
 
-		return hospitalRepository.save(hospital);
+			return hospitalRepository.save(hospital);
+		} catch (Exception e) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
+		}
 	}
 }

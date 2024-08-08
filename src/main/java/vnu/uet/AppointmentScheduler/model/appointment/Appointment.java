@@ -74,7 +74,6 @@ public class Appointment {
 	@Column(name = "followup_appointment_interval")
 	private Long followupAppointmentInterval;
 
-
 	@OneToMany(mappedBy = "appointment", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<FeedbackHospital> feedbackHospitals = new ArrayList<>();
 

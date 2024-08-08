@@ -17,7 +17,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class HospitalController {
 	private final HospitalService hospitalService;
-	//	private final EntityManager entityManager;
 
 	@GetMapping
 	public ResponseEntity<List<HospitalDTO>> getAllHospitals() {
