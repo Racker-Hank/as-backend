@@ -1,10 +1,7 @@
 package vnu.uet.AppointmentScheduler.model.schedule;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import vnu.uet.AppointmentScheduler.constants.WorkScheduleType;
 import vnu.uet.AppointmentScheduler.model.user.Doctor;
 
@@ -18,6 +15,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class WorkSchedule {
 
 	@Id

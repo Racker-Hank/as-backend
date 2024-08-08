@@ -5,10 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import vnu.uet.AppointmentScheduler.model.appointment.Appointment;
 import vnu.uet.AppointmentScheduler.model.hospital.Room;
 import vnu.uet.AppointmentScheduler.model.user.Doctor;
 
 import java.time.DayOfWeek;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -39,9 +42,12 @@ public class Session {
 	@Enumerated(EnumType.ORDINAL)
 	private DayOfWeek dayOfWeek;
 
-	@Column(name = "start_time", updatable = false, nullable = false)
+	@Column(name = "start_time", nullable = false)
 	private Long startTime;
 
 	@Column(name = "end_time", nullable = false)
 	private Long endTime;
+
+	@OneToMany(mappedBy = "session", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Appointment> appointments = new ArrayList<>();
 }

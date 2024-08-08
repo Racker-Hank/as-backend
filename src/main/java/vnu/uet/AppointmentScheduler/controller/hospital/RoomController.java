@@ -61,9 +61,14 @@ public class RoomController {
 		@RequestParam("hospital_id") UUID hospitalId,
 		@RequestParam("department_id") UUID departmentId,
 		@PathVariable UUID id,
-		@RequestBody RoomDTO departmentDTO
+		@RequestBody RoomDTO roomDTO
 	) {
-		Room department = roomService.updateOne(hospitalId, departmentId, id, departmentDTO);
+		Room department = roomService.updateOne(
+			hospitalId,
+			departmentId,
+			id,
+			roomDTO
+		);
 
 		return ResponseEntity.ok(RoomDTO.convertToRoomDTO(department));
 	}
