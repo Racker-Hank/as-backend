@@ -22,7 +22,6 @@ import java.util.UUID;
 @Transactional
 public class PatientServiceImpl implements PatientService {
 	private final PatientRepository patientRepository;
-	private final BaseUserServiceImpl userService;
 	private final BCryptPasswordEncoder bcryptPasswordEncoder;
 
 	@Override
@@ -63,9 +62,8 @@ public class PatientServiceImpl implements PatientService {
 		try {
 			//			Patient patient = (Patient) userService.updateOne(userId, userDTO);
 
-			PatientDTO patientDTO = (PatientDTO) userDTO;
-
 			Patient patient = getUserById(userId);
+			PatientDTO patientDTO = (PatientDTO) userDTO;
 
 			String hashedPassword = bcryptPasswordEncoder.encode(patientDTO.getPassword());
 

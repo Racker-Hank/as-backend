@@ -2,15 +2,19 @@ package vnu.uet.AppointmentScheduler.service.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import vnu.uet.AppointmentScheduler.constants.UserRole;
 import vnu.uet.AppointmentScheduler.dto.auth.RegisterDoctorRequestDTO;
 import vnu.uet.AppointmentScheduler.dto.auth.RegisterRequestDTO;
+import vnu.uet.AppointmentScheduler.dto.user.DoctorDTO;
 import vnu.uet.AppointmentScheduler.dto.user.UserDTO;
+import vnu.uet.AppointmentScheduler.model.hospital.Department;
 import vnu.uet.AppointmentScheduler.model.user.Doctor;
 import vnu.uet.AppointmentScheduler.repository.user.DoctorRepository;
+import vnu.uet.AppointmentScheduler.service.hospital.DepartmentService;
 
 import java.util.List;
 import java.util.UUID;
@@ -20,6 +24,8 @@ import java.util.UUID;
 @Transactional
 public class DoctorServiceImpl implements DoctorService {
 	private final DoctorRepository doctorRepository;
+	private final BCryptPasswordEncoder bcryptPasswordEncoder;
+	private final DepartmentService departmentService;
 
 	@Override
 	public List<Doctor> getAll() {
@@ -29,8 +35,7 @@ public class DoctorServiceImpl implements DoctorService {
 	@Override
 	public Doctor getUserById(UUID id) {
 		return doctorRepository.findById(id)
-			.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Doctor not " +
-				"found"));
+			.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Doctor not found"));
 	}
 
 	@Override
@@ -58,9 +63,32 @@ public class DoctorServiceImpl implements DoctorService {
 	@Override
 	public <T extends UserDTO> Doctor updateOne(UUID userId, T userDTO) {
 		try {
+			DoctorDTO doctorDTO = (DoctorDTO) userDTO;
+
+			String hashedPassword = bcryptPasswordEncoder.encode(doctorDTO.getPassword());
+
+			Department department =
+				departmentService.getDepartmentById(null, doctorDTO.getDepartmentId());
+
 			Doctor doctor = getUserById(userId);
 
-			//		doctor.set
+			doctor.setEmail(doctorDTO.getEmail());
+			doctor.setPassword(hashedPassword);
+			doctor.setPhone(doctorDTO.getPhone());
+			doctor.setUserRole(doctorDTO.getUserRole());
+			doctor.setFirstName(doctorDTO.getFirstName());
+			doctor.setLastName(doctorDTO.getLastName());
+			doctor.setActive(doctorDTO.isActive());
+			doctor.setUpdatedAt(System.currentTimeMillis());
+			doctor.setGender(doctorDTO.getGender());
+			doctor.setDob(doctorDTO.getDob());
+			doctor.setAddress(doctorDTO.getAddress());
+			doctor.setAvatarUrl(doctorDTO.getAvatarUrl());
+			doctor.setDepartment(department);
+			doctor.setDoctorType(doctorDTO.getDoctorType());
+			doctor.setDegree(doctorDTO.getDegree());
+			doctor.setExperience(doctorDTO.getExperience());
+			//			doctor.setWorkSchedules(doctorDTO.getWorkSchedules());
 
 			return doctorRepository.save(doctor);
 		} catch (Exception e) {
@@ -71,7 +99,9 @@ public class DoctorServiceImpl implements DoctorService {
 	@Override
 	public void deleteOne(UUID userId) {
 		try {
-			doctorRepository.deleteById(userId);
+			Doctor doctor = getUserById(userId);
+
+			doctorRepository.delete(doctor);
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}

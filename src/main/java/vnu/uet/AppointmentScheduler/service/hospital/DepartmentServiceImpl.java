@@ -56,9 +56,12 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 	@Override
 	public Department getDepartmentById(UUID hospitalId, UUID id) {
+		if (hospitalId == null)
+			return departmentRepository.findById(id)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Department not found"));
+
 		return departmentRepository.findById(hospitalId, id)
-			.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Department not " +
-				"found"));
+			.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Department not found"));
 	}
 
 	@Override
