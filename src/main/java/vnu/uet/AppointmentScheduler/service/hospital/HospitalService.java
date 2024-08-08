@@ -13,7 +13,7 @@ public interface HospitalService {
 
 	Hospital save(HospitalDTO hospitalDTO);
 
-	List<Hospital> getAllHospitals();
+	List<Hospital> getAll();
 
 	Hospital getHospitalById(UUID hospitalId);
 

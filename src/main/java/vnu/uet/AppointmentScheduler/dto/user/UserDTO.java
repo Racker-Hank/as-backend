@@ -1,20 +1,28 @@
 package vnu.uet.AppointmentScheduler.dto.user;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import vnu.uet.AppointmentScheduler.constants.Gender;
 import vnu.uet.AppointmentScheduler.constants.UserRole;
+import vnu.uet.AppointmentScheduler.model.user.User;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.UUID;
 
-@Getter
-@Setter
+//@Getter
+//@Setter
 @SuperBuilder
+@Data
+@RequiredArgsConstructor
+@AllArgsConstructor
+@ToString
 public class UserDTO {
 	private UUID id;
 
@@ -45,9 +53,26 @@ public class UserDTO {
 
 	private Gender gender;
 
-	private Date dob;
+	@JsonFormat(pattern = "yyyy-MM-dd")
+	private LocalDate dob;
 
 	private String address;
 
 	private String avatarUrl;
+
+	public static UserDTO convertToUserDTO(User user) {
+		return UserDTO.builder()
+			.id(user.getId())
+			.email(user.getEmail())
+			.phone(user.getPhone())
+			.userRole(user.getUserRole())
+			.firstName(user.getFirstName())
+			.lastName(user.getLastName())
+			.isActive(user.isActive())
+			.gender(user.getGender())
+			.dob(user.getDob())
+			.address(user.getAddress())
+			.avatarUrl(user.getAvatarUrl())
+			.build();
+	}
 }

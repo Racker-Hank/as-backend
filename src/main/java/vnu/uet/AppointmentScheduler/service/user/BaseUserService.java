@@ -2,6 +2,7 @@ package vnu.uet.AppointmentScheduler.service.user;
 
 import org.springframework.stereotype.Service;
 import vnu.uet.AppointmentScheduler.dto.auth.RegisterRequestDTO;
+import vnu.uet.AppointmentScheduler.dto.user.UserDTO;
 import vnu.uet.AppointmentScheduler.model.user.User;
 
 import java.util.List;
@@ -9,14 +10,14 @@ import java.util.UUID;
 
 @Service
 //@Transactional
-public interface BaseUserService {
-	List<User> getAll();
+public interface BaseUserService<U extends User> {
+	List<U> getAll();
 
-	User getUserById(UUID id);
+	U getUserById(UUID id);
 
-	<T extends RegisterRequestDTO> User save(T registerRequestDTO);
+	<T extends RegisterRequestDTO> U save(T registerRequestDTO);
 
-	User updateOne(UUID userId, User user);
+	<T extends UserDTO> U updateOne(UUID userId, T userDTO);
 
 	void deleteOne(UUID userId);
 }

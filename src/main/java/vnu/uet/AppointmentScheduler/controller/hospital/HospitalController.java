@@ -21,7 +21,8 @@ public class HospitalController {
 
 	@GetMapping
 	public ResponseEntity<List<HospitalDTO>> getAllHospitals() {
-		List<Hospital> hospitals = hospitalService.getAllHospitals();
+		List<Hospital> hospitals = hospitalService.getAll();
+
 		List<HospitalDTO> hospitalDTOs = hospitals
 			.stream()
 			.map(HospitalDTO::convertToHospitalDTO)

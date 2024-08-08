@@ -36,7 +36,7 @@ public class HospitalServiceImpl implements HospitalService {
 	}
 
 	@Override
-	public List<Hospital> getAllHospitals() {
+	public List<Hospital> getAll() {
 		return hospitalRepository.findAll();
 	}
 

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import vnu.uet.AppointmentScheduler.dto.user.UserDTO;
 import vnu.uet.AppointmentScheduler.model.user.User;
 import vnu.uet.AppointmentScheduler.service.user.BaseUserService;
 
@@ -16,7 +17,7 @@ import java.util.UUID;
 @RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
-	private final BaseUserService baseUserService;
+	private final BaseUserService<User> baseUserService;
 
 	@GetMapping
 	public ResponseEntity<List<User>> getAllUsers() {
@@ -26,9 +27,9 @@ public class UserController {
 	}
 
 	@GetMapping("{id}")
-	public ResponseEntity<User> getUserById(@PathVariable(name = "id") UUID userId) {
+	public ResponseEntity<UserDTO> getUserById(@PathVariable(name = "id") UUID userId) {
 		User user = baseUserService.getUserById(userId);
 
-		return ResponseEntity.ok(user);
+		return ResponseEntity.ok(UserDTO.convertToUserDTO(user));
 	}
 }
