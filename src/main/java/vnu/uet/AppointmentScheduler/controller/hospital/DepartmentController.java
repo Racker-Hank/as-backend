@@ -39,7 +39,7 @@ public class DepartmentController {
 		//		@PathVariable("hospital_id") UUID hospitalId
 		@RequestParam("hospital_id") UUID hospitalId
 	) {
-		Department department = departmentService.getDepartmentById(hospitalId, id);
+		Department department = departmentService.getOneById(hospitalId, id);
 
 		return ResponseEntity.ok(DepartmentDTO.convertToDepartmentDTO(department));
 	}

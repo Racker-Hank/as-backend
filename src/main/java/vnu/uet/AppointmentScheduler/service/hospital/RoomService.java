@@ -11,7 +11,7 @@ import java.util.UUID;
 public interface RoomService {
 	List<Room> getAllByDepartmentId(UUID departmentId);
 
-	Room getRoomById(UUID departmentId, UUID id);
+	Room getOneById(UUID departmentId, UUID id);
 
 	Room save(Room department);
 

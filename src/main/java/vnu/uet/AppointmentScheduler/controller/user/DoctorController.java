@@ -39,7 +39,7 @@ public class DoctorController {
 	public ResponseEntity<DoctorDTO> getDoctorById(
 		@PathVariable UUID id
 	) {
-		Doctor doctor = doctorService.getUserById(id);
+		Doctor doctor = doctorService.getOneById(id);
 
 		return ResponseEntity.ok(DoctorDTO.convertToDoctorDTO(doctor));
 	}

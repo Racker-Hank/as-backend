@@ -14,7 +14,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @SuperBuilder
-@RequiredArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
 @ToString
 public class DoctorDTO extends UserDTO {

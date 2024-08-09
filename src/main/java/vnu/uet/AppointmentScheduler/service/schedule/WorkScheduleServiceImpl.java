@@ -29,7 +29,7 @@ public class WorkScheduleServiceImpl implements WorkScheduleService {
 	@Override
 	public WorkSchedule save(UUID doctorId, WorkScheduleDTO scheduleDTO) {
 		try {
-			Doctor doctor = doctorService.getUserById(scheduleDTO.getDoctorId());
+			Doctor doctor = doctorService.getOneById(scheduleDTO.getDoctorId());
 
 			WorkSchedule schedule = WorkSchedule.builder()
 				.doctor(doctor)
@@ -56,7 +56,7 @@ public class WorkScheduleServiceImpl implements WorkScheduleService {
 	}
 
 	@Override
-	public WorkSchedule getWorkScheduleById(UUID doctorId, UUID scheduleId) {
+	public WorkSchedule getOneById(UUID doctorId, UUID scheduleId) {
 		return scheduleRepository.findById(scheduleId)
 			.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "WorkSchedule not found"));
 	}
@@ -64,9 +64,9 @@ public class WorkScheduleServiceImpl implements WorkScheduleService {
 	@Override
 	public WorkSchedule updateOne(UUID doctorId, UUID scheduleId, WorkScheduleDTO newSchedule) {
 		try {
-			Doctor doctor = doctorService.getUserById(newSchedule.getDoctorId());
+			Doctor doctor = doctorService.getOneById(newSchedule.getDoctorId());
 
-			WorkSchedule schedule = getWorkScheduleById(doctorId, scheduleId);
+			WorkSchedule schedule = getOneById(doctorId, scheduleId);
 
 			schedule.setWorkScheduleType(newSchedule.getWorkScheduleType());
 			schedule.setDoctor(doctor);
@@ -83,7 +83,7 @@ public class WorkScheduleServiceImpl implements WorkScheduleService {
 	@Override
 	public void deleteOne(UUID doctorId, UUID scheduleId) {
 		try {
-			WorkSchedule workSchedule = getWorkScheduleById(doctorId, scheduleId);
+			WorkSchedule workSchedule = getOneById(doctorId, scheduleId);
 
 			scheduleRepository.delete(workSchedule);
 		} catch (Exception e) {

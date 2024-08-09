@@ -39,7 +39,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 	@Override
 	public Department save(UUID hospitalId, DepartmentDTO departmentDTO) {
 		try {
-			Hospital hospital = hospitalService.getHospitalById(hospitalId);
+			Hospital hospital = hospitalService.getOneById(hospitalId);
 			//		departmentDTO.setHospital(hospital);
 
 			Department department = Department.builder()
@@ -55,7 +55,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 	}
 
 	@Override
-	public Department getDepartmentById(UUID hospitalId, UUID id) {
+	public Department getOneById(UUID hospitalId, UUID id) {
 		if (hospitalId == null)
 			return departmentRepository.findById(id)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Department not found"));
@@ -67,12 +67,12 @@ public class DepartmentServiceImpl implements DepartmentService {
 	@Override
 	public Department updateOne(UUID hospitalId, UUID departmentId, DepartmentDTO newDepartment) {
 		try {
-			Department department = getDepartmentById(hospitalId, departmentId);
+			Department department = getOneById(hospitalId, departmentId);
 
 			UUID newHospitalId = newDepartment.getHospitalId() != null ?
 				newDepartment.getHospitalId() : hospitalId;
 
-			Hospital hospital = hospitalService.getHospitalById(newHospitalId);
+			Hospital hospital = hospitalService.getOneById(newHospitalId);
 
 			department.setName(newDepartment.getName());
 			department.setServices(newDepartment.getServices());
@@ -87,7 +87,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 	@Override
 	public void deleteOne(UUID hospitalId, UUID departmentId) {
 		try {
-			Department department = getDepartmentById(hospitalId, departmentId);
+			Department department = getOneById(hospitalId, departmentId);
 
 			departmentRepository.delete(department);
 		} catch (Exception e) {

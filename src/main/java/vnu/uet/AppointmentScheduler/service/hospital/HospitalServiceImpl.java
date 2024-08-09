@@ -45,7 +45,7 @@ public class HospitalServiceImpl implements HospitalService {
 	}
 
 	@Override
-	public Hospital getHospitalById(UUID hospitalId) {
+	public Hospital getOneById(UUID hospitalId) {
 		return hospitalRepository.findById(hospitalId)
 			.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Hospital not " +
 				"found"));
@@ -54,7 +54,7 @@ public class HospitalServiceImpl implements HospitalService {
 	@Override
 	public Hospital updateOne(UUID hospitalId, HospitalDTO newHospital) {
 		try {
-			Hospital hospital = getHospitalById(hospitalId);
+			Hospital hospital = getOneById(hospitalId);
 
 			hospital.setName(newHospital.getName());
 			hospital.setDescription(newHospital.getDescription());

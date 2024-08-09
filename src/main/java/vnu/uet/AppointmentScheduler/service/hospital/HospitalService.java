@@ -15,7 +15,7 @@ public interface HospitalService {
 
 	List<Hospital> getAll();
 
-	Hospital getHospitalById(UUID hospitalId);
+	Hospital getOneById(UUID hospitalId);
 
 	Hospital updateOne(UUID hospitalId, HospitalDTO hospital);
 }

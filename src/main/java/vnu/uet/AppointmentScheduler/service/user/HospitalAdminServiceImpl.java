@@ -27,7 +27,7 @@ public class HospitalAdminServiceImpl implements HospitalAdminService {
 	}
 
 	@Override
-	public HospitalAdmin getUserById(UUID id) {
+	public HospitalAdmin getOneById(UUID id) {
 		return hospitalAdminRepository.findById(id)
 			.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Hospital admin not found"));
 	}
@@ -57,7 +57,7 @@ public class HospitalAdminServiceImpl implements HospitalAdminService {
 	@Override
 	public <T extends UserDTO> HospitalAdmin updateOne(UUID userId, T userDTO) {
 		try {
-			HospitalAdmin hospitalAdmin = getUserById(userId);
+			HospitalAdmin hospitalAdmin = getOneById(userId);
 
 			//		doctor.set
 

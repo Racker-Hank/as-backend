@@ -15,7 +15,7 @@ public interface DepartmentService {
 
 	Department save(UUID hospitalId, DepartmentDTO departmentDTO);
 
-	Department getDepartmentById(UUID hospitalId, UUID id);
+	Department getOneById(UUID hospitalId, UUID id);
 
 	Department updateOne(UUID hospitalId, UUID departmentId, DepartmentDTO department);
 

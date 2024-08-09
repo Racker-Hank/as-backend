@@ -33,7 +33,7 @@ public class DoctorServiceImpl implements DoctorService {
 	}
 
 	@Override
-	public Doctor getUserById(UUID id) {
+	public Doctor getOneById(UUID id) {
 		return doctorRepository.findById(id)
 			.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Doctor not found"));
 	}
@@ -68,9 +68,9 @@ public class DoctorServiceImpl implements DoctorService {
 			String hashedPassword = bcryptPasswordEncoder.encode(doctorDTO.getPassword());
 
 			Department department =
-				departmentService.getDepartmentById(null, doctorDTO.getDepartmentId());
+				departmentService.getOneById(null, doctorDTO.getDepartmentId());
 
-			Doctor doctor = getUserById(userId);
+			Doctor doctor = getOneById(userId);
 
 			doctor.setEmail(doctorDTO.getEmail());
 			doctor.setPassword(hashedPassword);
@@ -99,7 +99,7 @@ public class DoctorServiceImpl implements DoctorService {
 	@Override
 	public void deleteOne(UUID userId) {
 		try {
-			Doctor doctor = getUserById(userId);
+			Doctor doctor = getOneById(userId);
 
 			doctorRepository.delete(doctor);
 		} catch (Exception e) {

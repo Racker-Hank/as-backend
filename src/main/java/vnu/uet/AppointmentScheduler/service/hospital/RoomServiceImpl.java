@@ -39,7 +39,7 @@ public class RoomServiceImpl implements RoomService {
 	@Override
 	public Room save(UUID hospitalId, UUID departmentId, RoomDTO roomDTO) {
 		try {
-			Department department = departmentService.getDepartmentById(hospitalId, departmentId);
+			Department department = departmentService.getOneById(hospitalId, departmentId);
 
 			Room room = Room.builder()
 				.department(department)
@@ -56,7 +56,7 @@ public class RoomServiceImpl implements RoomService {
 	}
 
 	@Override
-	public Room getRoomById(UUID departmentId, UUID id) {
+	public Room getOneById(UUID departmentId, UUID id) {
 		return departmentRepository.findById(departmentId, id)
 			.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Room not " +
 				"found"));
@@ -65,12 +65,12 @@ public class RoomServiceImpl implements RoomService {
 	@Override
 	public Room updateOne(UUID hospitalId, UUID departmentId, UUID roomId, RoomDTO newRoom) {
 		try {
-			Room room = getRoomById(departmentId, roomId);
+			Room room = getOneById(departmentId, roomId);
 
 			UUID newDepartmentId = newRoom.getDepartmentId() != null ?
 				newRoom.getDepartmentId() : departmentId;
 
-			Department department = departmentService.getDepartmentById(hospitalId,
+			Department department = departmentService.getOneById(hospitalId,
 				newDepartmentId);
 
 			room.setName(newRoom.getName());
@@ -87,7 +87,7 @@ public class RoomServiceImpl implements RoomService {
 	@Override
 	public void deleteOne(UUID departmentId, UUID roomId) {
 		try {
-			Room room = getRoomById(departmentId, roomId);
+			Room room = getOneById(departmentId, roomId);
 
 			departmentRepository.delete(room);
 		} catch (Exception e) {

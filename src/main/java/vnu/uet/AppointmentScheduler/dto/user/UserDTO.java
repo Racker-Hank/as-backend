@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import vnu.uet.AppointmentScheduler.constants.Gender;
@@ -20,8 +20,9 @@ import java.util.UUID;
 //@Setter
 @SuperBuilder
 @Data
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
 public class UserDTO {
 	private UUID id;

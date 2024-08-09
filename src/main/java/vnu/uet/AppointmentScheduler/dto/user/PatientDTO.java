@@ -1,14 +1,15 @@
 package vnu.uet.AppointmentScheduler.dto.user;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import vnu.uet.AppointmentScheduler.model.user.Patient;
 
-@Getter
-@Setter
+//@Data
 @SuperBuilder
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 @AllArgsConstructor
+//@NoArgsConstructor
 @ToString
 public class PatientDTO extends UserDTO {
 	//	@JsonInclude(JsonInclude.Include.NON_NULL)

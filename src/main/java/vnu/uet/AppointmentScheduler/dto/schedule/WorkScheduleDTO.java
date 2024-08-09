@@ -12,9 +12,10 @@ import vnu.uet.AppointmentScheduler.model.user.Doctor;
 import java.util.List;
 import java.util.UUID;
 
+
 @Data
 @Builder
-@RequiredArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
 @ToString
 @JsonInclude(JsonInclude.Include.NON_NULL)

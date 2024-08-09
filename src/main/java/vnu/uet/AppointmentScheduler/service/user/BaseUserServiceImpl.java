@@ -25,7 +25,7 @@ public class BaseUserServiceImpl implements BaseUserService<User> {
 	}
 
 	@Override
-	public User getUserById(UUID id) {
+	public User getOneById(UUID id) {
 		return null;
 	}
 
