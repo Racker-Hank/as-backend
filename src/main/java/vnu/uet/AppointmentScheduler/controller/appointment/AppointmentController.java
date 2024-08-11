@@ -48,7 +48,10 @@ public class AppointmentController {
 	@GetMapping("{id}")
 	public ResponseEntity<AppointmentDTO> getAppointmentById(
 		@PathVariable UUID id,
-		@RequestParam("patient_id") UUID patientId
+		@RequestParam(
+			value = "patient_id",
+			required = false
+		) UUID patientId
 	) {
 		Appointment appointment = appointmentService.getOneById(patientId, id);
 

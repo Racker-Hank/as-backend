@@ -31,7 +31,7 @@ public class Appointment {
 	private Patient patient;
 
 	@Transient
-	private int order;
+	private Integer order;
 
 	@Transient
 	private AssessmentStepStatus status;

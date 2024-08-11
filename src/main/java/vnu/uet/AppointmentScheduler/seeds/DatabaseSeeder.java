@@ -45,9 +45,6 @@ public class DatabaseSeeder {
 		Environment environment,
 		HospitalService hospitalService
 	) {
-		//		System.out.println(dotenv.get("HOSPITAL_DESCRIPTION"));
-		//		System.out.println(dotenv.get("HOSPITAL_ADDRESS"));
-
 		HospitalDTO hospitalDTO = HospitalDTO.builder()
 			.name(dotenv.get("HOSPITAL_NAME"))
 			.description(dotenv.get("HOSPITAL_DESCRIPTION"))

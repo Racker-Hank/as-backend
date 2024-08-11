@@ -39,18 +39,25 @@ public class AppointmentServiceImpl implements AppointmentService {
 		try {
 			Patient patient = patientService.getOneById(patientId);
 
-			Appointment followupAppointment = appointmentDTO.getFollowupAppointmentId() != null ?
-				getOneById(patientId, appointmentDTO.getFollowupAppointmentId()) :
-				null;
+			//			Appointment followupAppointment = appointmentDTO.getFollowupAppointmentId() != null ?
+			//				getOneById(patientId, appointmentDTO.getFollowupAppointmentId()) :
+			//				null;
 
 			Appointment appointment = Appointment.builder()
 				.patient(patient)
 				.actualStartTime(appointmentDTO.getActualStartTime())
 				.actualEndTime(appointmentDTO.getActualEndTime())
-				.followupAppointment(followupAppointment)
-				.followupAppointmentInterval(appointmentDTO.getFollowupAppointmentInterval())
+				//				.followupAppointment(followupAppointment)
+				//				.followupAppointmentInterval(appointmentDTO.getFollowupAppointmentInterval())
 				.createdAt(System.currentTimeMillis())
 				.build();
+
+			if (appointmentDTO.getFollowupAppointmentId() != null) {
+				Appointment followupAppointment = getOneById(patientId,
+					appointmentDTO.getFollowupAppointmentId());
+				appointment.setFollowupAppointment(followupAppointment);
+				appointment.setFollowupAppointmentInterval(followupAppointment.getFollowupAppointmentInterval());
+			}
 
 			return save(appointment);
 		} catch (Exception e) {
@@ -70,10 +77,11 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 	@Override
 	public List<Appointment> getAllByStatus(AssessmentStepStatus status) {
-		return appointmentRepository.findAllByStatus(status);
+		//		return appointmentRepository.findAllByStatus(status);
+		return List.of();
 	}
 
-	private AssessmentStepStatus getAppointmentStatus(Appointment appointment) {
+	private Appointment setAppointmentStatusAnsOrder(Appointment appointment) {
 		List<AssessmentStep> assessmentSteps = appointment.getAssessmentSteps();
 
 		if (assessmentSteps != null && !assessmentSteps.isEmpty()) {
@@ -87,7 +95,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 			//			}
 
 			for (int i = 0; i < assessmentSteps.size(); i++) {
-				AssessmentStepStatus status = assessmentSteps.get(i).getStatus();
+				AssessmentStep assessmentStep = assessmentSteps.get(i);
+				AssessmentStepStatus status = assessmentStep.getStatus();
+				Integer order = assessmentStep.getOrderInQueue();
 				//				if (status == AssessmentStepStatus.CANCELLED)
 				//					continue;
 
@@ -96,24 +106,36 @@ public class AppointmentServiceImpl implements AppointmentService {
 					continue;
 				}
 
-				if (status != AssessmentStepStatus.COMPLETED)
-					return status;
+				if (status != AssessmentStepStatus.COMPLETED) {
+					appointment.setStatus(status);
+					appointment.setOrder(order);
+				}
+				return appointment;
 			}
 
-			return AssessmentStepStatus.COMPLETED;
+			appointment.setStatus(AssessmentStepStatus.COMPLETED);
+			appointment.setOrder(null);
+			//			return ;
 		}
+		appointment.setStatus(AssessmentStepStatus.COMPLETED);
+		appointment.setOrder(1000);
 
-		return null;
+		return appointment;
 	}
 
 	@Override
 	public Appointment getOneById(UUID patientId, UUID id) {
-		if (patientId == null)
-			return appointmentRepository.findById(id)
+		Appointment appointment;
+		if (patientId == null) {
+			appointment = appointmentRepository.findById(id)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Appointment not found"));
+		} else {
+			appointment = appointmentRepository.findById(patientId, id)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Appointment not found"));
+		}
 
-		return appointmentRepository.findById(patientId, id)
-			.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Appointment not found"));
+		appointment = setAppointmentStatusAnsOrder(appointment);
+		return appointment;
 	}
 
 	@Override
@@ -125,15 +147,22 @@ public class AppointmentServiceImpl implements AppointmentService {
 		try {
 			Appointment appointment = getOneById(patientId, appointmentId);
 
-			Appointment followupAppointment = newAppointment.getFollowupAppointmentId() != null ?
-				getOneById(patientId, newAppointment.getFollowupAppointmentId()) :
-				null;
+			//			Appointment followupAppointment = newAppointment.getFollowupAppointmentId() != null ?
+			//				getOneById(patientId, newAppointment.getFollowupAppointmentId()) :
+			//				null;
 
 			appointment.setActualStartTime(newAppointment.getActualStartTime());
 			appointment.setActualEndTime(newAppointment.getActualEndTime());
-			appointment.setFollowupAppointment(followupAppointment);
-			appointment.setFollowupAppointmentInterval(newAppointment.getFollowupAppointmentInterval());
+			//			appointment.setFollowupAppointment(followupAppointment);
+			//			appointment.setFollowupAppointmentInterval(newAppointment.getFollowupAppointmentInterval());
 			appointment.setUpdatedAt(System.currentTimeMillis());
+
+			if (newAppointment.getFollowupAppointmentId() != null) {
+				Appointment followupAppointment = getOneById(patientId,
+					newAppointment.getFollowupAppointmentId());
+				appointment.setFollowupAppointment(followupAppointment);
+				appointment.setFollowupAppointmentInterval(followupAppointment.getFollowupAppointmentInterval());
+			}
 
 			appointment = save(appointment);
 

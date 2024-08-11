@@ -38,7 +38,7 @@ public class AssessmentStep {
 	private Session session;
 
 	@Column(name = "order_in_queue", nullable = false)
-	private int orderInQueue;
+	private Integer orderInQueue;
 
 	@Column(name = "status", nullable = false)
 	@Enumerated(EnumType.ORDINAL)

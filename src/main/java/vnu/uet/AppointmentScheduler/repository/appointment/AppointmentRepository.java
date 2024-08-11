@@ -2,7 +2,6 @@ package vnu.uet.AppointmentScheduler.repository.appointment;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import vnu.uet.AppointmentScheduler.constants.AssessmentStepStatus;
 import vnu.uet.AppointmentScheduler.model.appointment.Appointment;
 
 import java.util.List;
@@ -14,7 +13,7 @@ public interface AppointmentRepository extends JpaRepository<Appointment, UUID> 
 	List<Appointment> findAllByPatientId(UUID patientId);
 
 	//	@Query("SELECT a FROM Appointment a WHERE a.status = ?1")
-	List<Appointment> findAllByStatus(AssessmentStepStatus status);
+	//	List<Appointment> findAllByStatus(AssessmentStepStatus status);
 
 	@Query("SELECT a FROM Appointment a WHERE a.patient.id = ?1 AND a.id = ?2")
 	Optional<Appointment> findById(UUID patientId, UUID id);
