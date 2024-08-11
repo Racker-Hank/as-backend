@@ -74,7 +74,7 @@ public class WorkScheduleServiceImpl implements WorkScheduleService {
 
 			// TODO: update sessions
 
-			return scheduleRepository.save(schedule);
+			return save(schedule);
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}

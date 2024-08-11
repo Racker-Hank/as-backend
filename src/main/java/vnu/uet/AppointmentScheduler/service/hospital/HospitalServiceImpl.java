@@ -61,7 +61,7 @@ public class HospitalServiceImpl implements HospitalService {
 			hospital.setPhone(newHospital.getPhone());
 			hospital.setAddress(newHospital.getAddress());
 
-			return hospitalRepository.save(hospital);
+			return save(hospital);
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}

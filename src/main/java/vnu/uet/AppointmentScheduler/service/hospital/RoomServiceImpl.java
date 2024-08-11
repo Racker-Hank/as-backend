@@ -78,7 +78,7 @@ public class RoomServiceImpl implements RoomService {
 			room.setRoomType(newRoom.getRoomType());
 			room.setDepartment(department);
 
-			return departmentRepository.save(room);
+			return save(room);
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}

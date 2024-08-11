@@ -29,7 +29,11 @@ public class AssessmentStep {
 	@JoinColumn(name = "appointment_id")
 	private Appointment appointment;
 
-	@OneToOne
+	//	@OneToOne
+	//	@JoinColumn(name = "session_id")
+	//	private Session session;
+
+	@ManyToOne
 	@JoinColumn(name = "session_id")
 	private Session session;
 

@@ -78,7 +78,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 			department.setServices(newDepartment.getServices());
 			department.setHospital(hospital);
 
-			return departmentRepository.save(department);
+			return save(department);
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
