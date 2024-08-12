@@ -32,7 +32,7 @@ public class WorkScheduleController {
 		return ResponseEntity.ok(doctorDTOs);
 	}
 
-	@GetMapping("doctor")
+	@GetMapping("fetch-by-doctor")
 	public ResponseEntity<List<WorkScheduleDTO>> getAllWorkSchedulesByDoctorId(
 		@RequestParam("doctor_id") UUID doctorId
 	) {
