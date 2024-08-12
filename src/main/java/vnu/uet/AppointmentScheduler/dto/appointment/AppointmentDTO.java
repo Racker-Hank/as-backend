@@ -25,7 +25,8 @@ public class AppointmentDTO {
 	//	@NotBlank
 	private UUID patientId;
 
-	private int order;
+	// order in queue of nearest assessment step
+	private Integer order;
 
 	private AssessmentStepStatus status;
 
@@ -41,23 +42,25 @@ public class AppointmentDTO {
 	private Long followupAppointmentInterval;
 
 	public static AppointmentDTO convertToAppointmentDTO(Appointment appointment) {
-		//		Session session = appointment.getSession();
-
 		Patient patient = appointment.getPatient();
 
-		return AppointmentDTO.builder()
+		AppointmentDTO appointmentDTO = AppointmentDTO.builder()
 			.id(appointment.getId())
-			//			.sessionId(session.getId())
-			.patient(PatientDTO.convertToPatientDTO(patient))
+			//			.patient(PatientDTO.convertToPatientDTO(patient))
 			.patientId(patient.getId())
 			.order(appointment.getOrder())
 			.status(appointment.getStatus())
 			.actualStartTime(appointment.getActualStartTime())
 			.actualEndTime(appointment.getActualEndTime())
 			.estimatedStartTime(appointment.getEstimatedStartTime())
-			//			.followupAppointment(convertToAppointmentDTO(appointment.getFollowupAppointment()))
-			.followupAppointmentId(appointment.getFollowupAppointment().getId())
-			.followupAppointmentInterval(appointment.getFollowupAppointmentInterval())
 			.build();
+
+		if (appointment.getFollowupAppointment() != null) {
+			Appointment followupAppointment = appointment.getFollowupAppointment();
+			appointmentDTO.setFollowupAppointmentId(followupAppointment.getId());
+			appointmentDTO.setFollowupAppointmentInterval(followupAppointment.getFollowupAppointmentInterval());
+		}
+
+		return appointmentDTO;
 	}
 }

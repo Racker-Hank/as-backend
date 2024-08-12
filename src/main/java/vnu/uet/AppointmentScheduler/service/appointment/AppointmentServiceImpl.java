@@ -71,7 +71,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 	}
 
 	@Override
-	public List<Appointment> getALLByPatientId(UUID patientId) {
+	public List<Appointment> getAllByPatientId(UUID patientId) {
 		return appointmentRepository.findAllByPatientId(patientId);
 	}
 

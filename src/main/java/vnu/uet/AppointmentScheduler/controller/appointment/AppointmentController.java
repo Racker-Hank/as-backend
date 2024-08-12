@@ -36,7 +36,7 @@ public class AppointmentController {
 	public ResponseEntity<List<AppointmentDTO>> getAllAppointmentsByPatientId(
 		@RequestParam("patient_id") UUID patientId
 	) {
-		List<Appointment> appointments = appointmentService.getALLByPatientId(patientId);
+		List<Appointment> appointments = appointmentService.getAllByPatientId(patientId);
 		List<AppointmentDTO> appointmentDTOs = appointments
 			.stream()
 			.map(AppointmentDTO::convertToAppointmentDTO)

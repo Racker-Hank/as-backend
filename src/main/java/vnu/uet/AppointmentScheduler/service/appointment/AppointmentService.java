@@ -18,7 +18,7 @@ public interface AppointmentService {
 
 	//	List<Appointment> getAllBySessionId(UUID sessionId);
 	//	List<Appointment> getAllByDoctorId(UUID doctorId);
-	List<Appointment> getALLByPatientId(UUID patientId);
+	List<Appointment> getAllByPatientId(UUID patientId);
 
 	List<Appointment> getAllByStatus(AssessmentStepStatus status);
 
