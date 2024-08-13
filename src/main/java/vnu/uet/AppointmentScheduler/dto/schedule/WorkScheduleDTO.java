@@ -5,11 +5,9 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import vnu.uet.AppointmentScheduler.constants.WorkScheduleType;
 import vnu.uet.AppointmentScheduler.dto.user.DoctorDTO;
-import vnu.uet.AppointmentScheduler.model.schedule.Session;
 import vnu.uet.AppointmentScheduler.model.schedule.WorkSchedule;
 import vnu.uet.AppointmentScheduler.model.user.Doctor;
 
-import java.util.List;
 import java.util.UUID;
 
 
@@ -28,7 +26,7 @@ public class WorkScheduleDTO {
 	//	@NotBlank
 	private UUID doctorId;
 
-	private List<Session> sessions;
+	//	private List<Session> sessions;
 
 	@NotBlank
 	private WorkScheduleType workScheduleType;
@@ -38,7 +36,7 @@ public class WorkScheduleDTO {
 
 		return WorkScheduleDTO.builder()
 			.id(workSchedule.getId())
-			.doctorDTO(DoctorDTO.convertToDoctorDTO(doctor))
+			//			.doctorDTO(DoctorDTO.convertToDoctorDTO(doctor))
 			.doctorId(doctor.getId())
 			.workScheduleType(workSchedule.getWorkScheduleType())
 			//			.sessions(workSchedule.getSessions())

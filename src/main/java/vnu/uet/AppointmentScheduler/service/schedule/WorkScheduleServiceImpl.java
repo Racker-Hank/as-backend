@@ -29,7 +29,7 @@ public class WorkScheduleServiceImpl implements WorkScheduleService {
 	@Override
 	public WorkSchedule save(UUID doctorId, WorkScheduleDTO scheduleDTO) {
 		try {
-			Doctor doctor = doctorService.getOneById(scheduleDTO.getDoctorId());
+			Doctor doctor = doctorService.getOneById(doctorId);
 
 			WorkSchedule schedule = WorkSchedule.builder()
 				.doctor(doctor)

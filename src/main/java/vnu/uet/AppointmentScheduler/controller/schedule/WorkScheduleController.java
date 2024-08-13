@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/work_schedule")
+@RequestMapping("/work-schedule")
 @RequiredArgsConstructor
 public class WorkScheduleController {
 
@@ -59,9 +59,9 @@ public class WorkScheduleController {
 	@Secured({ UserRoleValues.HOSPITAL_ADMIN })
 	public ResponseEntity<WorkScheduleDTO> createWorkSchedule(
 		@RequestParam("doctor_id") UUID doctorId,
-		@RequestBody WorkScheduleDTO doctorDTO
+		@RequestBody WorkScheduleDTO scheduleDTO
 	) {
-		WorkSchedule doctor = workScheduleService.save(doctorId, doctorDTO);
+		WorkSchedule doctor = workScheduleService.save(doctorId, scheduleDTO);
 
 		return new ResponseEntity<>(WorkScheduleDTO.convertToWorkScheduleDTO(doctor),
 			HttpStatus.CREATED);
