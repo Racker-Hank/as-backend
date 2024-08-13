@@ -3,6 +3,7 @@ package vnu.uet.AppointmentScheduler.model.hospital;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import vnu.uet.AppointmentScheduler.model.user.HospitalAdmin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +34,10 @@ public class Hospital {
 	@Column(columnDefinition = "VARCHAR(10)", nullable = false)
 	@Size(min = 10, max = 10)
 	private String phone;
+
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "hospital_admin_id")
+	private HospitalAdmin hospitalAdmin;
 
 	@OneToMany(mappedBy = "hospital", cascade = CascadeType.ALL, orphanRemoval = true)
 	@ToString.Exclude

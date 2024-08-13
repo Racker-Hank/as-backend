@@ -33,7 +33,7 @@ public class DoctorServiceImpl implements DoctorService {
 	}
 
 	@Override
-	public Doctor getUserById(UUID id) {
+	public Doctor getOneById(UUID id) {
 		return doctorRepository.findById(id)
 			.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Doctor not found"));
 	}
@@ -42,6 +42,10 @@ public class DoctorServiceImpl implements DoctorService {
 	public <T extends RegisterRequestDTO> Doctor save(T registerRequestDTO) {
 		try {
 			RegisterDoctorRequestDTO registerDTO = (RegisterDoctorRequestDTO) registerRequestDTO;
+
+			Department department = departmentService.getOneById(null,
+				registerDTO.getDepartmentId());
+
 			Doctor user = Doctor.builder()
 				.email(registerDTO.getEmail())
 				.password(registerDTO.getPassword())
@@ -52,6 +56,7 @@ public class DoctorServiceImpl implements DoctorService {
 				.isActive(registerDTO.isActive())
 				.createdAt(System.currentTimeMillis())
 				.phone(registerDTO.getPhone())
+				.department(department)
 				.build();
 
 			return doctorRepository.save(user);
@@ -68,9 +73,9 @@ public class DoctorServiceImpl implements DoctorService {
 			String hashedPassword = bcryptPasswordEncoder.encode(doctorDTO.getPassword());
 
 			Department department =
-				departmentService.getDepartmentById(null, doctorDTO.getDepartmentId());
+				departmentService.getOneById(null, doctorDTO.getDepartmentId());
 
-			Doctor doctor = getUserById(userId);
+			Doctor doctor = getOneById(userId);
 
 			doctor.setEmail(doctorDTO.getEmail());
 			doctor.setPassword(hashedPassword);
@@ -99,7 +104,7 @@ public class DoctorServiceImpl implements DoctorService {
 	@Override
 	public void deleteOne(UUID userId) {
 		try {
-			Doctor doctor = getUserById(userId);
+			Doctor doctor = getOneById(userId);
 
 			doctorRepository.delete(doctor);
 		} catch (Exception e) {

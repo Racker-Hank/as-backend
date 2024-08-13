@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import vnu.uet.AppointmentScheduler.model.appointment.Appointment;
+import vnu.uet.AppointmentScheduler.model.appointment.AssessmentStep;
 import vnu.uet.AppointmentScheduler.model.hospital.Room;
 import vnu.uet.AppointmentScheduler.model.user.Doctor;
 
@@ -48,6 +48,9 @@ public class Session {
 	@Column(name = "end_time", nullable = false)
 	private Long endTime;
 
+	//	@OneToMany(mappedBy = "session", cascade = CascadeType.ALL, orphanRemoval = true)
+	//	private List<Appointment> appointments = new ArrayList<>();
+
 	@OneToMany(mappedBy = "session", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Appointment> appointments = new ArrayList<>();
+	private List<AssessmentStep> assessmentSteps = new ArrayList<>();
 }

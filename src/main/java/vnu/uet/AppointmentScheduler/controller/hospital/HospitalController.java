@@ -34,7 +34,7 @@ public class HospitalController {
 	public ResponseEntity<HospitalDTO> getHospitalById(
 		@PathVariable UUID id
 	) {
-		Hospital hospital = hospitalService.getHospitalById(id);
+		Hospital hospital = hospitalService.getOneById(id);
 
 		return ResponseEntity.ok(HospitalDTO.convertToHospitalDTO(hospital));
 	}

@@ -10,7 +10,8 @@ import java.util.UUID;
 @Getter
 @Setter
 @SuperBuilder
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
 @ToString
 public class HospitalAdminDTO extends UserDTO {

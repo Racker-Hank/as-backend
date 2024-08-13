@@ -21,7 +21,7 @@ public class DoctorController {
 	private final DoctorService doctorService;
 
 	@GetMapping
-	@Secured(UserRoleValues.HOSPITAL_ADMIN)
+	//	@Secured(UserRoleValues.HOSPITAL_ADMIN)
 	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<List<DoctorDTO>> getAllDoctors(
 	) {
@@ -39,7 +39,7 @@ public class DoctorController {
 	public ResponseEntity<DoctorDTO> getDoctorById(
 		@PathVariable UUID id
 	) {
-		Doctor doctor = doctorService.getUserById(id);
+		Doctor doctor = doctorService.getOneById(id);
 
 		return ResponseEntity.ok(DoctorDTO.convertToDoctorDTO(doctor));
 	}

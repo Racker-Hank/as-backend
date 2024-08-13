@@ -14,11 +14,13 @@ spring:
       ddl-auto: ${DDL_AUTO}
     properties:
       hibernate:
+        format_sql: true
         dialect: org.hibernate.dialect.MySQLDialect
         connection:
           characterEncoding: utf-8
           CharSet: utf-8
           useUnicode: true
+    show-sql: true
   http:
     encoding:
       charset: UTF-8

@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @Data
 @Builder
-@RequiredArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
 @ToString
 //@JsonInclude(JsonInclude.Include.NON_NULL)

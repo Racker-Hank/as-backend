@@ -38,7 +38,7 @@ public class RoomController {
 		@PathVariable UUID id,
 		@RequestParam("department_id") UUID departmentId
 	) {
-		Room department = roomService.getRoomById(departmentId, id);
+		Room department = roomService.getOneById(departmentId, id);
 
 		return ResponseEntity.ok(RoomDTO.convertToRoomDTO(department));
 	}

@@ -30,7 +30,7 @@ public class PatientServiceImpl implements PatientService {
 	}
 
 	@Override
-	public Patient getUserById(UUID id) {
+	public Patient getOneById(UUID id) {
 		return patientRepository.findById(id)
 			.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Patient not found"));
 	}
@@ -62,7 +62,7 @@ public class PatientServiceImpl implements PatientService {
 		try {
 			//			Patient patient = (Patient) userService.updateOne(userId, userDTO);
 
-			Patient patient = getUserById(userId);
+			Patient patient = getOneById(userId);
 			PatientDTO patientDTO = (PatientDTO) userDTO;
 
 			String hashedPassword = bcryptPasswordEncoder.encode(patientDTO.getPassword());
@@ -89,7 +89,7 @@ public class PatientServiceImpl implements PatientService {
 	@Override
 	public void deleteOne(UUID userId) {
 		try {
-			Patient patient = getUserById(userId);
+			Patient patient = getOneById(userId);
 
 			patientRepository.delete(patient);
 		} catch (Exception e) {

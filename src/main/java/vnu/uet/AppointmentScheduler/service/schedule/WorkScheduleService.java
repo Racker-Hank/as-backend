@@ -17,7 +17,7 @@ public interface WorkScheduleService {
 
 	List<WorkSchedule> getAllByDoctorId(UUID doctorId);
 
-	WorkSchedule getWorkScheduleById(UUID doctorId, UUID scheduleId);
+	WorkSchedule getOneById(UUID doctorId, UUID scheduleId);
 
 	WorkSchedule updateOne(UUID doctorId, UUID scheduleId, WorkScheduleDTO newSchedule);
 

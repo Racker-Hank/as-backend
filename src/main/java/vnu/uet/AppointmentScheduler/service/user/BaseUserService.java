@@ -13,7 +13,7 @@ import java.util.UUID;
 public interface BaseUserService<U extends User> {
 	List<U> getAll();
 
-	U getUserById(UUID id);
+	U getOneById(UUID id);
 
 	<T extends RegisterRequestDTO> U save(T registerRequestDTO);
 

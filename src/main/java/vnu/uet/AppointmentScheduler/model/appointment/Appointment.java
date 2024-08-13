@@ -1,12 +1,8 @@
 package vnu.uet.AppointmentScheduler.model.appointment;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import vnu.uet.AppointmentScheduler.constants.AssessmentStepStatus;
-import vnu.uet.AppointmentScheduler.model.schedule.Session;
 import vnu.uet.AppointmentScheduler.model.user.Patient;
 
 import java.util.ArrayList;
@@ -19,22 +15,23 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Appointment {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID id;
 
-	@ManyToOne
-	@JoinColumn(name = "session_id")
-	private Session session;
+	//	@ManyToOne
+	//	@JoinColumn(name = "session_id")
+	//	private Session session;
 
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name = "patient_id")
 	private Patient patient;
 
 	@Transient
-	private int order;
+	private Integer order;
 
 	@Transient
 	private AssessmentStepStatus status;
@@ -68,7 +65,7 @@ public class Appointment {
 	private Long updatedAt;
 
 	@OneToOne
-	@JoinColumn(name = "appointment_id")
+	@JoinColumn(name = "followup_appointment_id")
 	private Appointment followupAppointment;
 
 	@Column(name = "followup_appointment_interval")
