@@ -21,7 +21,7 @@ public class DoctorController {
 	private final DoctorService doctorService;
 
 	@GetMapping
-	@Secured(UserRoleValues.HOSPITAL_ADMIN)
+	//	@Secured(UserRoleValues.HOSPITAL_ADMIN)
 	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<List<DoctorDTO>> getAllDoctors(
 	) {

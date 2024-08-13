@@ -42,6 +42,10 @@ public class DoctorServiceImpl implements DoctorService {
 	public <T extends RegisterRequestDTO> Doctor save(T registerRequestDTO) {
 		try {
 			RegisterDoctorRequestDTO registerDTO = (RegisterDoctorRequestDTO) registerRequestDTO;
+
+			Department department = departmentService.getOneById(null,
+				registerDTO.getDepartmentId());
+
 			Doctor user = Doctor.builder()
 				.email(registerDTO.getEmail())
 				.password(registerDTO.getPassword())
@@ -52,6 +56,7 @@ public class DoctorServiceImpl implements DoctorService {
 				.isActive(registerDTO.isActive())
 				.createdAt(System.currentTimeMillis())
 				.phone(registerDTO.getPhone())
+				.department(department)
 				.build();
 
 			return doctorRepository.save(user);

@@ -17,6 +17,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+//@JsonInclude(JsonInclude.Include.NON_NULL)
 public class DoctorDTO extends UserDTO {
 	//	@JsonIncludeProperties({"id"})
 	private DepartmentDTO departmentDTO;
