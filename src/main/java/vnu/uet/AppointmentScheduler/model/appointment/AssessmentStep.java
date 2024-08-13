@@ -1,10 +1,7 @@
 package vnu.uet.AppointmentScheduler.model.appointment;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import vnu.uet.AppointmentScheduler.constants.AssessmentStepStatus;
 import vnu.uet.AppointmentScheduler.constants.AssessmentType;
 import vnu.uet.AppointmentScheduler.model.schedule.Session;
@@ -19,6 +16,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class AssessmentStep {
 
 	@Id
@@ -68,21 +66,4 @@ public class AssessmentStep {
 
 	@OneToMany(mappedBy = "assessmentStep", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<AssessmentStepAttachment> assessmentStepAttachments = new ArrayList<>();
-
-	//	public enum Status {
-	//		IN_QUEUE,
-	//		READY,
-	//		IN_PROGRESS,
-	//		AWAITING_NEXT_STEPS,
-	//		AWAITING_TEST_RESULTS,
-	//		RE_ENTRY,
-	//		COMPLETED,
-	//		RESCHEDULED,
-	//		CANCELLED
-	//	}
-
-	//	public enum AssessmentType {
-	//		EXAMINATION,
-	//		TEST
-	//	}
 }

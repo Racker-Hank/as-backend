@@ -1,8 +1,11 @@
 package vnu.uet.AppointmentScheduler.dto.appointment;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import vnu.uet.AppointmentScheduler.constants.AssessmentStepStatus;
-import vnu.uet.AppointmentScheduler.dto.user.PatientDTO;
+import vnu.uet.AppointmentScheduler.constants.AssessmentType;
+import vnu.uet.AppointmentScheduler.model.appointment.AssessmentStep;
+import vnu.uet.AppointmentScheduler.model.schedule.Session;
 
 import java.util.UUID;
 
@@ -19,42 +22,43 @@ public class AssessmentStepDTO {
 	//	private SessionDTO session;
 	//	private UUID sessionId;
 
-	private PatientDTO patient;
-	private UUID patientId;
+	private AppointmentDTO appointment;
+	private UUID appointmentId;
 
-	private int order;
+	private Session session;
+	private UUID sessionId;
 
+	@NotBlank
+	private Integer orderInQueue;
+
+	@NotBlank
 	private AssessmentStepStatus status;
+
+	@NotBlank
+	private AssessmentType assessmentType;
 
 	private Long actualStartTime;
 
 	private Long actualEndTime;
+	//	private Long createdAt;
 
-	private Long estimatedStartTime;
 
-	private AssessmentStepDTO followupAppointment;
-	private UUID followupAppointmentId;
+	private String notes;
 
-	private Long followupAppointmentInterval;
+	public static AssessmentStepDTO convertToAssessmentStepDTO(AssessmentStep assessmentStep) {
+		Session session = assessmentStep.getSession();
 
-	//	public static AssessmentStepDTO convertToDepartmentDTO(Appointment appointment) {
-	//		//		Session session = appointment.getSession();
-	//
-	//		Patient patient = appointment.getPatient();
-	//
-	//		return AssessmentStepDTO.builder()
-	//			.id(appointment.getId())
-	//			//			.sessionId(session.getId())
-	//			.patient(PatientDTO.convertToPatientDTO(patient))
-	//			.patientId(patient.getId())
-	//			.order(appointment.getOrder())
-	//			.status(appointment.getStatus())
-	//			.actualStartTime(appointment.getActualStartTime())
-	//			.actualEndTime(appointment.getActualEndTime())
-	//			.estimatedStartTime(appointment.getEstimatedStartTime())
-	////			.followupAppointment(convertToDepartmentDTO(appointment.getFollowupAppointment()))
-	//			.followupAppointmentId(appointment.getFollowupAppointment().getId())
-	//			.followupAppointmentInterval(appointment.getFollowupAppointmentInterval())
-	//			.build();
-	//	}
+		return AssessmentStepDTO.builder()
+			.id(assessmentStep.getId())
+			.appointmentId(assessmentStep.getAppointment().getId())
+			//			.sessionId(session.getId())
+			.orderInQueue(assessmentStep.getOrderInQueue())
+			.status(assessmentStep.getStatus())
+			.assessmentType(assessmentStep.getAssessmentType())
+			.actualStartTime(assessmentStep.getActualStartTime())
+			.actualEndTime(assessmentStep.getActualEndTime())
+			.notes(assessmentStep.getNotes())
+			//			.createdAt(assessmentStep.getCreatedAt())
+			.build();
+	}
 }

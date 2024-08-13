@@ -1,6 +1,7 @@
 package vnu.uet.AppointmentScheduler.service.appointment;
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,12 +19,27 @@ import java.util.UUID;
 
 @Service
 @Transactional
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class AppointmentServiceImpl implements AppointmentService {
 
 	private final AppointmentRepository appointmentRepository;
 
 	private final PatientService patientService;
+
+	//	@Lazy
+	private final AssessmentStepService assessmentStepService;
+
+	@Autowired
+	public AppointmentServiceImpl(
+		AppointmentRepository appointmentRepository,
+		PatientService patientService,
+		@Lazy AssessmentStepService assessmentStepService
+	) {
+		this.appointmentRepository = appointmentRepository;
+		this.patientService = patientService;
+		this.assessmentStepService = assessmentStepService;
+	}
+
 
 	@Override
 	public Appointment save(Appointment appointment) {
@@ -67,12 +83,20 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 	@Override
 	public List<Appointment> getAll() {
-		return appointmentRepository.findAll();
+		return appointmentRepository.findAll()
+			.stream()
+			.map(this::setAppointmentStatusAnsOrder)
+			.toList()
+			;
 	}
 
 	@Override
 	public List<Appointment> getAllByPatientId(UUID patientId) {
-		return appointmentRepository.findAllByPatientId(patientId);
+		return appointmentRepository.findAllByPatientId(patientId)
+			.stream()
+			.map(this::setAppointmentStatusAnsOrder)
+			.toList()
+			;
 	}
 
 	@Override
@@ -82,7 +106,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 	}
 
 	private Appointment setAppointmentStatusAnsOrder(Appointment appointment) {
-		List<AssessmentStep> assessmentSteps = appointment.getAssessmentSteps();
+		//		List<AssessmentStep> assessmentSteps = appointment.getAssessmentSteps();
+		List<AssessmentStep> assessmentSteps =
+			assessmentStepService.getAllByAppointmentId(appointment.getId());
 
 		if (assessmentSteps != null && !assessmentSteps.isEmpty()) {
 			//			for (AssessmentStep assessmentStep : assessmentSteps) {
@@ -101,7 +127,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 				//				if (status == AssessmentStepStatus.CANCELLED)
 				//					continue;
 
-				if (status == AssessmentStepStatus.RESCHEDULED) {
+				if (status == AssessmentStepStatus.RESCHEDULED || status == AssessmentStepStatus.AWAITING_TEST_RESULTS) {
 					//					if (i == assessmentSteps.size() - 1) status
 					continue;
 				}
@@ -109,16 +135,16 @@ public class AppointmentServiceImpl implements AppointmentService {
 				if (status != AssessmentStepStatus.COMPLETED) {
 					appointment.setStatus(status);
 					appointment.setOrder(order);
+					return appointment;
 				}
-				return appointment;
 			}
 
 			appointment.setStatus(AssessmentStepStatus.COMPLETED);
 			appointment.setOrder(null);
 			//			return ;
 		}
-		appointment.setStatus(AssessmentStepStatus.COMPLETED);
-		appointment.setOrder(1000);
+		//		appointment.setStatus(AssessmentStepStatus.COMPLETED);
+		//		appointment.setOrder(1000);
 
 		return appointment;
 	}
