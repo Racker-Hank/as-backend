@@ -33,6 +33,27 @@ public class DepartmentController {
 		return ResponseEntity.ok(departmentDTOs);
 	}
 
+	@GetMapping("fetch-names")
+	public ResponseEntity<List<Object>> getAllDepartmentNames(
+		@RequestParam("hospital_id") UUID hospitalId
+	) {
+		record DepartmentName(
+			UUID id,
+			String name
+		) {}
+
+		List<Department> departments = departmentService.getAllByHospitalId(hospitalId);
+		List<Object> departmentDTOs = departments
+			.stream()
+			.map(department -> (Object) new DepartmentName(
+				department.getId(),
+				department.getName()
+			))
+			.toList();
+
+		return ResponseEntity.ok(departmentDTOs);
+	}
+
 	@GetMapping("{id}")
 	public ResponseEntity<DepartmentDTO> getDepartmentById(
 		@PathVariable UUID id,
