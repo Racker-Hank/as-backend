@@ -57,9 +57,12 @@ public class RoomServiceImpl implements RoomService {
 
 	@Override
 	public Room getOneById(UUID departmentId, UUID id) {
+		if (departmentId == null)
+			return departmentRepository.findById(id)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Room not found"));
+
 		return departmentRepository.findById(departmentId, id)
-			.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Room not " +
-				"found"));
+			.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Room not found"));
 	}
 
 	@Override

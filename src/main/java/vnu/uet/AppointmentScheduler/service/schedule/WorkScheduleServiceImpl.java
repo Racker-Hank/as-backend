@@ -57,6 +57,11 @@ public class WorkScheduleServiceImpl implements WorkScheduleService {
 
 	@Override
 	public WorkSchedule getOneById(UUID doctorId, UUID scheduleId) {
+		if (doctorId == null) {
+			return scheduleRepository.findById(doctorId, scheduleId)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "WorkSchedule not found"));
+		}
+
 		return scheduleRepository.findById(scheduleId)
 			.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "WorkSchedule not found"));
 	}
