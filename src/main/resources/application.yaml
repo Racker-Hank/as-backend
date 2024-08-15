@@ -1,6 +1,10 @@
 server:
   servlet:
     contextPath: ${CONTEXT_PATH}
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
 
 spring:
   config:
@@ -21,11 +25,6 @@ spring:
           CharSet: utf-8
           useUnicode: true
     show-sql: true
-  http:
-    encoding:
-      charset: UTF-8
-      enabled: true
-      force: true
 #  security:
 #    user:
 #      name: ${SECURITY_USER_NAME}

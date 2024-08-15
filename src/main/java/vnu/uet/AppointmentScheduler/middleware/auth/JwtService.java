@@ -20,6 +20,9 @@ public class JwtService {
 	@Value("${JWT_SECRET}")
 	private String secret;
 
+	@Value("${JWT_EXPIRATION}")
+	private Long jwtExpiration;
+
 	public UUID extractId(String jwtToken) {
 		String subject = extractClaim(jwtToken, Claims::getSubject);
 		return UUID.fromString(subject);
@@ -81,7 +84,7 @@ public class JwtService {
 			.claim("role", userRole.toString())
 			.issuedAt(new Date(System.currentTimeMillis()))
 			.expiration(
-				new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)
+				new Date(System.currentTimeMillis() + 1000 * jwtExpiration)
 			)
 			.signWith(getSignKey())
 			.compact();
