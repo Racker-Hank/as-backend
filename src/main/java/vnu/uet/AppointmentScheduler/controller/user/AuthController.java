@@ -9,12 +9,17 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import vnu.uet.AppointmentScheduler.constants.UserRole;
 import vnu.uet.AppointmentScheduler.dto.auth.LoginRequestDTO;
 import vnu.uet.AppointmentScheduler.dto.auth.RegisterDoctorRequestDTO;
 import vnu.uet.AppointmentScheduler.dto.auth.RegisterPatientRequestDTO;
+import vnu.uet.AppointmentScheduler.dto.user.UserDTO;
 import vnu.uet.AppointmentScheduler.middleware.auth.AuthService;
+import vnu.uet.AppointmentScheduler.model.user.User;
 
 @Slf4j
 @RestController
@@ -22,6 +27,7 @@ import vnu.uet.AppointmentScheduler.middleware.auth.AuthService;
 @RequiredArgsConstructor
 public class AuthController {
 	public static final String ACCESS_TOKEN_COOKIE_KEY = "access_token";
+	public static final String ACCESS_TOKEN_COOKIE_PATH = "/api";
 	private final AuthService authService;
 
 	@PostMapping(value = "/login")
@@ -32,18 +38,33 @@ public class AuthController {
 		String jwtToken = authService.login(
 			loginRequestDTO.getUserRole(),
 			loginRequestDTO.getEmail(),
-			loginRequestDTO.getPassword());
+			loginRequestDTO.getPassword()
+		);
 
 		ResponseCookie cookie = ResponseCookie.from(ACCESS_TOKEN_COOKIE_KEY, jwtToken)
 			.httpOnly(true)
 			.secure(false)
-			.path("/api")
+			.path(ACCESS_TOKEN_COOKIE_PATH)
 			.maxAge(7 * 24 * 60 * 60)
 			.build();
 
 		response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
 		return ResponseEntity.ok(jwtToken);
+	}
+
+	@GetMapping("me")
+	@PreAuthorize("isAuthenticated()")
+	public ResponseEntity<UserDTO> getUserInfo(
+		@AuthenticationPrincipal User user
+	) {
+		if (user == null) {
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN, "User is not authenticated");
+		}
+
+		UserDTO userDTO = authService.getUserInfo(user);
+
+		return ResponseEntity.ok(userDTO);
 	}
 
 	@GetMapping("logout")
@@ -57,6 +78,9 @@ public class AuthController {
 				if (ACCESS_TOKEN_COOKIE_KEY.equals(cookie.getName())) {
 					cookie.setValue(null); // Clear the value
 					cookie.setMaxAge(0);   // Set cookie to expire immediately
+					cookie.setPath(ACCESS_TOKEN_COOKIE_PATH);
+					cookie.setHttpOnly(true);
+					cookie.setSecure(false);
 					response.addCookie(cookie);
 					return ResponseEntity.ok("Cookie cleared");
 				}
