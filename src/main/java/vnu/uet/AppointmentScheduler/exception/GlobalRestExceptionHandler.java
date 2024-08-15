@@ -1,5 +1,6 @@
 package vnu.uet.AppointmentScheduler.exception;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -13,6 +14,11 @@ import org.springframework.web.server.ResponseStatusException;
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @RestControllerAdvice
 public class GlobalRestExceptionHandler {
+	@ExceptionHandler(ExpiredJwtException.class)
+	public ResponseEntity<String> handleExpiredJwtException(ExpiredJwtException exc) {
+		return new ResponseEntity<>(exc.getMessage(), HttpStatus.UNAUTHORIZED);
+	}
+
 	@ExceptionHandler(ResponseStatusException.class)
 	public ResponseEntity<String> handleResponseStatusException(ResponseStatusException exc) {
 		log.error(exc.toString());

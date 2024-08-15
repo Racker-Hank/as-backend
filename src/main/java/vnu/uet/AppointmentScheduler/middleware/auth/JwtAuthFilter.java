@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 import vnu.uet.AppointmentScheduler.constants.UserRole;
 import vnu.uet.AppointmentScheduler.model.user.User;
 
@@ -23,6 +24,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
 	private final JwtService jwtService;
 	private final CustomUserDetailsService customUserDetailsService;
+	private final HandlerExceptionResolver handlerExceptionResolver;
 
 	@SuppressWarnings("NullableProblems")
 	@Override
@@ -38,20 +40,25 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 			return;
 		}
 
-		final UUID id = jwtService.extractId(token);
-		final String email = jwtService.extractEmail(token);
-		final UserRole role = jwtService.extractRole(token);
+		try {
+			final UUID id = jwtService.extractId(token);
+			final String email = jwtService.extractEmail(token);
+			final UserRole role = jwtService.extractRole(token);
 
-		// If an email is extracted and there's no authentication set in the SecurityContext
-		if (email != null &&
-			SecurityContextHolder.getContext().getAuthentication() == null) {
-			User userDetails = customUserDetailsService.getUserBy(id, email, role);
+			// If an email is extracted and there's no authentication set in the SecurityContext
+			if (email != null &&
+				SecurityContextHolder.getContext().getAuthentication() == null) {
+				User userDetails = customUserDetailsService.getUserBy(id, email, role);
 
-			if (jwtService.validateToken(token, userDetails)) {
-				setAuthenticationContext(request, userDetails);
+				if (jwtService.validateToken(token, userDetails)) {
+					setAuthenticationContext(request, userDetails);
+				}
 			}
+
+			filterChain.doFilter(request, response);
+		} catch (Exception exc) {
+			handlerExceptionResolver.resolveException(request, response, null, exc);
 		}
-		filterChain.doFilter(request, response);
 	}
 
 	private String getAccessToken(HttpServletRequest request) {
