@@ -73,8 +73,7 @@ public class AuthService {
 		registerDTO.setActive(true);
 
 		return switch (userRole) {
-			case UserRole.HOSPITAL_ADMIN ->
-				hospitalAdminService.save((RegisterHospitalAdminRequestDTO) registerDTO);
+			case UserRole.HOSPITAL_ADMIN -> hospitalAdminService.save((RegisterHospitalAdminRequestDTO) registerDTO);
 			case UserRole.DOCTOR -> doctorService.save((RegisterDoctorRequestDTO) registerDTO);
 			case UserRole.PATIENT -> patientService.save((RegisterPatientRequestDTO) registerDTO);
 		};
