@@ -6,8 +6,10 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.server.ResponseStatusException;
 
 @Slf4j
@@ -19,15 +21,32 @@ public class GlobalRestExceptionHandler {
 		return new ResponseEntity<>(exc.getMessage(), HttpStatus.UNAUTHORIZED);
 	}
 
+	@ExceptionHandler(AuthorizationDeniedException.class)
+	public ResponseEntity<String> handleAuthorizationDeniedException(AuthorizationDeniedException exc) {
+		return new ResponseEntity<>(exc.getMessage(), HttpStatus.UNAUTHORIZED);
+	}
+
+	@ExceptionHandler({
+		IllegalArgumentException.class,
+		MethodArgumentTypeMismatchException.class
+	})
+	public ResponseEntity<String> handleBadRequestException(Exception exc) {
+		log.error(exc.toString(), exc.getMessage());
+		return new ResponseEntity<>(
+			exc.getCause() != null ? exc.getCause().getMessage() : exc.getMessage(),
+			HttpStatus.BAD_REQUEST
+		);
+	}
+
 	@ExceptionHandler(ResponseStatusException.class)
 	public ResponseEntity<String> handleResponseStatusException(ResponseStatusException exc) {
-		log.error(exc.toString());
+		log.error(exc.toString(), exc.getMessage());
 		return new ResponseEntity<>(exc.getMessage(), exc.getStatusCode());
 	}
 
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<String> handleUnexpectedException(Exception exc) {
-		log.error(exc.toString());
+		log.error(exc.toString(), exc.getMessage());
 		return new ResponseEntity<>("An unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }

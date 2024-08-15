@@ -10,13 +10,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import vnu.uet.AppointmentScheduler.constants.UserRole;
 import vnu.uet.AppointmentScheduler.dto.auth.LoginRequestDTO;
 import vnu.uet.AppointmentScheduler.dto.auth.RegisterDoctorRequestDTO;
 import vnu.uet.AppointmentScheduler.dto.auth.RegisterPatientRequestDTO;
+import vnu.uet.AppointmentScheduler.dto.user.UserDTO;
 import vnu.uet.AppointmentScheduler.middleware.auth.AuthService;
 import vnu.uet.AppointmentScheduler.model.user.User;
 
@@ -41,7 +42,8 @@ public class AuthController {
 		String jwtToken = authService.login(
 			loginRequestDTO.getUserRole(),
 			loginRequestDTO.getEmail(),
-			loginRequestDTO.getPassword());
+			loginRequestDTO.getPassword()
+		);
 
 		ResponseCookie cookie = ResponseCookie.from(ACCESS_TOKEN_COOKIE_KEY, jwtToken)
 			.httpOnly(true)
@@ -55,8 +57,29 @@ public class AuthController {
 		return ResponseEntity.ok(jwtToken);
 	}
 
-	@GetMapping("logout")
+	@GetMapping("/me")
+	@PreAuthorize("isAuthenticated()")
+	public ResponseEntity<?> authenticateMe(
+		@AuthenticationPrincipal User user,
+		@RequestParam(value = "full", defaultValue = "false") boolean full
+	) {
+		if (!full) {
+			Map<String, Object> partialUserDTO = new HashMap<>();
+			partialUserDTO.put("id", user.getId());
+			partialUserDTO.put("email", user.getEmail());
+			partialUserDTO.put("userRole", user.getUserRole());
+
+			return ResponseEntity.ok(partialUserDTO);
+		} else {
+			UserDTO userDTO = authService.getUserInfo(user);
+
+			return ResponseEntity.ok(userDTO);
+		}
+	}
+
+	@GetMapping("/logout")
 	public ResponseEntity<String> logout(
+		@Value("${CONTEXT_PATH}") String contextPath,
 		HttpServletRequest request,
 		HttpServletResponse response
 	) {
@@ -66,6 +89,9 @@ public class AuthController {
 				if (ACCESS_TOKEN_COOKIE_KEY.equals(cookie.getName())) {
 					cookie.setValue(null); // Clear the value
 					cookie.setMaxAge(0);   // Set cookie to expire immediately
+					cookie.setPath(contextPath);
+					cookie.setHttpOnly(true);
+					cookie.setSecure(false);
 					response.addCookie(cookie);
 					return ResponseEntity.ok("Cookie cleared");
 				}
@@ -73,25 +99,6 @@ public class AuthController {
 		}
 
 		return new ResponseEntity<>("Auth token not found", HttpStatus.UNAUTHORIZED);
-	}
-
-	@GetMapping("/me")
-	public ResponseEntity<?> authenticateMe() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-		if (authentication == null || !authentication.isAuthenticated()) {
-			return new ResponseEntity<>("User is not authenticated", HttpStatus.UNAUTHORIZED);
-		}
-
-		User userDetails = (User) authentication.getPrincipal();
-		log.debug(userDetails.toString());
-
-		Map<String, Object> responseBody = new HashMap<>();
-		responseBody.put("id", userDetails.getId());
-		responseBody.put("email", userDetails.getEmail());
-		responseBody.put("userRole", userDetails.getUserRole());
-
-		return ResponseEntity.ok(responseBody);
 	}
 
 	@PostMapping(value = "/register/doctor")
