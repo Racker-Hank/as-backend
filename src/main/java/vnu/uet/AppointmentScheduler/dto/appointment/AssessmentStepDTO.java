@@ -19,9 +19,6 @@ public class AssessmentStepDTO {
 
 	private UUID id;
 
-	//	private SessionDTO session;
-	//	private UUID sessionId;
-
 	private AppointmentDTO appointment;
 	private UUID appointmentId;
 
@@ -40,8 +37,8 @@ public class AssessmentStepDTO {
 	private Long actualStartTime;
 
 	private Long actualEndTime;
-	//	private Long createdAt;
 
+	//	private Long createdAt;
 
 	private String notes;
 
@@ -51,7 +48,7 @@ public class AssessmentStepDTO {
 		return AssessmentStepDTO.builder()
 			.id(assessmentStep.getId())
 			.appointmentId(assessmentStep.getAppointment().getId())
-			//			.sessionId(session.getId())
+			.sessionId(session.getId())
 			.orderInQueue(assessmentStep.getOrderInQueue())
 			.status(assessmentStep.getStatus())
 			.assessmentType(assessmentStep.getAssessmentType())

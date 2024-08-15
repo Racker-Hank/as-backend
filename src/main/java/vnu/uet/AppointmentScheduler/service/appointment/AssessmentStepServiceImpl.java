@@ -10,7 +10,9 @@ import vnu.uet.AppointmentScheduler.constants.AssessmentStepStatus;
 import vnu.uet.AppointmentScheduler.dto.appointment.AssessmentStepDTO;
 import vnu.uet.AppointmentScheduler.model.appointment.Appointment;
 import vnu.uet.AppointmentScheduler.model.appointment.AssessmentStep;
+import vnu.uet.AppointmentScheduler.model.schedule.Session;
 import vnu.uet.AppointmentScheduler.repository.appointment.AssessmentStepRepository;
+import vnu.uet.AppointmentScheduler.service.schedule.SessionService;
 
 import java.util.List;
 import java.util.UUID;
@@ -24,14 +26,17 @@ public class AssessmentStepServiceImpl implements AssessmentStepService {
 
 	//	@Lazy
 	private final AppointmentService appointmentService;
+	private final SessionService sessionService;
 
 	@Autowired
 	public AssessmentStepServiceImpl(
 		AssessmentStepRepository assessmentStepRepository,
-		@Lazy AppointmentService appointmentService
+		@Lazy AppointmentService appointmentService,
+		SessionService sessionService
 	) {
 		this.assessmentStepRepository = assessmentStepRepository;
 		this.appointmentService = appointmentService;
+		this.sessionService = sessionService;
 	}
 
 	@Override
@@ -53,7 +58,7 @@ public class AssessmentStepServiceImpl implements AssessmentStepService {
 		try {
 			Appointment appointment = appointmentService.getOneById(patientId, appointmentId);
 
-			// TODO: session
+			Session session = sessionService.getOneById(null, sessionId);
 
 			List<AssessmentStep> assessmentStepsBySession = getAllBySessionId(sessionId);
 
@@ -63,6 +68,7 @@ public class AssessmentStepServiceImpl implements AssessmentStepService {
 
 			AssessmentStep assessmentStep = AssessmentStep.builder()
 				.appointment(appointment)
+				.session(session)
 				.orderInQueue(currentOrder + 1)
 				.status(AssessmentStepStatus.IN_QUEUE)
 				.assessmentType(assessmentStepDTO.getAssessmentType())
@@ -140,7 +146,10 @@ public class AssessmentStepServiceImpl implements AssessmentStepService {
 				appointmentService.getOneById(null, newAssessmentStep.getAppointmentId()) :
 				assessmentStep.getAppointment();
 
+			Session session = sessionService.getOneById(null, newAssessmentStep.getSessionId());
+
 			assessmentStep.setAppointment(appointment);
+			assessmentStep.setSession(session);
 			assessmentStep.setOrderInQueue(newAssessmentStep.getOrderInQueue());
 			assessmentStep.setStatus(newAssessmentStep.getStatus());
 			assessmentStep.setAssessmentType(newAssessmentStep.getAssessmentType());

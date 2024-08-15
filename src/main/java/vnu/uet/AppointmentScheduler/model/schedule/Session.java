@@ -1,15 +1,14 @@
 package vnu.uet.AppointmentScheduler.model.schedule;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import vnu.uet.AppointmentScheduler.model.appointment.AssessmentStep;
 import vnu.uet.AppointmentScheduler.model.hospital.Room;
 import vnu.uet.AppointmentScheduler.model.user.Doctor;
 
 import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -20,6 +19,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Session {
 
 	@Id
@@ -43,10 +43,14 @@ public class Session {
 	private DayOfWeek dayOfWeek;
 
 	@Column(name = "start_time", nullable = false)
-	private Long startTime;
+	@JsonFormat(pattern = "HH:mm:ss")
+	//	private Long startTime;
+	private LocalTime startTime;
 
 	@Column(name = "end_time", nullable = false)
-	private Long endTime;
+	@JsonFormat(pattern = "HH:mm:ss")
+	//	private Long endTime;
+	private LocalTime endTime;
 
 	//	@OneToMany(mappedBy = "session", cascade = CascadeType.ALL, orphanRemoval = true)
 	//	private List<Appointment> appointments = new ArrayList<>();

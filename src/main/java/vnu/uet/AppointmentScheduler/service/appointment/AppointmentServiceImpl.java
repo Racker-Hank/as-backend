@@ -55,16 +55,10 @@ public class AppointmentServiceImpl implements AppointmentService {
 		try {
 			Patient patient = patientService.getOneById(patientId);
 
-			//			Appointment followupAppointment = appointmentDTO.getFollowupAppointmentId() != null ?
-			//				getOneById(patientId, appointmentDTO.getFollowupAppointmentId()) :
-			//				null;
-
 			Appointment appointment = Appointment.builder()
 				.patient(patient)
 				.actualStartTime(appointmentDTO.getActualStartTime())
 				.actualEndTime(appointmentDTO.getActualEndTime())
-				//				.followupAppointment(followupAppointment)
-				//				.followupAppointmentInterval(appointmentDTO.getFollowupAppointmentInterval())
 				.createdAt(System.currentTimeMillis())
 				.build();
 
@@ -173,14 +167,8 @@ public class AppointmentServiceImpl implements AppointmentService {
 		try {
 			Appointment appointment = getOneById(patientId, appointmentId);
 
-			//			Appointment followupAppointment = newAppointment.getFollowupAppointmentId() != null ?
-			//				getOneById(patientId, newAppointment.getFollowupAppointmentId()) :
-			//				null;
-
 			appointment.setActualStartTime(newAppointment.getActualStartTime());
 			appointment.setActualEndTime(newAppointment.getActualEndTime());
-			//			appointment.setFollowupAppointment(followupAppointment);
-			//			appointment.setFollowupAppointmentInterval(newAppointment.getFollowupAppointmentInterval());
 			appointment.setUpdatedAt(System.currentTimeMillis());
 
 			if (newAppointment.getFollowupAppointmentId() != null) {
@@ -191,8 +179,6 @@ public class AppointmentServiceImpl implements AppointmentService {
 			}
 
 			appointment = save(appointment);
-
-			//			appointment.setOrder();
 
 			return appointment;
 		} catch (Exception e) {
