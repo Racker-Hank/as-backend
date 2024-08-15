@@ -15,6 +15,10 @@ import vnu.uet.AppointmentScheduler.dto.auth.RegisterDoctorRequestDTO;
 import vnu.uet.AppointmentScheduler.dto.auth.RegisterHospitalAdminRequestDTO;
 import vnu.uet.AppointmentScheduler.dto.auth.RegisterPatientRequestDTO;
 import vnu.uet.AppointmentScheduler.dto.auth.RegisterRequestDTO;
+import vnu.uet.AppointmentScheduler.dto.user.DoctorDTO;
+import vnu.uet.AppointmentScheduler.dto.user.HospitalAdminDTO;
+import vnu.uet.AppointmentScheduler.dto.user.PatientDTO;
+import vnu.uet.AppointmentScheduler.dto.user.UserDTO;
 import vnu.uet.AppointmentScheduler.model.user.User;
 import vnu.uet.AppointmentScheduler.repository.user.UserRepository;
 import vnu.uet.AppointmentScheduler.service.user.DoctorServiceImpl;
@@ -60,17 +64,35 @@ public class AuthService {
 	public User register(UserRole userRole, RegisterRequestDTO registerDTO) {
 		userRepository.findByEmail(registerDTO.getEmail())
 			.ifPresent(user -> {
-				throw new ResponseStatusException(HttpStatus.CONFLICT, "User is already registered");
-			});
+					throw new ResponseStatusException(HttpStatus.CONFLICT, "User is already registered");
+				}
+			);
 
 		String hashedPassword = bcryptPasswordEncoder.encode(registerDTO.getPassword());
 		registerDTO.setPassword(hashedPassword);
 		registerDTO.setActive(true);
 
 		return switch (userRole) {
-			case UserRole.HOSPITAL_ADMIN -> hospitalAdminService.save((RegisterHospitalAdminRequestDTO) registerDTO);
+			case UserRole.HOSPITAL_ADMIN ->
+				hospitalAdminService.save((RegisterHospitalAdminRequestDTO) registerDTO);
 			case UserRole.DOCTOR -> doctorService.save((RegisterDoctorRequestDTO) registerDTO);
 			case UserRole.PATIENT -> patientService.save((RegisterPatientRequestDTO) registerDTO);
+		};
+	}
+
+	public UserDTO getUserInfo(User user) {
+		return switch (user.getUserRole()) {
+			case UserRole.HOSPITAL_ADMIN -> HospitalAdminDTO.convertToHospitalAdminDTO(
+				hospitalAdminService.getOneById(user.getId())
+			);
+			case UserRole.DOCTOR -> DoctorDTO.convertToDoctorDTO(
+				doctorService.getOneById(user.getId())
+			);
+			case UserRole.PATIENT -> PatientDTO.convertToPatientDTO(
+				patientService.getOneById(user.getId())
+			);
+			//			default ->
+			//				throw new IllegalArgumentException("Unknown role: " + user.getAuthorities().stream().toList().getFirst().getAuthority());
 		};
 	}
 }
