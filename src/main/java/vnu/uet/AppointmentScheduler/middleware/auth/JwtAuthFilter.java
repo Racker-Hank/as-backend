@@ -10,13 +10,16 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
+import vnu.uet.AppointmentScheduler.config.UnsecuredEndpointPatterns;
 import vnu.uet.AppointmentScheduler.constants.UserRole;
 import vnu.uet.AppointmentScheduler.model.user.User;
 
 import java.io.IOException;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 @Component
 @RequiredArgsConstructor
@@ -25,6 +28,23 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 	private final JwtService jwtService;
 	private final CustomUserDetailsService customUserDetailsService;
 	private final HandlerExceptionResolver handlerExceptionResolver;
+
+	private final AntPathMatcher pathMatcher = new AntPathMatcher();
+
+	@Override
+	protected boolean shouldNotFilter(HttpServletRequest request) {
+		String[] endpointPatterns =
+			"GET".equals(request.getMethod())
+				? UnsecuredEndpointPatterns.GET_METHOD.retrieve()
+				: UnsecuredEndpointPatterns.NON_GET_METHODS.retrieve();
+
+		boolean hasAnyMatch =
+			Stream.of(endpointPatterns)
+				.anyMatch(path -> pathMatcher.match(path, request.getServletPath()));
+
+		logger.debug("Pattern match: " + request.getServletPath() + " " + hasAnyMatch);
+		return hasAnyMatch;
+	}
 
 	@SuppressWarnings("NullableProblems")
 	@Override
@@ -48,7 +68,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 			// If an email is extracted and there's no authentication set in the SecurityContext
 			if (email != null &&
 				SecurityContextHolder.getContext().getAuthentication() == null) {
-				User userDetails = customUserDetailsService.getUserBy(id, email, role);
+				User userDetails = customUserDetailsService.loadUserByIdEmailUserRole(id, email, role);
 
 				if (jwtService.validateToken(token, userDetails)) {
 					setAuthenticationContext(request, userDetails);
