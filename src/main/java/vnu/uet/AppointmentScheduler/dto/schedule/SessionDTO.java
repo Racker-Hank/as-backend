@@ -44,19 +44,27 @@ public class SessionDTO {
 	@JsonFormat(pattern = "HH:mm:ss")
 	private LocalTime endTime;
 
+	private String shift;
+
 	public static SessionDTO convertToSessionDTO(Session session) {
 		Doctor doctor = session.getDoctor();
 		WorkSchedule workSchedule = session.getWorkSchedule();
 		Room room = session.getRoom();
+		String shift = session.getEndTime()
+			.isBefore(LocalTime.of(12, 0, 1))
+			? "SÁNG"
+			: "CHIỀU";
 
 		return SessionDTO.builder()
 			.id(workSchedule.getId())
 			.doctorId(doctor.getId())
 			.workScheduleId(workSchedule.getId())
 			.roomId(room.getId())
+			.room(RoomDTO.convertToRoomDTO(room))
 			.dayOfWeek(session.getDayOfWeek())
 			.startTime(session.getStartTime())
 			.endTime(session.getEndTime())
+			.shift(shift)
 			.build();
 	}
 }

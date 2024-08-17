@@ -34,7 +34,7 @@ public class DoctorController {
 		return ResponseEntity.ok(doctorDTOs);
 	}
 
-	@GetMapping
+	@GetMapping("fetch-names")
 	//	@Secured(UserRoleValues.HOSPITAL_ADMIN)
 	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<List<Object>> getAllDoctorNames(
