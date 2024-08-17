@@ -9,5 +9,5 @@ import java.util.UUID;
 
 @Service
 public interface CustomUserDetailsService extends UserDetailsService {
-	User getUserBy(UUID id, String email, UserRole userRole);
+	User loadUserByIdEmailUserRole(UUID id, String email, UserRole userRole);
 }

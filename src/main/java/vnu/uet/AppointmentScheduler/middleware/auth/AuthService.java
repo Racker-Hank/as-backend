@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -42,12 +43,15 @@ public class AuthService {
 
 	public String login(UserRole userRole, String email, String password) {
 		try {
-			authenticationManager.authenticate(
+			Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(
 					email, password,
 					List.of(new SimpleGrantedAuthority(userRole.toString()))
 				)
 			);
+			UserRole actualUserRole = UserRole.valueOf(authentication.getAuthorities().toArray()[0].toString());
+
+			if (userRole != actualUserRole) throw new BadCredentialsException("");
 		} catch (Exception exc) {
 			if (exc instanceof BadCredentialsException) {
 				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad credentials!");
@@ -73,8 +77,7 @@ public class AuthService {
 		registerDTO.setActive(true);
 
 		return switch (userRole) {
-			case UserRole.HOSPITAL_ADMIN ->
-				hospitalAdminService.save((RegisterHospitalAdminRequestDTO) registerDTO);
+			case UserRole.HOSPITAL_ADMIN -> hospitalAdminService.save((RegisterHospitalAdminRequestDTO) registerDTO);
 			case UserRole.DOCTOR -> doctorService.save((RegisterDoctorRequestDTO) registerDTO);
 			case UserRole.PATIENT -> patientService.save((RegisterPatientRequestDTO) registerDTO);
 		};

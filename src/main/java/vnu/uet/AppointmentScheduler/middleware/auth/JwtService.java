@@ -4,7 +4,13 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
 import vnu.uet.AppointmentScheduler.constants.UserRole;
 import vnu.uet.AppointmentScheduler.model.user.User;
@@ -14,8 +20,13 @@ import java.util.Date;
 import java.util.UUID;
 import java.util.function.Function;
 
+@Slf4j
 @Service
 public class JwtService {
+	public static final String ACCESS_TOKEN_COOKIE_KEY = "access_token";
+
+	@Value("${CONTEXT_PATH}")
+	private String contextPath;
 
 	@Value("${JWT_SECRET}")
 	private String secret;
@@ -88,5 +99,41 @@ public class JwtService {
 			)
 			.signWith(getSignKey())
 			.compact();
+	}
+
+	public void saveAccessTokenToCookie(
+		String token,
+		HttpServletResponse response
+	) {
+		ResponseCookie cookie = ResponseCookie.from(ACCESS_TOKEN_COOKIE_KEY, token)
+			.httpOnly(true)
+			.secure(false)
+			.path(contextPath)
+			.maxAge(jwtExpiration)
+			.build();
+
+		response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+	}
+
+	public boolean clearAccessTokenFromCookie(
+		HttpServletRequest request,
+		HttpServletResponse response
+	) {
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null) {
+			log.debug(String.valueOf(cookies.length));
+			for (Cookie cookie : cookies) {
+				if (ACCESS_TOKEN_COOKIE_KEY.equals(cookie.getName())) {
+					cookie.setValue(null); // Clear the value
+					cookie.setMaxAge(0);   // Set cookie to expire immediately
+					cookie.setPath(contextPath);
+					cookie.setHttpOnly(true);
+					cookie.setSecure(false);
+					response.addCookie(cookie);
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }

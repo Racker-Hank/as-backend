@@ -57,7 +57,6 @@ public class DepartmentController {
 	@GetMapping("{id}")
 	public ResponseEntity<DepartmentDTO> getDepartmentById(
 		@PathVariable UUID id,
-		//		@PathVariable("hospital_id") UUID hospitalId
 		@RequestParam("hospital_id") UUID hospitalId
 	) {
 		Department department = departmentService.getOneById(hospitalId, id);
@@ -68,7 +67,6 @@ public class DepartmentController {
 	@PostMapping
 	@Secured({ UserRoleValues.HOSPITAL_ADMIN })
 	public ResponseEntity<DepartmentDTO> createDepartment(
-		//		@PathVariable("hospital_id") UUID hospitalId,
 		@RequestParam("hospital_id") UUID hospitalId,
 		@RequestBody DepartmentDTO departmentDTO
 	) {
@@ -80,7 +78,6 @@ public class DepartmentController {
 	@PutMapping("{id}")
 	@Secured({ UserRoleValues.HOSPITAL_ADMIN })
 	public ResponseEntity<DepartmentDTO> updateDepartment(
-		//		@PathVariable("hospital_id") UUID hospitalId,
 		@RequestParam("hospital_id") UUID hospitalId,
 		@PathVariable UUID id,
 		@RequestBody DepartmentDTO departmentDTO
@@ -93,7 +90,6 @@ public class DepartmentController {
 	@DeleteMapping("{id}")
 	@Secured({ UserRoleValues.HOSPITAL_ADMIN })
 	public ResponseEntity<String> deleteDepartment(
-		//		@PathVariable("hospital_id") UUID hospitalId,
 		@RequestParam("hospital_id") UUID hospitalId,
 		@PathVariable UUID id
 	) {
