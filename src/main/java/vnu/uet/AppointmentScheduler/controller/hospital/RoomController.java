@@ -46,11 +46,14 @@ public class RoomController {
 	@PostMapping
 	@Secured({ UserRoleValues.HOSPITAL_ADMIN })
 	public ResponseEntity<RoomDTO> createRoom(
-		@RequestParam("hospital_id") UUID hospitalId,
+		@RequestParam(
+			value = "hospital_id"
+			, required = false
+		) UUID hospitalId,
 		@RequestParam("department_id") UUID departmentId,
-		@RequestBody RoomDTO departmentDTO
+		@RequestBody RoomDTO roomDTO
 	) {
-		Room department = roomService.save(hospitalId, departmentId, departmentDTO);
+		Room department = roomService.save(hospitalId, departmentId, roomDTO);
 
 		return new ResponseEntity<>(RoomDTO.convertToRoomDTO(department), HttpStatus.CREATED);
 	}

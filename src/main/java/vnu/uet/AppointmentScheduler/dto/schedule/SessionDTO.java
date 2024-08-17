@@ -1,5 +1,6 @@
 package vnu.uet.AppointmentScheduler.dto.schedule;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import vnu.uet.AppointmentScheduler.dto.hospital.RoomDTO;
@@ -28,7 +29,7 @@ public class SessionDTO {
 	private UUID doctorId;
 
 	private WorkScheduleDTO workSchedule;
-	@NotBlank
+	//	@NotBlank
 	private UUID workScheduleId;
 
 	private RoomDTO room;
@@ -37,8 +38,10 @@ public class SessionDTO {
 
 	private DayOfWeek dayOfWeek;
 
+	@JsonFormat(pattern = "HH:mm:ss")
 	private LocalTime startTime;
 
+	@JsonFormat(pattern = "HH:mm:ss")
 	private LocalTime endTime;
 
 	public static SessionDTO convertToSessionDTO(Session session) {

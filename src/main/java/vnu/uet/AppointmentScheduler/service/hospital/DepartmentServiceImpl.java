@@ -46,6 +46,8 @@ public class DepartmentServiceImpl implements DepartmentService {
 				.hospital(hospital)
 				.name(departmentDTO.getName())
 				.services(departmentDTO.getServices())
+				.email(departmentDTO.getEmail())
+				.phone(departmentDTO.getPhone())
 				.build();
 
 			return save(department);
@@ -76,6 +78,8 @@ public class DepartmentServiceImpl implements DepartmentService {
 
 			department.setName(newDepartment.getName());
 			department.setServices(newDepartment.getServices());
+			department.setEmail(newDepartment.getEmail());
+			department.setPhone(newDepartment.getPhone());
 			department.setHospital(hospital);
 
 			return save(department);

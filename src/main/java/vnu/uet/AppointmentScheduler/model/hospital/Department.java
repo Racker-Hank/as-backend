@@ -1,6 +1,8 @@
 package vnu.uet.AppointmentScheduler.model.hospital;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import vnu.uet.AppointmentScheduler.model.user.Doctor;
 
@@ -30,6 +32,14 @@ public class Department {
 
 	@Column(columnDefinition = "TEXT")
 	private String services;
+
+	@Column(columnDefinition = "VARCHAR(100)", unique = true)
+	@Email
+	private String email;
+
+	@Column(columnDefinition = "VARCHAR(10)")
+	@Size(min = 10, max = 10)
+	private String phone;
 
 	@OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Doctor> doctors = new ArrayList<>();
