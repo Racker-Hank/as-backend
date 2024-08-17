@@ -34,6 +34,29 @@ public class DoctorController {
 		return ResponseEntity.ok(doctorDTOs);
 	}
 
+	@GetMapping
+	//	@Secured(UserRoleValues.HOSPITAL_ADMIN)
+	@PreAuthorize("isAuthenticated()")
+	public ResponseEntity<List<Object>> getAllDoctorNames(
+	) {
+		record DoctorName(
+			UUID id,
+			String firstName,
+			String lastName
+		) {}
+		List<Doctor> doctors = doctorService.getAll();
+		List<Object> doctorDTOs = doctors
+			.stream()
+			.map(doctor -> (Object) new DoctorName(
+				doctor.getId(),
+				doctor.getFirstName(),
+				doctor.getLastName()
+			))
+			.toList();
+
+		return ResponseEntity.ok(doctorDTOs);
+	}
+
 	@GetMapping("{id}")
 	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<DoctorDTO> getDoctorById(
