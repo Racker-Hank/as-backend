@@ -1,5 +1,6 @@
 package vnu.uet.AppointmentScheduler.dto.auth;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -19,5 +20,6 @@ public class LoginRequestDTO {
 	private String password;
 
 	@NotBlank
+	@JsonProperty("role")
 	private UserRole userRole;
 }

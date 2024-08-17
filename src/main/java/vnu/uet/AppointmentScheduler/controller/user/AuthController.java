@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import vnu.uet.AppointmentScheduler.constants.UserRole;
@@ -61,14 +60,10 @@ public class AuthController {
 	}
 
 	@GetMapping("/me")
-	//	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<?> authenticateMe(
 		@AuthenticationPrincipal User user,
 		@RequestParam(value = "full", defaultValue = "false") boolean full
 	) {
-		if (user == null)
-			return new ResponseEntity<>("Auth token not found", HttpStatus.UNAUTHORIZED);
-
 		if (!full) {
 			Map<String, Object> partialUserDTO = new HashMap<>();
 			partialUserDTO.put("id", user.getId());
