@@ -23,6 +23,9 @@ public class DepartmentDTO {
 	//	@NotBlank
 	private String services;
 
+	private String email;
+
+	private String phone;
 	//	@NotBlank
 	//	private Hospital hospital;
 	private HospitalDTO hospital;
@@ -37,6 +40,8 @@ public class DepartmentDTO {
 			.name(department.getName())
 			.services(department.getServices())
 			//			.hospital(HospitalDTO.convertToHospitalDTO(hospital))
+			.email(department.getEmail())
+			.phone(department.getPhone())
 			.hospitalId(hospital.getId())
 			.build();
 	}

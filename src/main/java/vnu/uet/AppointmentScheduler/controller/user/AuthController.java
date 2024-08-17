@@ -61,11 +61,14 @@ public class AuthController {
 	}
 
 	@GetMapping("/me")
-	@PreAuthorize("isAuthenticated()")
+	//	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<?> authenticateMe(
 		@AuthenticationPrincipal User user,
 		@RequestParam(value = "full", defaultValue = "false") boolean full
 	) {
+		if (user == null)
+			return new ResponseEntity<>("Auth token not found", HttpStatus.UNAUTHORIZED);
+
 		if (!full) {
 			Map<String, Object> partialUserDTO = new HashMap<>();
 			partialUserDTO.put("id", user.getId());
