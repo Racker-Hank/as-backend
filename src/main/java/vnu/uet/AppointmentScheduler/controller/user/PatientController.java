@@ -2,7 +2,6 @@ package vnu.uet.AppointmentScheduler.controller.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import vnu.uet.AppointmentScheduler.constants.UserRoleValues;
@@ -21,8 +20,8 @@ public class PatientController {
 	private final PatientService patientService;
 
 	@GetMapping
-	@Secured(UserRoleValues.HOSPITAL_ADMIN)
-	@PreAuthorize("isAuthenticated()")
+//	@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("hasAuthority('" + UserRoleValues.HOSPITAL_ADMIN + "')")
 	public ResponseEntity<List<PatientDTO>> getAllPatients(
 		//			@PathVariable("hospital_id") UUID hospitalId
 	) {
@@ -46,7 +45,7 @@ public class PatientController {
 	}
 
 	@PutMapping("{id}")
-	@Secured({ UserRoleValues.PATIENT })
+	@PreAuthorize("hasAuthority('" + UserRoleValues.PATIENT + "')")
 	public ResponseEntity<PatientDTO> updatePatient(
 		@PathVariable UUID id,
 		@RequestBody PatientDTO patientDTO
@@ -57,7 +56,7 @@ public class PatientController {
 	}
 
 	@DeleteMapping("{id}")
-	@Secured({ UserRoleValues.PATIENT })
+	@PreAuthorize("hasAuthority('" + UserRoleValues.PATIENT + "')")
 	public ResponseEntity<String> deletePatient(
 		@PathVariable UUID id
 	) {

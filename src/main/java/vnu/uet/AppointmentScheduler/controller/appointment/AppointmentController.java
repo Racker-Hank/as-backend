@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import vnu.uet.AppointmentScheduler.constants.UserRoleValues;
 import vnu.uet.AppointmentScheduler.dto.appointment.AppointmentDTO;
@@ -59,7 +60,7 @@ public class AppointmentController {
 	}
 
 	@PostMapping
-	@Secured({ UserRoleValues.HOSPITAL_ADMIN })
+	@PreAuthorize("hasAuthority('" + UserRoleValues.HOSPITAL_ADMIN + "')")
 	public ResponseEntity<AppointmentDTO> createAppointment(
 		@RequestParam("patient_id") UUID patientId,
 		@RequestBody AppointmentDTO appointmentDTO
@@ -70,7 +71,7 @@ public class AppointmentController {
 	}
 
 	@PutMapping("{id}")
-	@Secured({ UserRoleValues.HOSPITAL_ADMIN })
+	@PreAuthorize("hasAuthority('" + UserRoleValues.HOSPITAL_ADMIN + "')")
 	public ResponseEntity<AppointmentDTO> updateAppointment(
 		@RequestParam("patient_id") UUID patientId,
 		@PathVariable UUID id,
@@ -82,7 +83,7 @@ public class AppointmentController {
 	}
 
 	@DeleteMapping("{id}")
-	@Secured({ UserRoleValues.HOSPITAL_ADMIN })
+	@PreAuthorize("hasAuthority('" + UserRoleValues.HOSPITAL_ADMIN + "')")
 	public ResponseEntity<String> deleteAppointment(
 		@RequestParam("patient_id") UUID patientId,
 		@PathVariable UUID id

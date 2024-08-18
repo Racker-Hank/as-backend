@@ -3,7 +3,7 @@ package vnu.uet.AppointmentScheduler.controller.schedule;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import vnu.uet.AppointmentScheduler.constants.UserRoleValues;
 import vnu.uet.AppointmentScheduler.dto.schedule.WorkScheduleDTO;
@@ -56,7 +56,7 @@ public class WorkScheduleController {
 	}
 
 	@PostMapping
-	@Secured({ UserRoleValues.HOSPITAL_ADMIN })
+	@PreAuthorize("hasAuthority('" + UserRoleValues.HOSPITAL_ADMIN + "')")
 	public ResponseEntity<WorkScheduleDTO> createWorkSchedule(
 		@RequestParam("doctor_id") UUID doctorId,
 		@RequestBody WorkScheduleDTO scheduleDTO
@@ -68,7 +68,7 @@ public class WorkScheduleController {
 	}
 
 	@PutMapping("{id}")
-	@Secured({ UserRoleValues.HOSPITAL_ADMIN })
+	@PreAuthorize("hasAuthority('" + UserRoleValues.HOSPITAL_ADMIN + "')")
 	public ResponseEntity<WorkScheduleDTO> updateWorkSchedule(
 		@RequestParam("doctor_id") UUID doctorId,
 		@PathVariable UUID id,
@@ -84,7 +84,7 @@ public class WorkScheduleController {
 	}
 
 	@DeleteMapping("{id}")
-	@Secured({ UserRoleValues.HOSPITAL_ADMIN })
+	@PreAuthorize("hasAuthority('" + UserRoleValues.HOSPITAL_ADMIN + "')")
 	public ResponseEntity<String> deleteWorkSchedule(
 		@RequestParam("doctor_id") UUID doctorId,
 		@PathVariable UUID id

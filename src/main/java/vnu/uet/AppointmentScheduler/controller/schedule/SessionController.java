@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import vnu.uet.AppointmentScheduler.constants.UserRoleValues;
 import vnu.uet.AppointmentScheduler.dto.schedule.SessionDTO;
@@ -129,7 +129,7 @@ public class SessionController {
 	}
 
 	@PostMapping
-	@Secured({ UserRoleValues.HOSPITAL_ADMIN })
+	@PreAuthorize("hasAuthority('" + UserRoleValues.HOSPITAL_ADMIN + "')")
 	public ResponseEntity<SessionDTO> createSession(
 		@RequestParam("work_schedule_id") UUID workScheduleId,
 		@RequestBody SessionDTO scheduleDTO
@@ -141,7 +141,7 @@ public class SessionController {
 	}
 
 	@PostMapping("create-many")
-	@Secured({ UserRoleValues.HOSPITAL_ADMIN })
+	@PreAuthorize("hasAuthority('" + UserRoleValues.HOSPITAL_ADMIN + "')")
 	public ResponseEntity<List<SessionDTO>> createManySessions(
 		@RequestParam("work_schedule_id") UUID workScheduleId,
 		@RequestBody List<SessionDTO> scheduleDTO
@@ -156,7 +156,7 @@ public class SessionController {
 	}
 
 	@PutMapping("{id}")
-	@Secured({ UserRoleValues.HOSPITAL_ADMIN })
+	@PreAuthorize("hasAuthority('" + UserRoleValues.HOSPITAL_ADMIN + "')")
 	public ResponseEntity<SessionDTO> updateSession(
 		@RequestParam("work_schedule_id") UUID workScheduleId,
 		@PathVariable UUID id,
@@ -172,7 +172,7 @@ public class SessionController {
 	}
 
 	@DeleteMapping("{id}")
-	@Secured({ UserRoleValues.HOSPITAL_ADMIN })
+	@PreAuthorize("hasAuthority('" + UserRoleValues.HOSPITAL_ADMIN + "')")
 	public ResponseEntity<String> deleteSession(
 		@RequestParam("work_schedule_id") UUID workScheduleId,
 		@PathVariable UUID id

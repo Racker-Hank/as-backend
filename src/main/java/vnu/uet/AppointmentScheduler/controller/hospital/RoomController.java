@@ -3,7 +3,7 @@ package vnu.uet.AppointmentScheduler.controller.hospital;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import vnu.uet.AppointmentScheduler.constants.UserRoleValues;
 import vnu.uet.AppointmentScheduler.dto.hospital.RoomDTO;
@@ -44,7 +44,7 @@ public class RoomController {
 	}
 
 	@PostMapping
-	@Secured({ UserRoleValues.HOSPITAL_ADMIN })
+	@PreAuthorize("hasAuthority('" + UserRoleValues.HOSPITAL_ADMIN + "')")
 	public ResponseEntity<RoomDTO> createRoom(
 		@RequestParam(
 			value = "hospital_id"
@@ -59,7 +59,7 @@ public class RoomController {
 	}
 
 	@PutMapping("{id}")
-	@Secured({ UserRoleValues.HOSPITAL_ADMIN })
+	@PreAuthorize("hasAuthority('" + UserRoleValues.HOSPITAL_ADMIN + "')")
 	public ResponseEntity<RoomDTO> updateRoom(
 		@RequestParam("hospital_id") UUID hospitalId,
 		@RequestParam("department_id") UUID departmentId,
@@ -77,7 +77,7 @@ public class RoomController {
 	}
 
 	@DeleteMapping("{id}")
-	@Secured({ UserRoleValues.HOSPITAL_ADMIN })
+	@PreAuthorize("hasAuthority('" + UserRoleValues.HOSPITAL_ADMIN + "')")
 	public ResponseEntity<String> deleteRoom(
 		@RequestParam("department_id") UUID departmentId,
 		@PathVariable UUID id

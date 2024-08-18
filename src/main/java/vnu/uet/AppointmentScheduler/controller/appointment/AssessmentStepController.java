@@ -3,7 +3,7 @@ package vnu.uet.AppointmentScheduler.controller.appointment;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import vnu.uet.AppointmentScheduler.constants.UserRoleValues;
 import vnu.uet.AppointmentScheduler.dto.appointment.AssessmentStepDTO;
@@ -102,7 +102,7 @@ public class AssessmentStepController {
 	}
 
 	@PostMapping
-	@Secured({ UserRoleValues.HOSPITAL_ADMIN })
+	@PreAuthorize("hasAuthority('" + UserRoleValues.HOSPITAL_ADMIN + "')")
 	public ResponseEntity<AssessmentStepDTO> createAssessmentStep(
 		@RequestParam(
 			value = "patient_id",
@@ -124,7 +124,7 @@ public class AssessmentStepController {
 	}
 
 	@PutMapping("{id}")
-	//	@Secured({ UserRoleValues.HOSPITAL_ADMIN })
+//	@PreAuthorize("hasAuthority('" + UserRoleValues.HOSPITAL_ADMIN + "')")
 	public ResponseEntity<AssessmentStepDTO> updateAssessmentStep(
 		@RequestParam("appointment_id") UUID appointmentId,
 		@RequestParam("session_id") UUID sessionId,
@@ -142,7 +142,7 @@ public class AssessmentStepController {
 	}
 
 	@DeleteMapping("{id}")
-	//	@Secured({ UserRoleValues.HOSPITAL_ADMIN })
+//	@PreAuthorize("hasAuthority('" + UserRoleValues.HOSPITAL_ADMIN + "')")
 	public ResponseEntity<String> deleteAssessmentStep(
 		@RequestParam("appointment_id") UUID appointmentId,
 		@PathVariable UUID id

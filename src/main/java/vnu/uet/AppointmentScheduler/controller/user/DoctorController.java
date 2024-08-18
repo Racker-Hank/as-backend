@@ -21,7 +21,6 @@ public class DoctorController {
 	private final DoctorService doctorService;
 
 	@GetMapping
-	//	@Secured(UserRoleValues.HOSPITAL_ADMIN)
 	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<List<DoctorDTO>> getAllDoctors(
 	) {
@@ -35,7 +34,6 @@ public class DoctorController {
 	}
 
 	@GetMapping("fetch-names")
-	//	@Secured(UserRoleValues.HOSPITAL_ADMIN)
 	@PreAuthorize("isAuthenticated()")
 	public ResponseEntity<List<Object>> getAllDoctorNames(
 	) {
@@ -43,7 +41,8 @@ public class DoctorController {
 			UUID id,
 			String firstName,
 			String lastName
-		) {}
+		) {
+		}
 		List<Doctor> doctors = doctorService.getAll();
 		List<Object> doctorDTOs = doctors
 			.stream()
@@ -68,7 +67,8 @@ public class DoctorController {
 	}
 
 	@PutMapping("{id}")
-	@Secured({ UserRoleValues.HOSPITAL_ADMIN, UserRoleValues.DOCTOR })
+	@Secured({UserRoleValues.HOSPITAL_ADMIN, UserRoleValues.DOCTOR})
+	@PreAuthorize("hasAuthority('" + UserRoleValues.HOSPITAL_ADMIN + "','" + UserRoleValues.DOCTOR + "')")
 	public ResponseEntity<DoctorDTO> updateDoctor(
 		@PathVariable UUID id,
 		@RequestBody DoctorDTO doctorDTO
@@ -79,7 +79,7 @@ public class DoctorController {
 	}
 
 	@DeleteMapping("{id}")
-	@Secured({ UserRoleValues.HOSPITAL_ADMIN })
+	@PreAuthorize("hasAuthority('" + UserRoleValues.HOSPITAL_ADMIN + "')")
 	public ResponseEntity<String> deleteDoctor(
 		@PathVariable UUID id
 	) {
