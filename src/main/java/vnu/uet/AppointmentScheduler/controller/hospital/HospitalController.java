@@ -2,7 +2,7 @@ package vnu.uet.AppointmentScheduler.controller.hospital;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import vnu.uet.AppointmentScheduler.constants.UserRoleValues;
 import vnu.uet.AppointmentScheduler.dto.hospital.HospitalDTO;
@@ -40,7 +40,7 @@ public class HospitalController {
 	}
 
 	@PutMapping("{id}")
-	@Secured({ UserRoleValues.HOSPITAL_ADMIN })
+	@PreAuthorize("hasAuthority('" + UserRoleValues.HOSPITAL_ADMIN + "')")
 	public ResponseEntity<HospitalDTO> updateHospital(
 		//		@AuthenticationPrincipal User user,
 		@PathVariable UUID id,

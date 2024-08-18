@@ -12,7 +12,11 @@ public enum UnsecuredEndpointPatterns {
 	GET_METHOD(new String[] {
 		"/auth/logout",
 		"/hospital/**",
-		"/department/**"
+		"/department/**",
+		"/room/**",
+		"/session/**",
+		"/work-schedule/**",
+
 	}),
 
 	//	Other method-supported endpoint patterns
