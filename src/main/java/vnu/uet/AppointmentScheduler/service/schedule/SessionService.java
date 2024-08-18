@@ -29,7 +29,7 @@ public interface SessionService {
 
 	List<Session> getAllByStartTime(LocalTime startTime);
 
-	List<Session> getAllCurrentSessions(DayOfWeek dayOfWeek, LocalTime currentTime);
+	List<Session> getAllCurrentSessions(UUID departmentId, DayOfWeek dayOfWeek, LocalTime currentTime);
 
 	Session getOneById(UUID workScheduleId, UUID sessionId);
 

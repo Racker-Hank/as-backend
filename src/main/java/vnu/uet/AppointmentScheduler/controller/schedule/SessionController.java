@@ -104,12 +104,17 @@ public class SessionController {
 
 	@GetMapping("fetch-current-sessions")
 	public ResponseEntity<List<SessionDTO>> getAllCurrentSessions(
+		@RequestParam(
+			value = "department_id"
+			, required = false
+		) UUID departmentId,
 		@RequestParam("day_of_week") DayOfWeek dayOfWeek,
 		@RequestParam("current_time")
 		@DateTimeFormat(pattern = "HH:mm:ss")
 		LocalTime currentTime
 	) {
-		List<Session> sessions = sessionService.getAllCurrentSessions(dayOfWeek, currentTime);
+		List<Session> sessions = sessionService.getAllCurrentSessions(departmentId, dayOfWeek,
+			currentTime);
 		List<SessionDTO> sessionDTOs = sessions
 			.stream()
 			.map(SessionDTO::convertToSessionDTO)

@@ -52,11 +52,12 @@ public class SessionDTO {
 		Room room = session.getRoom();
 		String shift = session.getEndTime()
 			.isBefore(LocalTime.of(12, 0, 1))
-			? "SÁNG"
-			: "CHIỀU";
+			? "Morning"
+			: "Afternoon";
 
 		return SessionDTO.builder()
 			.id(workSchedule.getId())
+			.doctor(DoctorDTO.convertToDoctorDTO(doctor))
 			.doctorId(doctor.getId())
 			.workScheduleId(workSchedule.getId())
 			.roomId(room.getId())

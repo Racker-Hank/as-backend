@@ -51,11 +51,12 @@ public interface SessionRepository extends JpaRepository<Session, UUID> {
 
 	@Query("SELECT s " +
 		"FROM Session s " +
-		"WHERE s.dayOfWeek = ?1 " +
-		"AND ?2 BETWEEN s.startTime AND s.endTime "
+		"WHERE s.dayOfWeek = ?2 " +
+		"AND s.doctor.department.id = ?1 " +
+		"AND ?3 BETWEEN s.startTime AND s.endTime "
 		//		+ "ORDER BY s.startTime ASC"
 	)
-	List<Session> findAllCurrentSession(DayOfWeek dayOfWeek, LocalTime currentTime);
+	List<Session> findAllCurrentSession(UUID departmentId, DayOfWeek dayOfWeek, LocalTime currentTime);
 
 	@Query("SELECT s FROM Session s WHERE s.workSchedule.id = ?1 AND s.id = ?2")
 	Optional<Session> findById(UUID workScheduleId, UUID sessionId);

@@ -101,8 +101,8 @@ public class SessionServiceImpl implements SessionService {
 	}
 
 	@Override
-	public List<Session> getAllCurrentSessions(DayOfWeek dayOfWeek, LocalTime currentTime) {
-		return sessionRepository.findAllCurrentSession(dayOfWeek, currentTime);
+	public List<Session> getAllCurrentSessions(UUID departmentId, DayOfWeek dayOfWeek, LocalTime currentTime) {
+		return sessionRepository.findAllCurrentSession(departmentId, dayOfWeek, currentTime);
 	}
 
 	@Override
