@@ -23,7 +23,7 @@ public enum UnsecuredEndpointPatterns {
 	//	POST, PUT, PATCH, DELETE
 	NON_GET_METHODS(new String[] {
 		"/auth/login",
-		"/auth/me",
+		//		"/auth/me",
 		"/auth/register/patient",
 	});
 
