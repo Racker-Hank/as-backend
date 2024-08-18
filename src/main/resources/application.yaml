@@ -29,3 +29,11 @@ spring:
 #    user:
 #      name: ${SECURITY_USER_NAME}
 #      password: ${SECURITY_USER_PASSWORD}
+
+logging:
+  level:
+    org:
+      springframework:
+        web:
+          filter:
+            CommonsRequestLoggingFilter: DEBUG

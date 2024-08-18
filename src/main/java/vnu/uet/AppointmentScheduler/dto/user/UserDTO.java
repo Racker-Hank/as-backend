@@ -37,7 +37,7 @@ public class UserDTO {
 	private String phone;
 
 	@NotBlank
-	private UserRole userRole;
+	private UserRole role;
 
 	@NotBlank
 	private String firstName;
@@ -66,7 +66,7 @@ public class UserDTO {
 			.id(user.getId())
 			.email(user.getEmail())
 			.phone(user.getPhone())
-			.userRole(user.getUserRole())
+			.role(user.getRole())
 			.firstName(user.getFirstName())
 			.lastName(user.getLastName())
 			.isActive(user.isActive())

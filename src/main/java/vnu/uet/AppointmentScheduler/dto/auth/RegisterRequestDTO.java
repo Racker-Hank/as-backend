@@ -26,7 +26,7 @@ public class RegisterRequestDTO {
 	private String phone;
 
 	@NotBlank
-	private UserRole userRole;
+	private UserRole role;
 
 	@NotBlank
 	private String firstName;

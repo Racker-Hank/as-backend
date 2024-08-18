@@ -46,6 +46,7 @@ public class RoomServiceImpl implements RoomService {
 				.name(roomDTO.getName())
 				.description(roomDTO.getDescription())
 				.roomType(roomDTO.getRoomType())
+				.address(roomDTO.getAddress())
 				.department(department)
 				.build();
 
@@ -79,6 +80,7 @@ public class RoomServiceImpl implements RoomService {
 			room.setName(newRoom.getName());
 			room.setDescription(newRoom.getDescription());
 			room.setRoomType(newRoom.getRoomType());
+			room.setAddress(newRoom.getAddress());
 			room.setDepartment(department);
 
 			return save(room);

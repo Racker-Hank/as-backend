@@ -25,7 +25,7 @@ public class PatientDTO extends UserDTO {
 			.id(patient.getId())
 			.email(patient.getEmail())
 			.phone(patient.getPhone())
-			.userRole(patient.getUserRole())
+			.role(patient.getRole())
 			.firstName(patient.getFirstName())
 			.lastName(patient.getLastName())
 			.isActive(patient.isActive())

@@ -38,7 +38,7 @@ public class DoctorDTO extends UserDTO {
 			.id(doctor.getId())
 			.email(doctor.getEmail())
 			.phone(doctor.getPhone())
-			.userRole(doctor.getUserRole())
+			.role(doctor.getRole())
 			.firstName(doctor.getFirstName())
 			.lastName(doctor.getLastName())
 			.isActive(doctor.isActive())

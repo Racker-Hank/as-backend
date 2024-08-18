@@ -44,7 +44,7 @@ public class User implements UserDetails {
 
 	@Column(name = "user_role", nullable = false)
 	@Enumerated(EnumType.ORDINAL)
-	private UserRole userRole;
+	private UserRole role;
 
 	@Column(name = "first_name", columnDefinition = "NVARCHAR(50)", nullable = false)
 	private String firstName;
@@ -75,7 +75,7 @@ public class User implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return List.of(new SimpleGrantedAuthority(userRole.name()));
+		return List.of(new SimpleGrantedAuthority(role.name()));
 	}
 
 	@Override

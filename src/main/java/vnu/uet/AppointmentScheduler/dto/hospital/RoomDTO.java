@@ -26,6 +26,8 @@ public class RoomDTO {
 	//	@NotBlank
 	private RoomType roomType;
 
+	private String address;
+
 	private DepartmentDTO department;
 
 	private UUID departmentId;
@@ -39,6 +41,7 @@ public class RoomDTO {
 			.description(room.getDescription())
 			.roomType(room.getRoomType())
 			//			.department(DepartmentDTO.convertToDepartmentDTO(department))
+			.address(room.getAddress())
 			.departmentId(department.getId())
 			.build();
 	}

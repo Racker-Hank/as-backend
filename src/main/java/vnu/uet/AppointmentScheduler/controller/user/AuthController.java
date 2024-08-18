@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import vnu.uet.AppointmentScheduler.constants.UserRole;
@@ -37,7 +36,7 @@ public class AuthController {
 		HttpServletResponse response
 	) {
 		String jwtToken = authService.login(
-			loginRequestDTO.getUserRole(),
+			loginRequestDTO.getRole(),
 			loginRequestDTO.getEmail(),
 			loginRequestDTO.getPassword()
 		);
@@ -67,13 +66,14 @@ public class AuthController {
 		@RequestParam(value = "full", defaultValue = "false") boolean full
 	) {
 		if (user == null)
-			return new ResponseEntity<>("Auth token not found", HttpStatus.UNAUTHORIZED);
+			//			return new ResponseEntity<>("Auth token not found", HttpStatus.OK);
+			return ResponseEntity.ok(null);
 
 		if (!full) {
 			Map<String, Object> partialUserDTO = new HashMap<>();
 			partialUserDTO.put("id", user.getId());
 			partialUserDTO.put("email", user.getEmail());
-			partialUserDTO.put("userRole", user.getUserRole());
+			partialUserDTO.put("role", user.getRole());
 
 			return ResponseEntity.ok(partialUserDTO);
 		} else {

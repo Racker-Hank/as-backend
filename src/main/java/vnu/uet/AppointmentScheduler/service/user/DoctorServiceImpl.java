@@ -49,7 +49,7 @@ public class DoctorServiceImpl implements DoctorService {
 			Doctor user = Doctor.builder()
 				.email(registerDTO.getEmail())
 				.password(registerDTO.getPassword())
-				.userRole(UserRole.DOCTOR)
+				.role(UserRole.DOCTOR)
 				.doctorType(registerDTO.getDoctorType())
 				.firstName(registerDTO.getFirstName())
 				.lastName(registerDTO.getLastName())
@@ -80,7 +80,7 @@ public class DoctorServiceImpl implements DoctorService {
 			doctor.setEmail(doctorDTO.getEmail());
 			doctor.setPassword(hashedPassword);
 			doctor.setPhone(doctorDTO.getPhone());
-			doctor.setUserRole(doctorDTO.getUserRole());
+			doctor.setRole(doctorDTO.getRole());
 			doctor.setFirstName(doctorDTO.getFirstName());
 			doctor.setLastName(doctorDTO.getLastName());
 			doctor.setActive(doctorDTO.isActive());

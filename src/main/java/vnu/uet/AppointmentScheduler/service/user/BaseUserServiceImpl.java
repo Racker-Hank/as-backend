@@ -45,7 +45,7 @@ public class BaseUserServiceImpl implements BaseUserService<User> {
 		//		user.setEmail(userDTO.getEmail());
 		//		user.setPassword(userDTO.getPassword());
 		//		user.setPhone(userDTO.getPhone());
-		//		user.setUserRole(userDTO.getUserRole());
+		//		user.setUserRole(userDTO.getRole());
 		//		user.setFirstName(userDTO.getFirstName());
 		//		user.setLastName(userDTO.getLastName());
 		//		user.setActive(userDTO.isActive());

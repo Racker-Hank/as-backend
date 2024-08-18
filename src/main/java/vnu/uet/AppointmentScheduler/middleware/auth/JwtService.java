@@ -85,14 +85,14 @@ public class JwtService {
 	}
 
 	public String generateToken(User user) {
-		return createToken(user.getId(), user.getEmail(), user.getUserRole());
+		return createToken(user.getId(), user.getEmail(), user.getRole());
 	}
 
-	private String createToken(UUID id, String email, UserRole userRole) {
+	private String createToken(UUID id, String email, UserRole role) {
 		return Jwts.builder()
 			.subject(id.toString())
 			.claim("email", email)
-			.claim("role", userRole.toString())
+			.claim("role", role.toString())
 			.issuedAt(new Date(System.currentTimeMillis()))
 			.expiration(
 				new Date(System.currentTimeMillis() + 1000 * jwtExpiration)

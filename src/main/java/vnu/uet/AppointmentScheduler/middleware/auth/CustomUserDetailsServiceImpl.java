@@ -16,8 +16,8 @@ public class CustomUserDetailsServiceImpl implements CustomUserDetailsService {
 	private final UserRepository userRepository;
 
 	@Override
-	public User loadUserByIdEmailUserRole(UUID id, String email, UserRole userRole) {
-		return userRepository.findByIdAndEmailAndUserRole(id, email, userRole)
+	public User loadUserByIdEmailUserRole(UUID id, String email, UserRole role) {
+		return userRepository.findByIdAndEmailAndRole(id, email, role)
 			.orElseThrow(() -> new UsernameNotFoundException(email));
 	}
 

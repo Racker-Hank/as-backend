@@ -41,17 +41,18 @@ public class AuthService {
 	private final DoctorServiceImpl doctorService;
 	private final PatientServiceImpl patientService;
 
-	public String login(UserRole userRole, String email, String password) {
+	public String login(UserRole role, String email, String password) {
 		try {
 			Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(
 					email, password,
-					List.of(new SimpleGrantedAuthority(userRole.toString()))
+					List.of(new SimpleGrantedAuthority(role.toString()))
 				)
 			);
 			UserRole actualUserRole = UserRole.valueOf(authentication.getAuthorities().toArray()[0].toString());
 
-			if (userRole != actualUserRole) throw new BadCredentialsException("");
+			if (role != actualUserRole)
+				throw new BadCredentialsException("");
 		} catch (Exception exc) {
 			if (exc instanceof BadCredentialsException) {
 				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Bad credentials!");
@@ -65,7 +66,7 @@ public class AuthService {
 		return jwtService.generateToken(user);
 	}
 
-	public User register(UserRole userRole, RegisterRequestDTO registerDTO) {
+	public User register(UserRole role, RegisterRequestDTO registerDTO) {
 		userRepository.findByEmail(registerDTO.getEmail())
 			.ifPresent(user -> {
 					throw new ResponseStatusException(HttpStatus.CONFLICT, "User is already registered");
@@ -76,7 +77,7 @@ public class AuthService {
 		registerDTO.setPassword(hashedPassword);
 		registerDTO.setActive(true);
 
-		return switch (userRole) {
+		return switch (role) {
 			case UserRole.HOSPITAL_ADMIN -> hospitalAdminService.save((RegisterHospitalAdminRequestDTO) registerDTO);
 			case UserRole.DOCTOR -> doctorService.save((RegisterDoctorRequestDTO) registerDTO);
 			case UserRole.PATIENT -> patientService.save((RegisterPatientRequestDTO) registerDTO);
@@ -84,7 +85,7 @@ public class AuthService {
 	}
 
 	public UserDTO getUserInfo(User user) {
-		return switch (user.getUserRole()) {
+		return switch (user.getRole()) {
 			case UserRole.HOSPITAL_ADMIN -> HospitalAdminDTO.convertToHospitalAdminDTO(
 				hospitalAdminService.getOneById(user.getId())
 			);

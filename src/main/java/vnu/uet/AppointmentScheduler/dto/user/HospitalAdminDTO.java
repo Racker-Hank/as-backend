@@ -31,7 +31,7 @@ public class HospitalAdminDTO extends UserDTO {
 			.id(hospitalAdmin.getId())
 			.email(hospitalAdmin.getEmail())
 			.phone(hospitalAdmin.getPhone())
-			.userRole(hospitalAdmin.getUserRole())
+			.role(hospitalAdmin.getRole())
 			.firstName(hospitalAdmin.getFirstName())
 			.lastName(hospitalAdmin.getLastName())
 			.isActive(hospitalAdmin.isActive())

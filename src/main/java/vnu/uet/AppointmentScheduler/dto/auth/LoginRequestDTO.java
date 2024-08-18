@@ -19,5 +19,5 @@ public class LoginRequestDTO {
 	private String password;
 
 	@NotBlank
-	private UserRole userRole;
+	private UserRole role;
 }

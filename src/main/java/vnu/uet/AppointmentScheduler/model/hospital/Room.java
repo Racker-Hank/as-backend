@@ -24,6 +24,9 @@ public class Room {
 	@Column(columnDefinition = "TEXT")
 	private String description;
 
+	@Column(columnDefinition = "TEXT")
+	private String address;
+
 	@Column(name = "room_type", nullable = false)
 	@Enumerated(EnumType.ORDINAL)
 	private RoomType roomType;

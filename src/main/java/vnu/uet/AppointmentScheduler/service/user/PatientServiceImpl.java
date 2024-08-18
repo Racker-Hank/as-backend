@@ -43,7 +43,7 @@ public class PatientServiceImpl implements PatientService {
 			Patient user = Patient.builder()
 				.email(registerDTO.getEmail())
 				.password(registerDTO.getPassword())
-				.userRole(UserRole.PATIENT)
+				.role(UserRole.PATIENT)
 				.createdAt(System.currentTimeMillis())
 				.firstName(registerDTO.getFirstName())
 				.lastName(registerDTO.getLastName())
@@ -70,7 +70,7 @@ public class PatientServiceImpl implements PatientService {
 			patient.setEmail(patientDTO.getEmail());
 			patient.setPassword(hashedPassword);
 			patient.setPhone(patientDTO.getPhone());
-			patient.setUserRole(patientDTO.getUserRole());
+			patient.setRole(patientDTO.getRole());
 			patient.setFirstName(patientDTO.getFirstName());
 			patient.setLastName(patientDTO.getLastName());
 			patient.setActive(patientDTO.isActive());
