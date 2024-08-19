@@ -39,7 +39,7 @@ public class HospitalAdminServiceImpl implements HospitalAdminService {
 			HospitalAdmin user = HospitalAdmin.builder()
 				.email(registerDTO.getEmail())
 				.password(registerDTO.getPassword())
-				.role(UserRole.HOSPITAL_ADMIN)
+				.role(UserRole.ADMIN)
 				.firstName(registerDTO.getFirstName())
 				.lastName(registerDTO.getLastName())
 				.isActive(registerDTO.isActive())

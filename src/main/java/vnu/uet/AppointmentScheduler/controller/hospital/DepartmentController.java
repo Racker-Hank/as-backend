@@ -22,9 +22,12 @@ public class DepartmentController {
 
 	@GetMapping
 	public ResponseEntity<List<DepartmentDTO>> getAllDepartments(
-		@RequestParam("hospital_id") UUID hospitalId
+		@RequestParam(
+			value = "hospital_id"
+			, required = false
+		) UUID hospitalId
 	) {
-		List<Department> departments = departmentService.getAllByHospitalId(hospitalId);
+		List<Department> departments = departmentService.getAll(hospitalId);
 		List<DepartmentDTO> departmentDTOs = departments
 			.stream()
 			.map(DepartmentDTO::convertToDepartmentDTO)
@@ -35,14 +38,17 @@ public class DepartmentController {
 
 	@GetMapping("fetch-names")
 	public ResponseEntity<List<Object>> getAllDepartmentNames(
-		@RequestParam("hospital_id") UUID hospitalId
+		@RequestParam(
+			value = "hospital_id"
+			, required = false
+		) UUID hospitalId
 	) {
 		record DepartmentName(
 			UUID id,
 			String name
 		) {}
 
-		List<Department> departments = departmentService.getAllByHospitalId(hospitalId);
+		List<Department> departments = departmentService.getAll(hospitalId);
 		List<Object> departmentDTOs = departments
 			.stream()
 			.map(department -> (Object) new DepartmentName(
@@ -78,7 +84,10 @@ public class DepartmentController {
 	@PutMapping("{id}")
 	@PreAuthorize("hasAuthority('" + UserRoleValues.HOSPITAL_ADMIN + "')")
 	public ResponseEntity<DepartmentDTO> updateDepartment(
-		@RequestParam("hospital_id") UUID hospitalId,
+		@RequestParam(
+			value = "hospital_id"
+			, required = false
+		) UUID hospitalId,
 		@PathVariable UUID id,
 		@RequestBody DepartmentDTO departmentDTO
 	) {

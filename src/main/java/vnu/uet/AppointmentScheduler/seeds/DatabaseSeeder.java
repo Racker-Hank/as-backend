@@ -73,10 +73,10 @@ public class DatabaseSeeder {
 			.phone(dotenv.get("HOSPITAL_ADMIN_PHONE"))
 			.hospital(hospital)
 			.isActive(true)
-			.role(UserRole.HOSPITAL_ADMIN)
+			.role(UserRole.ADMIN)
 			.build();
 
-		HospitalAdmin hospitalAdmin = (HospitalAdmin) authService.register(UserRole.HOSPITAL_ADMIN, registerDTO);
+		HospitalAdmin hospitalAdmin = (HospitalAdmin) authService.register(UserRole.ADMIN, registerDTO);
 		log.info("Created a new admin account!");
 		log.info(hospitalAdmin.toString());
 	}

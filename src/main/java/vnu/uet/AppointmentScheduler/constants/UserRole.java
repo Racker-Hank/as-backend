@@ -1,7 +1,7 @@
 package vnu.uet.AppointmentScheduler.constants;
 
 public enum UserRole {
-	HOSPITAL_ADMIN,
+	ADMIN,
 	DOCTOR,
 	PATIENT
 }

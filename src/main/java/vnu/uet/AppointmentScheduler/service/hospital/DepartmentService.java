@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Service
 public interface DepartmentService {
-	List<Department> getAllByHospitalId(UUID hospitalId);
+	List<Department> getAll(UUID hospitalId);
 
 	Department save(Department department);
 

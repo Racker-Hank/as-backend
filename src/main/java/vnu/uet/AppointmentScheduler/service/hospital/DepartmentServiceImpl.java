@@ -23,7 +23,9 @@ public class DepartmentServiceImpl implements DepartmentService {
 	private final HospitalService hospitalService;
 
 	@Override
-	public List<Department> getAllByHospitalId(UUID hospitalId) {
+	public List<Department> getAll(UUID hospitalId) {
+		if (hospitalId == null)
+			return departmentRepository.findAll();
 		return departmentRepository.findAllByHospitalId(hospitalId);
 	}
 
@@ -72,7 +74,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 			Department department = getOneById(hospitalId, departmentId);
 
 			UUID newHospitalId = newDepartment.getHospitalId() != null ?
-				newDepartment.getHospitalId() : hospitalId;
+				newDepartment.getHospitalId() : department.getHospital().getId();
 
 			Hospital hospital = hospitalService.getOneById(newHospitalId);
 
