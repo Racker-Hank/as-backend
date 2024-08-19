@@ -24,7 +24,7 @@ spring:
           characterEncoding: utf-8
           CharSet: utf-8
           useUnicode: true
-    show-sql: true
+#    show-sql: true
 #  security:
 #    user:
 #      name: ${SECURITY_USER_NAME}

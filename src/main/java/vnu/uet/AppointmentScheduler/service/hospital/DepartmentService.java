@@ -1,5 +1,7 @@
 package vnu.uet.AppointmentScheduler.service.hospital;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import vnu.uet.AppointmentScheduler.dto.hospital.DepartmentDTO;
 import vnu.uet.AppointmentScheduler.model.hospital.Department;
@@ -11,13 +13,15 @@ import java.util.UUID;
 public interface DepartmentService {
 	List<Department> getAllByHospitalId(UUID hospitalId);
 
+	Page<Department> getSomeByHospitalIdWithPagination(UUID hospitalId, Pageable pageable);
+
 	Department save(Department department);
 
 	Department save(UUID hospitalId, DepartmentDTO departmentDTO);
 
-	Department getOneById(UUID hospitalId, UUID id);
+	Department getOneById(UUID id);
 
-	Department updateOne(UUID hospitalId, UUID departmentId, DepartmentDTO department);
+	Department updateOne(UUID departmentId, DepartmentDTO department);
 
-	void deleteOne(UUID hospitalId, UUID departmentId);
+	void deleteOne(UUID departmentId);
 }

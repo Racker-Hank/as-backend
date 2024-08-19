@@ -1,6 +1,8 @@
 package vnu.uet.AppointmentScheduler.service.hospital;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +27,11 @@ public class DepartmentServiceImpl implements DepartmentService {
 	@Override
 	public List<Department> getAllByHospitalId(UUID hospitalId) {
 		return departmentRepository.findAllByHospitalId(hospitalId);
+	}
+
+	@Override
+	public Page<Department> getSomeByHospitalIdWithPagination(UUID hospitalId, Pageable pageable) {
+		return departmentRepository.findAllByHospitalId(hospitalId, pageable);
 	}
 
 	@Override
@@ -57,30 +64,20 @@ public class DepartmentServiceImpl implements DepartmentService {
 	}
 
 	@Override
-	public Department getOneById(UUID hospitalId, UUID id) {
-		if (hospitalId == null)
-			return departmentRepository.findById(id)
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Department not found"));
-
-		return departmentRepository.findById(hospitalId, id)
+	public Department getOneById(UUID id) {
+		return departmentRepository.findById(id)
 			.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Department not found"));
 	}
 
 	@Override
-	public Department updateOne(UUID hospitalId, UUID departmentId, DepartmentDTO newDepartment) {
+	public Department updateOne(UUID departmentId, DepartmentDTO newDepartment) {
 		try {
-			Department department = getOneById(hospitalId, departmentId);
-
-			UUID newHospitalId = newDepartment.getHospitalId() != null ?
-				newDepartment.getHospitalId() : hospitalId;
-
-			Hospital hospital = hospitalService.getOneById(newHospitalId);
+			Department department = getOneById(departmentId);
 
 			department.setName(newDepartment.getName());
 			department.setServices(newDepartment.getServices());
 			department.setEmail(newDepartment.getEmail());
 			department.setPhone(newDepartment.getPhone());
-			department.setHospital(hospital);
 
 			return save(department);
 		} catch (Exception e) {
@@ -89,9 +86,9 @@ public class DepartmentServiceImpl implements DepartmentService {
 	}
 
 	@Override
-	public void deleteOne(UUID hospitalId, UUID departmentId) {
+	public void deleteOne(UUID departmentId) {
 		try {
-			Department department = getOneById(hospitalId, departmentId);
+			Department department = getOneById(departmentId);
 
 			departmentRepository.delete(department);
 		} catch (Exception e) {

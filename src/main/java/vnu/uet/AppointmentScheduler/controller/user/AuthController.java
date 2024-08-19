@@ -68,7 +68,7 @@ public class AuthController {
 			Map<String, Object> partialUserDTO = new HashMap<>();
 			partialUserDTO.put("id", user.getId());
 			partialUserDTO.put("email", user.getEmail());
-			partialUserDTO.put("userRole", user.getUserRole());
+			partialUserDTO.put("role", user.getUserRole());
 
 			return ResponseEntity.ok(partialUserDTO);
 		} else {

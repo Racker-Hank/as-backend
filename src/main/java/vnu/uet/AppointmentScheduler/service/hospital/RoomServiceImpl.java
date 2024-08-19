@@ -1,6 +1,8 @@
 package vnu.uet.AppointmentScheduler.service.hospital;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,19 +20,29 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class RoomServiceImpl implements RoomService {
 
-	private final RoomRepository departmentRepository;
+	private final RoomRepository roomRepository;
 
 	private final DepartmentService departmentService;
 
 	@Override
+	public List<Room> getAll() {
+		return roomRepository.findAll();
+	}
+
+	@Override
+	public Page<Room> getSomeWithPagination(Pageable pageable) {
+		return roomRepository.findAll(pageable);
+	}
+
+	@Override
 	public List<Room> getAllByDepartmentId(UUID departmentId) {
-		return departmentRepository.findAllByDepartmentId(departmentId);
+		return roomRepository.findAllByDepartmentId(departmentId);
 	}
 
 	@Override
 	public Room save(Room room) {
 		try {
-			return departmentRepository.save(room);
+			return roomRepository.save(room);
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}
@@ -39,7 +51,7 @@ public class RoomServiceImpl implements RoomService {
 	@Override
 	public Room save(UUID hospitalId, UUID departmentId, RoomDTO roomDTO) {
 		try {
-			Department department = departmentService.getOneById(hospitalId, departmentId);
+			Department department = departmentService.getOneById(departmentId);
 
 			Room room = Room.builder()
 				.department(department)
@@ -58,10 +70,10 @@ public class RoomServiceImpl implements RoomService {
 	@Override
 	public Room getOneById(UUID departmentId, UUID id) {
 		if (departmentId == null)
-			return departmentRepository.findById(id)
+			return roomRepository.findById(id)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Room not found"));
 
-		return departmentRepository.findById(departmentId, id)
+		return roomRepository.findByIdAndDepartmentId(id, departmentId)
 			.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Room not found"));
 	}
 
@@ -73,8 +85,7 @@ public class RoomServiceImpl implements RoomService {
 			UUID newDepartmentId = newRoom.getDepartmentId() != null ?
 				newRoom.getDepartmentId() : departmentId;
 
-			Department department = departmentService.getOneById(hospitalId,
-				newDepartmentId);
+			Department department = departmentService.getOneById(newDepartmentId);
 
 			room.setName(newRoom.getName());
 			room.setDescription(newRoom.getDescription());
@@ -92,7 +103,7 @@ public class RoomServiceImpl implements RoomService {
 		try {
 			Room room = getOneById(departmentId, roomId);
 
-			departmentRepository.delete(room);
+			roomRepository.delete(room);
 		} catch (Exception e) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
 		}

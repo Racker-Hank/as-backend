@@ -43,8 +43,7 @@ public class DoctorServiceImpl implements DoctorService {
 		try {
 			RegisterDoctorRequestDTO registerDTO = (RegisterDoctorRequestDTO) registerRequestDTO;
 
-			Department department = departmentService.getOneById(null,
-				registerDTO.getDepartmentId());
+			Department department = departmentService.getOneById(registerDTO.getDepartmentId());
 
 			Doctor user = Doctor.builder()
 				.email(registerDTO.getEmail())
@@ -72,8 +71,7 @@ public class DoctorServiceImpl implements DoctorService {
 
 			String hashedPassword = bcryptPasswordEncoder.encode(doctorDTO.getPassword());
 
-			Department department =
-				departmentService.getOneById(null, doctorDTO.getDepartmentId());
+			Department department = departmentService.getOneById(doctorDTO.getDepartmentId());
 
 			Doctor doctor = getOneById(userId);
 

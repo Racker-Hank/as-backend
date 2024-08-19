@@ -37,6 +37,7 @@ public class UserDTO {
 	private String phone;
 
 	@NotBlank
+	@JsonProperty("role")
 	private UserRole userRole;
 
 	@NotBlank

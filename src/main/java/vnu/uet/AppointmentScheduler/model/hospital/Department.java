@@ -41,6 +41,9 @@ public class Department {
 	@Size(min = 10, max = 10)
 	private String phone;
 
+	@Column(columnDefinition = "")
+	private String image;
+
 	@OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Doctor> doctors = new ArrayList<>();
 

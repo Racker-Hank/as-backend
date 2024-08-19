@@ -1,5 +1,6 @@
 package vnu.uet.AppointmentScheduler.dto.hospital;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import vnu.uet.AppointmentScheduler.model.hospital.Department;
@@ -21,6 +22,7 @@ public class DepartmentDTO {
 	private String name;
 
 	//	@NotBlank
+	@JsonProperty("description")
 	private String services;
 
 	private String email;
